@@ -1,0 +1,61 @@
+<header class="auth_header">
+  <a href="#">Links</a>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="user-login-area">
+
+        <div class="login-logo">
+          <img src="{{assets_loc}}assets/login-logo.png" alt="" class="img-fluid">
+        </div>
+
+        <h2>Sign-In or Sign-Up</h2>
+
+
+        <div class="alert alert-danger" role="alert" *ngIf="checkEmailAlert">
+          Please check your email address!
+        </div>
+        <form *ngIf="!showPasswordForm" [formGroup]="userLoginForm" class="userLoginForm"
+              (ngSubmit)="userLoginSubmit()">
+          <div class="mb-3">
+            <input placeholder="Email" formControlName="email" name="email" autocomplete="on">
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-block btn-lg btn-orange-light">Receive OTP</button>
+          </div>
+        </form>
+
+
+        <!-- <form [formGroup]="userOTPForm" class="userOTPForm" (ngSubmit)="handleOTPSubmit()" *ngIf="showOTPForm">
+            <div class="mb-3 otp-group">
+                <input type="text" class="otp-digit" formControlName="digit_1" maxlength="1">
+                <input type="text" class="otp-digit" formControlName="digit_2" maxlength="1">
+                <input type="text" class="otp-digit" formControlName="digit_3" maxlength="1">
+                <input type="text" class="otp-digit" formControlName="digit_4" maxlength="1">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-block btn-lg btn-orange-light">Log-In</button>
+            </div>
+        </form> -->
+        <div class="alert alert-danger" role="alert" *ngIf="checkOtp">
+          OTP seems incorect. Please try again.
+        </div>
+        <div class="alert alert-success" role="alert" *ngIf="otpGenerated">
+          Please check you inbox for the OTP, and enter within 5 mintues.
+        </div>
+        <form [formGroup]="userPasswordForm" class="userLoginForm" (ngSubmit)="handlePasswordSubmit()"
+              *ngIf="showPasswordForm">
+          <div class="mb-3">
+            <input type="password" placeholder="OTP" formControlName="password">
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-block btn-lg btn-orange-light">Log-In</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

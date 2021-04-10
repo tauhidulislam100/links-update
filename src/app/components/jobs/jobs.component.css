@@ -1,0 +1,36 @@
+.mat-elevation-z8.data-table th {
+  background-color: #f2f4f9 !important;
+}
+
+a.view-link {
+  color: #01288f;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.mat-header-cell {
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mat-cell {
+  text-align: center;
+  justify-content: center;
+}
+
+a {
+  cursor: pointer;
+}
+
+.popover {
+  position: absolute;
+  z-index: 100;
+  width: "100px" !important;
+  height: "100px" !important;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}

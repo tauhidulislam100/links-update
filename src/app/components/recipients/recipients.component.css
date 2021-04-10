@@ -1,0 +1,53 @@
+.upload-btn-container {
+
+  margin-left: 0rem;
+
+  justify-content: center;
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+
+.usersForm {
+  margin-top: 5rem;
+}
+
+.textarea-wrapper {
+  width: 100%;
+}
+
+
+.mat-elevation-z8.data-table th {
+  background-color: #F2F4F9 !important;
+}
+
+.data-table {
+  margin-top: 1rem;
+  box-shadow: none;
+}
+
+a.view-link {
+  color: #01288F;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+
+.search-area .custom-form-control {
+  padding: 1rem;
+  color: #000;
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 1.25rem;
+  margin-left: 0;
+}
+
+.userDetailWarning {
+  color: green;
+}

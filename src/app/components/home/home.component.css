@@ -1,0 +1,48 @@
+mat-card {
+  height: 12rem;
+  border-radius: 10px;
+
+}
+
+.card-text {
+  text-align: center;
+  font-weight: 500;
+}
+
+.number-text {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+  border-width: 100%;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: orangered;
+}
+
+.top-right-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  text-align: right;
+  color: #01288F;
+  padding: 1rem 1rem;
+  font-weight: 700;
+}
+
+.top-left-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  text-align: left;
+  color: red;
+  padding: 1rem 1rem;
+  font-weight: 500;
+
+}
+
+.row {
+  margin-bottom: 2.5rem;
+
+}

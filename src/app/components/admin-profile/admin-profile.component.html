@@ -1,0 +1,71 @@
+<!--<app-navbar></app-navbar>-->
+<div class="container mt-6">
+  <div class="row">
+    <div class="col-md-12">
+      <app-errors></app-errors>
+      <div class="send-mail-heading">
+        <h3>Profile</h3>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-6">
+      <table width="100%">
+        <tr>
+          <td class="left-table-content">Name:</td>
+          <td class="right-table-conten">{{admin.name}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Designation:</td>
+          <td class="right-table-conten">{{admin.designation}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Email:</td>
+          <td class="right-table-conten">{{admin.email}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Organization:</td>
+          <td class="right-table-conten">{{admin.organization_name}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Organization Email:</td>
+          <td class="right-table-conten">{{admin.official_email}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Website:</td>
+          <td class="right-table-conten">{{admin.website}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">City:</td>
+          <td class="right-table-conten">{{admin.city}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Total Email Limit:</td>
+          <td class="right-table-conten">{{admin.emails_limit}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Total Certificate Publish Limit:</td>
+          <td class="right-table-conten">{{admin.certificate_push_limit}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Email Limit Remaining:</td>
+          <td class="right-table-conten">{{admin.emailLimitRemaining}}</td>
+        </tr>
+        <tr>
+          <td class="left-table-content">Certificate Publish Limit Remaining:</td>
+          <td class="right-table-conten">{{admin.certificatePushLimitRemaining}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md">
+      <div style="margin-bottom: 20px" class="filter-btn">
+        <button class="btn-orange-outline" (click)="edit()"><img src="{{assets_loc}}assets/request_update.svg" />Request
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

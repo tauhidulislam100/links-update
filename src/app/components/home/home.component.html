@@ -1,0 +1,128 @@
+<!--<app-navbar></app-navbar>-->
+
+<div class="container mt-6">
+  <div class="row">
+    <div class="col-md-4">
+      <app-errors></app-errors>
+      <mat-card>
+
+        <div class="top-left-text">
+          <div id="total-recipients"></div>
+        </div>
+        <div class="card-text">
+          <div class="number-text">
+            {{home.totalNoOfRecipients}}
+
+          </div>
+          <h5> Total number of recipients</h5>
+        </div>
+      </mat-card>
+
+
+    </div>
+    <div class="col-md-4">
+
+      <mat-card>
+
+        <div class="top-left-text">
+          <div id="total-certificates"></div>
+
+        </div>
+        <div class="card-text">
+          <div class="number-text">
+            {{home.totalCertificatesReleased}}
+
+          </div>
+          <h5> Total certificates released</h5>
+        </div>
+      </mat-card>
+
+
+    </div>
+    <div class="col-md-4">
+
+      <mat-card>
+
+        <div class="top-left-text">
+          <div id="total-emails"></div>
+        </div>
+        <div class="card-text">
+          <div class="number-text">
+            {{home.totalEmailsSent}}
+
+          </div>
+          <h5> Total emails sent</h5>
+        </div>
+      </mat-card>
+
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+
+      <mat-card>
+        <div class="top-right-text">
+          {{home.changeInRecipientsAddedThisMonth}}%
+        </div>
+        <div class="top-left-text">
+          <div id="total-recipients-this-month"></div>
+        </div>
+        <div class="card-text">
+          <div class="number-text">
+            {{home.totalRecipientsAddedThisMonth}}
+
+          </div>
+          <h5> Recipients added this month </h5>
+        </div>
+      </mat-card>
+
+
+    </div>
+
+    <div class="col-md-4">
+
+      <mat-card>
+        <div class="top-right-text">
+          {{home.changeInCertificatesReleasedThisMonth}}%
+        </div>
+        <div class="top-left-text">
+          <div id="total-certificates-this-month"></div>
+        </div>
+        <div class="card-text">
+          <div class="number-text">
+            {{home.totalCertificatesReleasedThisMonth}}
+
+          </div>
+          <h5> Certificates released this month</h5>
+        </div>
+      </mat-card>
+
+
+    </div>
+
+
+    <div class="col-md-4">
+
+      <mat-card>
+        <div class="top-right-text">
+          {{home.changeInEmailSentThisMonth}}%
+        </div>
+        <div class="top-left-text">
+          <div id="total-emails-this-month"></div>
+        </div>
+        <div class="card-text">
+          <div class="number-text">
+            {{home.totalEmailsSentThisMonth}}
+
+          </div>
+          <h5> Emails sent this month</h5>
+        </div>
+      </mat-card>
+
+
+    </div>
+
+
+  </div>
+</div>

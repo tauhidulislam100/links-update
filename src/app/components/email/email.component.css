@@ -1,0 +1,57 @@
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 200px;
+  border: 0;
+
+}
+
+.relase-alert {
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+.editor {
+  margin-top: 1rem;
+}
+
+table.table.table-bordered thead {
+  background: #F2F4F9;
+}
+
+.form-group.details {
+  margin-top: 1rem;
+}
+
+.form-group.details h6 {
+  color: #494949;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.form-group.details h4 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.help-area h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.help-area a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #01288F;
+}
+
+.left-content {
+  padding-right: 3rem;
+  border-right: 1px solid #eee;
+}
+
+.right-content {
+  padding-left: 3rem;
+}

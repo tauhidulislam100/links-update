@@ -1,0 +1,219 @@
+.link_header {
+  /* background: #01288F; */
+  /* min-height: 20px; */
+  /* border-bottom: 7px solid #FF3A00; */
+  position: relative;
+  /* height: 79px; */
+  /* -webkit-box-shadow: 0 0 5px #00000087;
+          box-shadow: 0 0 5px #00000087; */
+  /*
+    margin-bottom: 7rem !important; */
+  background: url(/assets/shape-with-border.svg);
+  /*  : url(/LINKS-STAGING/assets/shape-with-border.svg); */
+
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 5%;
+}
+
+.link_header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2%;
+  background-color: #01288F;
+}
+
+.link_header::before {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  width: 3%;
+  height: 100%;
+  background-color: #01288F;
+}
+
+/* @media (max-width: 990px) {
+  .link_header {
+    height: auto;
+  }
+} */
+
+.link_header .navbar-nav li a {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 5px;
+  margin: 0 1em;
+}
+
+.link_header .navbar-nav li a:hover, .link_header .navbar-nav li a.active {
+  border-bottom: 2px solid #FF3A00;
+}
+
+@media (max-width: 990px) {
+  .link_header .navbar-nav li {
+    text-align: center;
+  }
+}
+
+.link_header .navbar-nav.user_account li a {
+  margin: 0;
+  border: 0;
+}
+
+.link_header .navbar-nav.user_account li a.nav-link .fa-user-circle {
+  font-size: 24px;
+}
+
+.link_header .navbar-nav.user_account li a.nav-link .text {
+  margin: 0 15px;
+}
+
+.link_header .navbar-nav.user_account li a.nav-link .text h5 {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #ffffff;
+}
+
+.link_header .navbar-nav.user_account li a.nav-link .text p {
+  font-size: 11px;
+  font-weight: 300;
+  margin-bottom: 0;
+  color: #ffffff;
+}
+
+.link_header .navbar-nav.user_account li a.nav-link:hover {
+  border: 0;
+}
+
+.link_header .navbar-nav.user_account li .dropdown-menu {
+  -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.link_header .navbar-nav.user_account li .dropdown-menu:after {
+  content: "";
+  border-bottom: 10px solid #fff;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  position: absolute;
+  top: -8px;
+  right: 5px;
+  z-index: 10;
+}
+
+@media (max-width: 990px) {
+  .link_header .navbar-nav.user_account li .dropdown-menu:after {
+    display: none;
+  }
+}
+
+.link_header .navbar-nav.user_account li .dropdown-menu li a {
+  padding: 5px 1.5em !important;
+  color: black;
+  font-weight: 400;
+  display: block;
+  font-size: 13px;
+}
+
+.link_header .navbar-brand {
+  /* position: relative;
+  height: 115px;
+  width: 250px;
+  display: inline-block;
+  background: #01288F url(/LINKS-STAGINGsrc/assets/shap.png) no-repeat top right;
+  background-size: contain;
+  margin-top: 42px; */
+  margin-right: 0;
+}
+
+/* @media (max-width: 990px) {
+  .link_header .navbar-brand {
+    height: auto;
+    width: auto;
+    display: inline-block;
+    background: none;
+    background-size: contain;
+    margin-top: 0;
+    padding: 0;
+    margin-bottom: -7px;
+  }
+} */
+
+.link_header .navbar-brand .logo {
+  font-size: 20px;
+  font-weight: 300;
+  position: relative;
+  z-index: 5;
+  color: #ffffff;
+  text-transform: uppercase;
+  top: 25px;
+  left: 40%;
+}
+
+@media (max-width: 990px) {
+  .link_header .navbar-brand .logo {
+    top: 0;
+  }
+}
+
+@media (min-width: 1093px) {
+  .link_header .navbar-brand .logo {
+    left: 6em;
+  }
+}
+
+@media (max-width: 1092px) {
+  .link_header .navbar-brand .logo {
+    left: 0;
+  }
+}
+
+.link_header .navbar-toggler {
+  border-color: #d7d7dd;
+  color: #d7d7dd;
+}
+
+/* .link_header:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: -43px;
+  left: 0;
+  width: 15%;
+  background: #01288F;
+} */
+/*
+@media screen and (min-width: 991px) {
+  .link_header::after {
+    width: 24%;
+  }
+}
+*/
+
+@media (max-width: 990px) {
+  .link_header {
+    padding-bottom: 0;
+    border-bottom: 7px solid #FF3A00;
+    background-image: none;
+    background-color: #01288F;
+  }
+
+  .link_header .navbar-brand .logo {
+    left: 0;
+  }
+}
+
+@media (min-width: 920px) and (max-width: 1100px) {
+  .link_header .navbar-brand .logo {
+    top: 8px;
+  }
+}

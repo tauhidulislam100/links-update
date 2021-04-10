@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="242" height="32" viewBox="0 0 242 32">
+  <g id="Group_72" data-name="Group 72" transform="translate(-519 -249)">
+    <g id="Rectangle_17" data-name="Rectangle 17" transform="translate(519 249)" fill="#fff" stroke="#01288f" stroke-width="1">
+      <rect width="136" height="32" rx="6" stroke="none"/>
+      <rect x="0.5" y="0.5" width="135" height="31" rx="5.5" fill="none"/>
+    </g>
+    <path id="Icon_metro-upload" data-name="Icon metro-upload" d="M9.076,11.291h1.859V7.574h2.788L10.006,3.856,6.288,7.574H9.076ZM11.864,9.2v1.433L16.12,12.22,10.006,14.5,3.891,12.22l4.256-1.587V9.2L2.571,11.291v3.717L10.006,17.8l2.7-1.012,4.735-1.776V11.291Z" transform="translate(529.988 254.487)" fill="#01288f"/>
+    <text id="Upload_File" data-name="Upload File" transform="translate(562 270.71)" fill="#01288f" font-size="15" font-family="Bahnschrift" font-weight="300"><tspan x="0" y="0">Upload File</tspan></text>
+    <text id="No_file_chosen" data-name="No file chosen" transform="translate(664 270.71)" font-size="15" font-family="Bahnschrift" font-weight="300"><tspan x="0" y="0">No file chosen</tspan></text>
+  </g>
+</svg>

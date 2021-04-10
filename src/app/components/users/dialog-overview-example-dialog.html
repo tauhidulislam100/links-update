@@ -1,0 +1,14 @@
+<form [formGroup]="tagForm">
+  <h1 mat-dialog-title>Add a Tag </h1>
+  <div mat-dialog-content>
+    <p> Special Characters are not allowed! except "_"</p>
+    <mat-error *ngIf="tagForm.controls.tagInput.errors">{{tagForm.controls.tagInput.errors.value}}</mat-error>
+    <mat-form-field>
+      <input formControlName="tagInput" matInput #tag>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button cdkFocusInitial [disabled]="tagForm.invalid" (click)="addtag(tag.value)">Ok</button>
+  </div>
+</form>

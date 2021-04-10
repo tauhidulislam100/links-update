@@ -1,0 +1,13 @@
+<form [formGroup]="form">
+  <div mat-dialog-content>
+    <p>{{title}}</p>
+    <div class="form-group" style="width:100%">
+      <textarea #comment formControlName="comment" class="custom-form-control" rows="2"
+                placeholder="provide a comment">  </textarea>
+    </div>
+  </div>
+  <div mat-dialog-actions style="float: right">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="warn" cdkFocusInitial [disabled]="form.invalid" (click)="submit()">Yes, proceed</button>
+  </div>
+</form>

@@ -1,0 +1,9 @@
+[
+{ 
+   "origin":"http://localhost:4200",
+    "baseurl" : "https://stage.mycredible.info/Links/",
+   "access_token":"links_local_access_token",
+   "user":"links_local_user"
+}
+
+]

@@ -1,0 +1,123 @@
+<!--<app-navbar></app-navbar>-->
+
+<div class="container mt-6">
+  <div class="row">
+    <div class="col-md-12">
+      <app-errors></app-errors>
+      <div class="alert alert-success" role="alert" *ngIf="isCreated">
+        Templated is Created
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="isUpdated">
+        Templated is Updated
+      </div>
+
+      <div class="send-mail-heading">
+        <h3>Add/Update Email Template</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+
+      <form [formGroup]="emailTemplateForm" class="profile-update-form">
+        <div class="custom-group">
+          <input class="custom-form-control" type="text" formControlName="name" placeholder="Name of Email Template">
+          <label>Name of Email Template</label>
+        </div>
+
+        <div class="custom-group">
+          <input class="custom-form-control" type="text" formControlName="subject" placeholder="Subject">
+          <label>Subject</label>
+        </div>
+
+        <div class="shadow-sm editor">
+          <!--            <ckeditor [editor]="Editor"  formControlName="body" class="ck-editor"></ckeditor>-->
+          <editor
+            formControlName="body"
+            [init]="{
+     base_url: '/tinymce',
+    suffix: '.min',
+     height: 500,
+     images_upload_url: 'https://links-stage.truecertificates.com/EmailTemplatePictures/EmailTemplateImageUpload.php',
+      automatic_uploads: true,
+     menubar: true,
+     plugins: [
+       'advlist autolink lists link image  charmap print preview anchor',
+       'searchreplace visualblocks code fullscreen',
+       'insertdatetime media table paste code help wordcount'
+     ],
+     toolbar:
+       'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'}"
+          ></editor>
+        </div>
+        <small class="userDetailsError" *ngIf="emailTemplateForm.controls.body.errors"
+               [innerHtml]=emailTemplateForm.controls.body.errors.value></small>
+
+        <mat-slide-toggle
+          style="margin: 20px"
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled"
+          (change)="unsubscribeToggle()">
+
+          Add a unsubscribe link
+        </mat-slide-toggle>
+
+        <button class="btn-orange-rounded" mwlConfirmationPopover
+                [popoverTitle]="popoverTitle"
+                [popoverMessage]="popoverMessage"
+                placement="top"
+                (confirm)="addTemplate()"
+        > Submit
+        </button>
+        <button [routerLink]="'/Emails'" class="btn-orange-rounded-outline">
+          Cancel
+        </button>
+      </form>
+    </div>
+    <div class="col-md-4 col-12 right-content">
+      <div class="help-area">
+
+        <h4>You can use the below fields in the email body or subject</h4>
+        <div class="table-container">
+          <table class="table table-bordered table-rounded">
+            <thead>
+            <tr>
+              <th>Fields</th>
+              <th>Usage</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Name</td>
+              <td>{{'{' + 'Name' + '}'}}</td>
+            </tr>
+            <tr>
+              <td>FirstName</td>
+              <td>{{'{' + 'FirstName' + '}'}}</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>{{'{' + 'Email' + '}'}}</td>
+            </tr>
+            <tr>
+              <td>Gender</td>
+              <td>{{'{' + 'Gender' + '}'}}</td>
+            </tr>
+            <tr>
+              <td>Phone</td>
+              <td>{{'{' + 'Phone' + '}'}}</td>
+            </tr>
+            <tr *ngFor="let field of fields">
+              <td>{{field.name}}</td>
+              <td>{{'{' + field.name + '}'}}</td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <a href="#">Show me how ?</a>
+      </div>
+    </div>
+  </div>

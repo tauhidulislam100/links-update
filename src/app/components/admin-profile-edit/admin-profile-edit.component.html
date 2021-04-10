@@ -1,0 +1,93 @@
+<!--<app-navbar></app-navbar>-->
+<div class="container mt-6">
+  <div class="row">
+    <div class="col-md-12">
+      <app-errors></app-errors>
+      <div class="alert alert-success" role="alert" *ngIf="updated">
+        Updated Request Successfully Submitted.
+      </div>
+      <div class="send-mail-heading">
+        <h3>Edit Profile</h3>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="updateForm" class="profile-update-form">
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="name" type="text" placeholder="Name">
+          <label>Name</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="designation" type="text" placeholder="Designation">
+          <label>Designation</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="email" type="text" placeholder="Email">
+          <label>Email</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="organization_name" type="text"
+            placeholder="Organization Name">
+          <label>Organization Name</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="official_email" type="text"
+            placeholder="Organization Email">
+          <label>Official Email</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="phone" type="text" placeholder="Mobile">
+          <label>Mobile</label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="website" type="text" placeholder="Website">
+          <label>Website</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="custom-group">
+          <input class="custom-form-control" formControlName="city" type="text" placeholder="City">
+          <label>City</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group ml-4 mt-5 text-center text-md-left text-lg-left">
+      <button class="btn-orange-rounded" (click)="update()">Send Request</button>
+      <button [routerLink]="'/AdminProfile'"
+        class="btn-orange-rounded-outline ml-md-4 ml-lg-4 ml-0 mt-4 mt-lg-0 mt-md-0 ">Cancel
+      </button>
+    </div>
+  </form>
+</div>

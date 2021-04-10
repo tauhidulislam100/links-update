@@ -1,0 +1,51 @@
+<!--<app-navbar></app-navbar>-->
+
+<div class="container mt-6">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="send-mail-heading">
+        <h3>FAQs</h3>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="alert alert-success" role="alert" *ngIf="isSubmitted">
+        Thanks for contacting us, we will get back to you as soon as possible.
+      </div>
+      <div class="custom-group">
+        <input class="custom-form-control" type="text" placeholder="Search for your question">
+        <label>Search for your question</label>
+      </div>
+      <mat-card>
+        <div>
+          Didn't find your question ?
+          <form [formGroup]="ticketForm" class="profile-update-form">
+            <div class="custom-group">
+              <input class="custom-form-control" type="text" formControlName="title" placeholder="Title of the issue">
+              <label>Title of the issue</label>
+            </div>
+
+
+            <div class="form-group">
+              <textarea class="custom-form-control" rows="3" formControlName="detail" placeholder="Details of the issue"
+                #filterValue></textarea>
+
+            </div>
+            <div class="upload-btn-container">
+              <input type="file" accept=".xlsx" class="btn" id="file">
+              <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
+                File</label>
+              <span>
+
+                <ng-template #elseTemplate>
+                  No file chosen
+                </ng-template>
+              </span>
+            </div>
+            <button (click)="send()" class="btn-orange-rounded"> Raise a support ticket</button>
+          </form>
+        </div>
+
+      </mat-card>
+    </div>
+  </div>
+</div>

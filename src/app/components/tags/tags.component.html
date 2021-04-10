@@ -1,0 +1,168 @@
+<!--<app-navbar></app-navbar>-->
+<div class="container mt-6">
+  <div class="row">
+    <div class="col-md-12">
+      <app-errors></app-errors>
+      <div class="alert alert-success" role="alert" *ngIf="isTagUpdated">
+        Tag is updated successfully.
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="tagAlreadyExists">
+        Tag Already Exists.
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="isFieldDeleted">
+        Field is deleted successfully.
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="fieldAlreadyExists">
+        Field Already Exists.
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="isTagAdded">
+        Tag is added successfully.
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="isFieldAdded">
+        Field is added successfully.
+      </div>
+      <mat-tab-group class="mat-group-content">
+        <mat-tab label="Fields">
+          <form [formGroup]="fieldsForm">
+            <div class="table-container">
+              <table mat-table [dataSource]="fieldsDataSource" class="mat-elevation-z8"
+                     class="table table-bordered table-rounded">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Id</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
+                </ng-container>
+                <ng-container matColumnDef="fields">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Fields</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="created_on">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Created On</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
+
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="update_field">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/update-tag.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a [routerLink]=""  (click)="updateField(element.id)"  class="view-link">Update</a></td>
+                </ng-container> -->
+
+
+                <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/delete.svg"/>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a
+                      mwlConfirmationPopover
+                      [popoverTitle]="fieldDeletePopoverTitle"
+                      [popoverMessage]="fieldDeletePopoverMessage"
+                      placement="left"
+                      (confirm)="deleteField(element.id)"
+                      class="view-link">Delete</a></td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsFields"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsFields;" (click)="clicked(row)">
+                </tr>
+              </table>
+              <app-custom-pagination
+                [page]="fieldsPage"
+                (nextPageEvent)="getNextFieldsPage()"
+                (previousPageEvent)="getPreviousFieldsPage()"
+              ></app-custom-pagination>
+
+
+              <button class="btn-orange-outline" (click)="addField()"><img src="{{assets_loc}}assets/plus.svg"/> Add New
+                Field
+              </button>
+            </div>
+          </form>
+
+
+        </mat-tab>
+        <mat-tab label="Tags">
+
+          <form [formGroup]="tagsForm">
+            <div class="table-container">
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                     class="table table-bordered table-rounded">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Id</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Tags</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="created_on">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Created On</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    {{element.created_at}} </td>
+
+                </ng-container>
+                <ng-container matColumnDef="no_of_recipients">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>No of Recipients</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    {{element.no_of_recipients}} </td>
+
+                </ng-container>
+
+
+                <ng-container matColumnDef="update_tag">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/update-tag.svg"/>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a [routerLink]="" (click)="updateTag(element.id)" class="view-link">Update</a>
+                </ng-container>
+                <ng-container matColumnDef="view_users">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/view-users.png"/>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a (click)="loader = true" [routerLink]="'/Recipients/'+element.id" class="view-link">View
+                      Recipients</a>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsTags"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsTags;" (click)="clicked(row)">
+                </tr>
+              </table>
+              <app-custom-pagination
+                [page]="tagsPage"
+                (nextPageEvent)="getNextTagsPage()"
+                (previousPageEvent)="getPreviousTagsPage()"
+              ></app-custom-pagination>
+              <button class="btn-orange-outline"
+                      (click)="addTag()"><img src="{{assets_loc}}assets/plus.svg"/> Add New Tag
+              </button>
+            </div>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+
+</div>
+<div class="loading-indicator">
+  <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+</div>
+
+

@@ -1,0 +1,209 @@
+<!--<app-navbar></app-navbar>-->
+<div class="container mt-6">
+  <div class="row">
+    <div class="col-md-12">
+      <app-errors></app-errors>
+      <div #message></div>
+
+      <mat-tab-group class="mat-group-content">
+        <mat-tab label="Released Certificates">
+          <form [formGroup]="jobsForm">
+            <div class="table-container" style="width: fit-content;">
+              <table mat-table formArrayName="allJobs" [dataSource]="jobsDataSource" matSort class="mat-elevation-z8"
+                class="table table-bordered table-rounded">
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Id</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                    {{element.id}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Name</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+
+                    {{element.certificateTemplateName}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Status</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                    {{element.status}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="created_at">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Created At</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                    {{element.created_at}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="noOfRecipients">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>No of Recipients</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                    {{element.no_of_recipients}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="download">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/download.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a (click)="downloadCertificates(element)" class="view-link">Download</a>
+                    <p *ngIf="element.last_downloaded_on">Last downloaded on <br>{{element.last_downloaded_on}}</p>
+                  </td>
+
+                </ng-container>
+
+                <ng-container matColumnDef="release">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/release.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a (click)="submit(element,'release')" class="view-link">Release</a>
+                    <p *ngIf="element.last_released_on">Last Released on <br>{{element.last_released_on}}</p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="regenerate">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/release.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a (click)="submit(element,'regenerate')" class="view-link">Regenerate</a>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="view">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/view.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a (click)="loader = true" [routerLink]="'/Certificates/View/'+element.id"
+                      class="view-link">View</a>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="validate">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/release.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a (click)="validateOnServer(element)" class="view-link">Validate</a>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="publish">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/publish.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a (click)="submit(element,'publish')" class="view-link">Publish</a>
+                    <p *ngIf="element.last_published_on">Last Published on<br>{{element.last_published_on}}</p>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="archive">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <img src="{{assets_loc}}assets/delete.svg" />
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    <a class="view-link" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
+                      [popoverMessage]="deletePopoverMessage" placement="left"
+                      (confirm)="archiveJob(element)">Archive</a>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsJobs"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsJobs;"></tr>
+              </table>
+
+              <app-custom-pagination [page]="page" (nextPageEvent)="getNextPage()"
+                (previousPageEvent)="getPreviousPage()">
+              </app-custom-pagination>
+
+            </div>
+
+          </form>
+
+
+        </mat-tab>
+
+        <mat-tab label="Certificate Templates">
+          <form [formGroup]="certificateForm">
+            <div>
+              <div class="table-container">
+
+                <table mat-table formArrayName="allCerts" [dataSource]="certificateDataSource" matSort
+                  class="mat-elevation-z8" class="table table-bordered table-rounded">
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Id</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                      {{element.id}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="certificate_templates">
+
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Certificate Templates</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                      <!--                    <div (mouseover)="showPopover($event,element.certificate_image.data)"    (mouseleave)="hidePopover()">-->
+                      {{element.name}}
+                      <!--                    </div> -->
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="no_of_recipients">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>No of Recipients</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                      {{element.no_of_recipient}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="update">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <img src="{{assets_loc}}assets/update-tag.svg" />
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                      <a [routerLink]="'/Certificates/AddTemplate/'+element.id" class="view-link">Update</a>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsCertificates"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsCertificates;"></tr>
+                </table>
+                <app-custom-pagination [page]="templatePage" (nextPageEvent)="getNextTemplatePage()"
+                  (previousPageEvent)="getPreviousTemplatePage()">
+                </app-custom-pagination>
+                <button class="btn-orange-outline" (click)="generateCertificateTemplate()"><img
+                    src="{{assets_loc}}assets/plus.svg" /> Add New Certificate Template
+                </button>
+
+
+              </div>
+
+            </div>
+          </form>
+
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+
+<div class="loading-indicator">
+  <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+</div>

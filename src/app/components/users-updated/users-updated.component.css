@@ -1,0 +1,52 @@
+.search-area .custom-form-control {
+  padding: 1rem;
+  color: #000;
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 1.25rem;
+  margin-left: 0;
+}
+
+.search-area .upload-btn-container {
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+table {
+  border: 10px;
+  width: 100%;
+
+}
+
+.table-container {
+  margin-top: 10px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.usersForm {
+  margin-top: 5rem;
+}
+
+.userDetailsError {
+  margin-top: -1rem;
+  display: block;
+  font-weight: 500;
+  color: #FF0000 !important;
+}
+
+.mat-elevation-z8.data-table th {
+  background-color: #F2F4F9 !important;
+}
+
+.data-table {
+  margin-top: 1rem;
+  box-shadow: none;
+}
+
+a.view-link {
+  color: #01288F;
+  font-weight: 500;
+  text-decoration: none;
+}

@@ -1,0 +1,29 @@
+
+body {
+  padding-top: 68px;
+  padding-bottom: 50px;
+}
+
+
+.profile-update-form {
+  margin-top: 1rem;
+}
+
+
+.upload-btn-container {
+  margin-bottom: 1rem;
+}
+
+.btn-orange-rounded {
+  margin-right: 1rem;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 200px;
+  border: 0;
+
+}
+
+.editor {
+  margin-bottom: 1rem;
+}

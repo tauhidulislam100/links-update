@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg link_header mb-5">
+  <div class="container-fluid">
+    <div class="navbar-brand">
+      <a class="logo" [routerLink]="'/'"><img src={{icons[0].src}} alt=""> <span class="ml-4">Links</span></a>
+    </div>
+    <button class="navbar-toggler" (click)="toggleMobileMenu($event)" type="button" data-toggle="collapse"
+      data-target="#link_header" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="fas fa-bars"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="link_header" [ngClass]="{show: showMobileMenu}">
+      <ul class="navbar-nav w-100 d-flex justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/'" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact:true}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/Recipients'" routerLinkActive="active">Recipients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/Tags'" routerLinkActive="active">Tags</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/Certificates'" routerLinkActive="active">Certificates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/Emails'" routerLinkActive="active">Emails</a>
+        </li>
+      </ul>
+      <ul class="user_account navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link d-flex justify-content-center  align-items-center" href="#" id="navbarDropdown"
+            role="button" data-toggle="dropdown" aria-expanded="false" (click)="toggleDropDown($event)">
+            <i class="fas fa-user-circle"></i>
+            <div class="text">
+              <h5>{{userName}}</h5>
+              <p>{{userEmail}}</p>
+            </div>
+            <i class="fas fa-chevron-down down"></i>
+          </a>
+          <ul class="dropdown-menu" [ngClass]="{show: showDropDown}" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" [routerLink]="'/AdminProfile'">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Upgrade</a></li>
+            <li><a class="dropdown-item" [routerLink]="'/FAQ'">Help & Support</a></li>
+            <li><a class="dropdown-item" [routerLink]="'/AdminLogin'">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>

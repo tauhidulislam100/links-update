@@ -1,0 +1,70 @@
+<!--<app-navbar></app-navbar>-->
+<div class="container mt-4">
+  <app-errors></app-errors>
+  <div class="alert alert-success" role="alert" *ngIf="isSubmitted">
+    Job is submitted successfully, email will be sent after the completion of job.
+  </div>
+  <div class="row">
+    <div class="email-subject col-12" style="padding: 0%;">
+      <h4>Name of Certificate :
+        {{details.certificateTemplateName}}</h4>
+      <div style="margin-bottom: 20px;">
+        <!--        <button (click)="releaseCertificates()" class="btn-orange-rounded mr-4">Release</button>-->
+        <!--        <button (click)="publishCertificates()" class="btn-orange-rounded mr-4">Publish</button>-->
+        <!--        <button (click)="regenerateCertificates()" class="btn-orange-rounded mr-4">Regenerate</button>-->
+        <!--        <button (click)="validateOnServer()" class="btn-orange-rounded mr-4">Validate</button>  </div>-->
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="email-details ">
+
+          <div class="email-body">
+            <div class="email-header" style="width: 100% !important;">Generated On:</div>
+            <div class="email-content">{{details.created_at}}</div>
+          </div>
+
+          <div class="email-body">
+            <div class="email-header" style="width: 100% !important;">Status:</div>
+            <div class="email-content">{{details.status}}</div>
+          </div>
+
+          <div class="sent-to">
+            <div class="email-header">Sent To:</div>
+            <table class="table table-bordered table-rounded">
+              <thead>
+              <tr>
+              
+                <th scope="col">
+                  Name
+                </th>
+                <th scope="col">
+                  Email
+                </th>
+                <th scope="col">
+                  Certificate Number
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let row of details.recipients">
+                
+                <td>{{row.name}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.certificateNumber}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-indicator">
+    <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+  </div>

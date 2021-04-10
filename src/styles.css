@@ -1,0 +1,440 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+.nav {
+    margin-top: 0px;
+}
+
+  /* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/**
+common  style for all components that ara similar
+**/
+.btn-orange-light {
+  background-color: #FF3A00;
+  padding: .5rem 0;
+  border-radius: 10px;
+  font-weight: 300;
+  font-size: .9375rem;
+  color: #fff;
+}
+
+.btn-orange-medium {
+  background-color: #FF3A00;
+  padding: .5rem 0;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: .9375rem;
+  color: #fff;
+}
+
+.btn-orange-light:hover {
+color: #fff;
+}
+
+.btn-orange-rounded {
+  display: inline-flex;
+  border: 0;
+  padding: .5rem 1rem;
+  border-radius: 1.6rem;
+  min-width: 9rem;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #FF3A00;
+  border: 1px solid #FF3A00;
+}
+
+.btn-orange-rounde svg {
+  margin-right: .4rem;
+}
+
+.btn-orange-rounded-outline {
+  display: inline-flex;
+  border: 0;
+  padding: .5rem 1rem;
+  border-radius: 1.6rem;
+  min-width: 9rem;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: #FF3A00;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #fff;
+  border: 1px solid #FF3A00;
+}
+
+.btn-orange-rounded-outline:hover {
+  background-color: #FF3A00;
+  color: #fff;
+}
+
+.userDetailsError {
+  margin-top: -1rem;
+  display: block;
+  font-weight: 500;
+  color: #FF0000 !important;
+}
+
+
+.btn-orange-outline {
+  border: 1px solid #FF3A00 !important;
+  min-width: 8rem;
+  display: inline-flex;
+  border: 0;
+  padding: .4rem 1rem;
+  border-radius: .25rem;
+  min-width: 9rem;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: #FF3A00;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #fff;
+}
+
+.btn-orange-outline img,
+.btn-orange-outline svg {
+  margin-right: 1em;
+}
+
+.ck-editor .ck.ck-sticky-panel__content .ck.ck-toolbar {
+  border: 0;
+}
+
+.ck-editor .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+  border: none;
+}
+
+svg {
+  fill: currentColor;
+}
+
+.table-rounded {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+  outline: auto;
+  outline-color: #ddd;
+  margin-top: 1rem;
+}
+
+.table-rounded thead {
+  background-color: #F2F4F9;
+}
+
+.table-rounded td{
+  border: 2px solid #ddd;
+  font-size: 1rem;
+  font-weight: 300;
+}
+.table-rounded td, .table-rounded th {
+  padding: .5rem !important;
+}
+
+
+/***CUSTOM
+
+custom upload button style
+***/
+.upload-btn-container {
+  position: relative;
+  display: flex;
+}
+
+.upload-btn-container input[type="file"] {
+  display: none;
+}
+
+.upload-btn-container .upload-label {
+  background: #fff;
+  display: flex;
+  width: 8rem;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #01288F;
+  justify-content: center;
+  align-items: center;
+  padding: .2rem .2rem;
+  color: #01288F;
+  font-size: 1rem;
+  cursor: pointer;
+  justify-content: space-between;
+  padding: .3rem .6rem;
+}
+.upload-btn-container span {
+  margin-left: 1rem;
+  margin-top: .3rem;
+}
+
+/**
+users component style
+**/
+.filter-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+.filter-action {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+
+/**
+profile
+**/
+
+.mat-group-content .mat-ink-bar {
+  background-color: #FF3A00 !important;
+  height: 3px !important;
+}
+
+.mat-group-content .mat-tab-body-content {
+  overflow: hidden !important;
+}
+
+/* 
+.custom-form-control {
+  display: block;
+  width: 100%;
+  padding: .8rem 1rem;
+  border-radius: 6px;
+  outline: none;
+  border: 0;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.06);
+  margin-left: 1rem;
+  /* transition: all 1s linear; */
+  /* visibility: hidden; */
+ /* transition: all .1s ease;
+  border: 2px solid rgba(0,0,0,0.06);
+  color: #494949;
+  font-size: 1rem;
+  font-weight: 400;
+  box-sizing: border-box !important;
+
+} */
+
+
+.custom-group {
+  position: relative;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  /* display: block; */
+  /* border: 2px solid #01288F; */
+  
+}
+
+.custom-form-control {
+  display: block;
+  width: 100%;
+  padding: .8rem 1rem;
+  border-radius: 6px;
+  outline: none;
+  border: 0;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.06);
+  margin-left: 0rem;
+  transition: all .1s ease;
+  border: 2px solid rgba(0,0,0,0.06);
+  color: #494949;
+  font-size: 1rem;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+
+
+
+.custom-form-control + label {
+  position: absolute;
+  left: 2rem;
+  width: auto;
+  background: #fff;
+  color: #01288F;
+  font-weight: 300;
+  height: auto;
+  top: 1rem;
+  transition: top .2s linear, display .4s ease;
+  z-index: -999;
+}
+
+.custom-form-control + label{
+  top: -.7rem;
+  display: block;
+  color: #01288F;
+  z-index: 10;
+  
+}
+
+
+.custom-form-control {
+  border: 2px solid #01288F;
+  /* border: 2px solid #01288F; */
+}
+
+
+
+/***
+@  responsive media query for all screens
+***/
+
+@media screen and (max-width: 425px) {
+  /**
+    users-* components
+  **/
+  .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .action-btn button {
+      margin: 0 !important;
+  }
+
+  .action-btn button:first-child {
+      margin-bottom: 1rem !important;
+  }
+
+  .filter-group {
+    margin-top: 2rem;
+    flex-direction: column;
+  }
+
+  .filter-btn {
+    margin-bottom: .8rem;
+  }
+
+  .filter-action {
+    flex-flow: column wrap;
+    width: auto;
+  }
+
+  .filter-action button:not(:last-child) {
+    margin-bottom: .8rem;
+  }
+
+  /** email job details **/
+  .email-body {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .email-body .email-header {
+    width: 100% !important;
+    margin-bottom: .6rem;
+  }
+  .email-body .email-content {
+    width: 100%;
+  }
+  .email-subject {
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .custom-group {
+    width: 90% !important;
+    text-align: center;
+  }
+
+  .left-content {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  .right-content {
+    padding: 0 !important;
+  }
+}
+
+@media screen and (min-width: 426px)  and (max-width: 1024px){
+
+  .filter-action {
+    width: 75%;
+  }
+
+  .email-body .email-header {
+    width: 20% !important;
+  }
+  .email-body .email-content {
+    width: 80%;
+  }
+
+}
+
+
+/* Send Email and Admin Profile */
+.send-mail-heading {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+/* jOB details */
+
+.email-details, .email-subject {
+  font-family: Bahnschrift;
+}
+
+.email-subject h4 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #000;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.email-body {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.email-header {
+  width: 15%;
+  font-size: .94rem;
+  font-weight: 200;
+  align-self: start;
+}
+
+.email-content {
+  width: 85%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1rem;
+  white-space: pre-line;
+  letter-spacing: 0;
+}
+
+/*  */
+
+.profile-update-form {
+  margin-top: 1rem;
+} 
+
+/*  */
