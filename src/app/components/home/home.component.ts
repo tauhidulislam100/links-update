@@ -1,27 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {NavbarService} from 'src/app/_services/navbar.service';
-import {ActivatedRoute} from '@angular/router';
-import {ConfigService} from 'src/app/_services/config.service';
+import { Component, OnInit } from '@angular/core';
+import { ConfigService } from 'src/app/_services/config.service';
+import { HomeService } from 'src/app/_services/home.service';
+import { slideUpAnimation } from 'src/app/_animations/slideUp';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  animations: [slideUpAnimation],
+  host: {'[@slideUpAnimation]': ''},
 })
 export class HomeComponent implements OnInit {
   assets_loc;
   icons = [];
-  home;
+  home = {};
 
-  constructor(private nav: NavbarService, private route: ActivatedRoute, private configService: ConfigService) {
+  constructor(private configService: ConfigService, private homeService: HomeService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
   }
 
   ngOnInit() {
-    this.nav.show();
-
+    this.homeService.getHomePageDetails().subscribe(data => {
+      this.home = data;
+    })
     this.pload(
       this.assets_loc + "assets/view-users.png",
       this.assets_loc + "assets/certificate-home.svg",
@@ -30,20 +33,12 @@ export class HomeComponent implements OnInit {
       this.assets_loc + "assets/certificate-home.svg",
       this.assets_loc + "assets/send-mail.svg"
     );
-    this.home = this.route.snapshot.data.summary;
-    document.getElementById("total-recipients").appendChild(this.icons[0]);
-    document.getElementById("total-certificates").appendChild(this.icons[1]);
-    document.getElementById("total-emails").appendChild(this.icons[2]);
-    document.getElementById("total-recipients-this-month").appendChild(this.icons[3]);
-    document.getElementById("total-certificates-this-month").appendChild(this.icons[4]);
-    document.getElementById("total-emails-this-month").appendChild(this.icons[5]);
   }
 
 
   pload(...args: any[]): void {
     for (var i = 0; i < args.length; i++) {
-      this.icons[i] = new Image();
-      this.icons[i].src = args[i];
+      this.icons[i] = args[i];
     }
   }
 

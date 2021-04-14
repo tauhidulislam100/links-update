@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // baseurl:"http://localhost:8080/",
   baseurl:"https://stage.mycredible.info/Links/",
-  assets_location: "/",
+  assets_location: "assets/",
   access_token: "local_access_token", 
   user: "local_user"
 };

@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8" *ngIf="certificateDetail1">
       <form [formGroup]="certificateDetail1">
         <app-errors></app-errors>
         <mat-error *ngIf="!usersSelected">Please select recipients to generate certificates!</mat-error>

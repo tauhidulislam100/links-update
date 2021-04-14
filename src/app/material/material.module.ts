@@ -17,9 +17,10 @@ import {
   MatSortModule,
   MatTableModule,
   MatTabsModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatProgressBarModule
 } from '@angular/material';
-import {DialogOverviewExampleDialog} from '../components/recipients/recipients.component';
+// import {DialogOverviewExampleDialog} from '../components/recipients/recipients.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 
@@ -43,14 +44,15 @@ const MaterialComponents = [
   MatSortModule,
   MatProgressSpinnerModule,
   MatCardModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatProgressBarModule
 ];
 
 @NgModule({
   declarations: [],
   imports: [MaterialComponents],
   exports: [MaterialComponents],
-  entryComponents: [DialogOverviewExampleDialog]
+  // entryComponents: [DialogOverviewExampleDialog]
 })
 export class MaterialModule {
 }

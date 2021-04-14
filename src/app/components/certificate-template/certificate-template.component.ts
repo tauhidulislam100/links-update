@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
-import {CertificateService} from 'src/app/_services/certificate.service';
-import {ErrorService} from 'src/app/_services/error.service';
-import {validateField} from 'src/app/_custome-validators/certificateForm.validator';
-import {ConfigService} from 'src/app/_services/config.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CertificateService } from 'src/app/_services/certificate.service';
+import { ErrorService } from 'src/app/_services/error.service';
+import { validateField } from 'src/app/_custome-validators/certificateForm.validator';
+import { ConfigService } from 'src/app/_services/config.service';
 
 @Component({
   selector: 'app-certificate-template',
@@ -15,11 +15,11 @@ export class CertificateTemplateComponent implements OnInit {
   assets_loc;
   templateData;
   imageData;
-  editable_fields_array: any [];
+  editable_fields_array: any[];
   instructions;
   fields;
-  fontThemes: any [] = [];
-  editable_fields: any [] = [];
+  fontThemes: any[] = [];
+  editable_fields: any[] = [];
   certificateTemplateForm: FormGroup;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private certificateService: CertificateService, private errorService: ErrorService, private configService: ConfigService) {
@@ -37,7 +37,7 @@ export class CertificateTemplateComponent implements OnInit {
     this.editable_fields_array = this.templateData.instructions.editable_fields;
     this.fields = this.route.snapshot.data.fields;
     this.fontThemes = this.templateData.instructions.themes;
-   
+
     this.certificateTemplateForm = this.fb.group({
       name: [this.templateData.name, []],
       fontTheme: ['1']

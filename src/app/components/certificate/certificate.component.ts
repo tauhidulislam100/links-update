@@ -1,17 +1,17 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {AdminDetailService} from '../../_services/admin-detail.service'
-import {ActivatedRoute, Router} from '@angular/router';
-import {CertificateService} from '../../_services/certificate.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserDetail} from '../../userDetail';
-import {validateUserDetail} from '../../_custome-validators/certificateForm.validator';
-import {SelectionModel} from '@angular/cdk/collections';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AdminDetailService } from '../../_services/admin-detail.service'
+import { ActivatedRoute, Router } from '@angular/router';
+import { CertificateService } from '../../_services/certificate.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserDetail } from '../../userDetail';
+import { validateUserDetail } from '../../_custome-validators/certificateForm.validator';
+import { SelectionModel } from '@angular/cdk/collections';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {formatDate} from '@angular/common';
-import {ErrorService} from 'src/app/_services/error.service';
-import {ConfigService} from 'src/app/_services/config.service';
-import {MatDialog} from "@angular/material/dialog";
-import {ConfirmationDialogueComponent} from "../confirmation-dialogue/confirmation-dialogue.component";
+import { formatDate } from '@angular/common';
+import { ErrorService } from 'src/app/_services/error.service';
+import { ConfigService } from 'src/app/_services/config.service';
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmationDialogueComponent } from "../confirmation-dialogue/confirmation-dialogue.component";
 
 export interface JobData {
   id,
@@ -27,7 +27,7 @@ export class CertificateComponent implements OnInit {
   assets_loc;
   Editor = ClassicEditor;
   admin;
-  template: any [] = [];
+  template: any[] = [];
   userData: UserDetail[] = [];
   allJobs;
   selectedIds;
@@ -49,16 +49,19 @@ export class CertificateComponent implements OnInit {
   allUserData;
   noOfRecipientsMoreThen1000: boolean;
   submitedJobId;
-  @ViewChild('message', {static: false}) message: ElementRef;
+  @ViewChild('message', { static: false }) message: ElementRef;
 
-  constructor(private route: ActivatedRoute,
-              private adminDetailService: AdminDetailService,
-              private certificateService: CertificateService,
-              private fb: FormBuilder,
-              private router: Router,
-              private errorService: ErrorService,
-              private renderer:Renderer2
-    , private configService: ConfigService, private dialog: MatDialog) {
+  constructor(
+    private route: ActivatedRoute,
+    private adminDetailService: AdminDetailService,
+    private certificateService: CertificateService,
+    private fb: FormBuilder,
+    private router: Router,
+    private errorService: ErrorService,
+    private renderer: Renderer2,
+    private configService: ConfigService,
+    private dialog: MatDialog
+  ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
@@ -74,17 +77,19 @@ export class CertificateComponent implements OnInit {
 
   ngOnInit() {
     this.jobSubmitted = false;
-    this.getCertificateTemplates();
-    let id = (this.template[0].id).toString();
-    this.onChange(id);
-    this.userData = this.certificateService.getSelectedUsers();
-    this.popoverMessage = "Please confirm the submission of job for " + this.userData.length.toString() + " Recipient.";
-    this.setUserDetails();
-    this.selectedIds = this.certificateService.getSelectedIds();
-    if (this.selectedIds.length > 0) {
-      this.usersSelected = true;
-    }
- 
+    this.certificateService.getTemplates().subscribe(template => {
+      this.template = template;
+      let id = (this.template[0].id).toString();
+      this.onChange(id);
+      this.userData = this.certificateService.getSelectedUsers();
+      this.popoverMessage = "Please confirm the submission of job for " + this.userData.length.toString() + " Recipient.";
+      this.setUserDetails();
+      this.selectedIds = this.certificateService.getSelectedIds();
+      if (this.selectedIds.length > 0) {
+        this.usersSelected = true;
+      }
+    })
+
   }
 
   getCertificateTemplates(): void {
@@ -92,13 +97,13 @@ export class CertificateComponent implements OnInit {
   }
 
 
-  buildCertificateForm1(fields: any [], templateId, userData) {
+  buildCertificateForm1(fields: any[], templateId, userData) {
 
 
     this.certificateDetail1 = this.fb.group({
-        templateSelect: [templateId, []],
-        userDetails: [userData, [Validators.required, validateUserDetail(templateId)]]
-      }
+      templateSelect: [templateId, []],
+      userDetails: [userData, [Validators.required, validateUserDetail(templateId)]]
+    }
     );
     fields.forEach(field => {
       let control: FormControl = new FormControl('', [Validators.required]);
@@ -143,7 +148,7 @@ export class CertificateComponent implements OnInit {
     if (this.userData.length > 50) {
       const dialogRef = this.dialog.open(ConfirmationDialogueComponent, {
         width: '400px',
-        data: {title: "Please confirm the submission of job for " + this.userData.length.toString() + "  recipient."}
+        data: { title: "Please confirm the submission of job for " + this.userData.length.toString() + "  recipient." }
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result.event == 'Submit') {
@@ -157,7 +162,7 @@ export class CertificateComponent implements OnInit {
   }
 
   generateByIds1(comment) {
- 
+
     this.loader = true;
     let users = this.selectedIds;
     let id = this.templateSelect.value;
@@ -178,19 +183,19 @@ export class CertificateComponent implements OnInit {
     }
 
     this.certificateService.generateCertificates(body, id).subscribe(data => {
-        this.submitedJobId = data;
-        this.loader = false;
-        this.jobSubmitted = true;
-        let div = this.renderer.createElement('div');
-       div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\">" +
-        "Done! Task# of this request is "+this.submitedJobId +
+      this.submitedJobId = data;
+      this.loader = false;
+      this.jobSubmitted = true;
+      let div = this.renderer.createElement('div');
+      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\">" +
+        "Done! Task# of this request is " + this.submitedJobId +
         "</div>"
-      this.renderer.appendChild(this.message.nativeElement,div);
-        this.errorService.setErrorVisibility(false, "");
-      
-      }, error => {
-        this.loader = false
-      }
+      this.renderer.appendChild(this.message.nativeElement, div);
+      this.errorService.setErrorVisibility(false, "");
+
+    }, error => {
+      this.loader = false
+    }
     );
 
   }
@@ -202,7 +207,5 @@ export class CertificateComponent implements OnInit {
     });
     return details;
   }
-
-
 }
 

@@ -1,27 +1,26 @@
-import {AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild,Renderer2} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {RecipientService} from '../../_services/recipient.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {UserDetail} from '../../userDetail';
-import {CertificateService} from '../../_services/certificate.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog'
-
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatPaginator } from "@angular/material/paginator";
 import * as XLSX from 'xlsx';
-import {TagService} from '../../_services/tag.service';
+import { UserDetail } from '../../userDetail';
+import { RecipientService } from '../../_services/recipient.service';
+import { CertificateService } from '../../_services/certificate.service';
+import { MatDialog } from '@angular/material/dialog'
+import { TagService } from '../../_services/tag.service';
 import {
   validateCheckBox,
   validateSaveAndUpdate,
-  validateTag
 } from '../../_custome-validators/certificateForm.validator';
-import {EmailService} from '../../_services/email.service';
-import {DialogService} from 'src/app/_services/dialog.service';
-import {FieldService} from 'src/app/_services/field.service';
-import {ConfigService} from 'src/app/_services/config.service';
-import {MatPaginator} from "@angular/material/paginator";
-
+import { EmailService } from '../../_services/email.service';
+import { FieldService } from 'src/app/_services/field.service';
+import { ConfigService } from 'src/app/_services/config.service';
+import { preload } from 'src/app/utils/preload';
+import { DialogOverview } from 'src/app/components/dialog-overview/dialog-overview.component'
+import { slideUpAnimation } from 'src/app/_animations/slideUp';
 
 export interface UserData {
   checkBox,
@@ -34,7 +33,9 @@ export interface UserData {
 @Component({
   selector: 'app-users',
   templateUrl: './recipients.component.html',
-  styleUrls: ['./recipients.component.css']
+  styleUrls: ['./recipients.component.css'],
+  animations: [slideUpAnimation],
+  host: {'[@slideUpAnimation]': ''},
 })
 export class RecipientsComponent implements OnInit, AfterViewInit {
   loader = false;
@@ -71,27 +72,30 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
   showPreview = false;
   noOfRecipientsNotFound = 0;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  @ViewChild('message', {static: true}) message: ElementRef;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild('myExpandedInput', {static: false}) input: ElementRef;
-  @ViewChild('myInput', {static: false}) myInput: ElementRef;
-  @ViewChild('myExpandedInput', {static: false}) myExpandedInput: ElementRef;
+  @ViewChild('message', { static: true }) message: ElementRef;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild('myExpandedInput', { static: false }) input: ElementRef;
+  @ViewChild('myInput', { static: false }) myInput: ElementRef;
+  @ViewChild('myExpandedInput', { static: false }) myExpandedInput: ElementRef;
 
 
   constructor(private userService: RecipientService,
-              private fb: FormBuilder,
-              private certificateService: CertificateService,
-              private route: ActivatedRoute,
-              private router: Router,
-              public dialog: MatDialog,
-              private tagService: TagService,
-              private emailService: EmailService,
-              private fieldService: FieldService,
-              private renderer:Renderer2
-    , private configService: ConfigService) {
+    private fb: FormBuilder,
+    private certificateService: CertificateService,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog,
+    private tagService: TagService,
+    private emailService: EmailService,
+    private fieldService: FieldService,
+    private renderer: Renderer2,
+    private configService: ConfigService,
+    private recipentService: RecipientService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
-    })
+    });
+
+
   }
 
   ngAfterViewInit() {
@@ -112,43 +116,50 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
 
 
     this.searchdisplayedColumns = ['id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
-    this.fields = this.route.snapshot.data.fields;
+
+    this.fieldService.getAllFields().subscribe(data => {
+      this.fields = data;
+      this.fields.forEach(data => {
+        this.textAreaLegend = this.textAreaLegend + ", " + data.name;
+      });
+    });
+
+
     if (this.route.snapshot.paramMap.get('id') != null) {
       this.showPreview = true;
       this.showNewRecipients = false;
-      this.allUsers = this.route.snapshot.data.users.recipientList;
-      this.allrecipientsToPreview = this.route.snapshot.data.users.recipientsToPreview;
-      this.searchResultSize = this.allUsers.length;
-      this.previewDataSource = new MatTableDataSource<UserData>(this.allrecipientsToPreview);
-      this.noOfRecipientsNotFound = this.route.snapshot.data.users.totalRecipientsNotFound;
-      let div = this.renderer.createElement('div');
-      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-        "All "+this.searchResultSize+" recipients exist." +
-        "</div>"
-      this.renderer.appendChild(this.message.nativeElement,div);
+      this.recipentService.getByTag(this.route.snapshot.paramMap.get('id')).subscribe(recipents => {
+        this.allUsers = recipents.recipientList;
+        this.allrecipientsToPreview = recipents.recipientsToPreview;
+        this.searchResultSize = this.allUsers.length;
+        this.previewDataSource = new MatTableDataSource<UserData>(this.allrecipientsToPreview);
+        this.noOfRecipientsNotFound = recipents.totalRecipientsNotFound;
+
+        let div = this.renderer.createElement('div');
+        div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
+          "All " + this.searchResultSize + " recipients exist." +
+          "</div>"
+        this.renderer.appendChild(this.message.nativeElement, div);
+
+      });
       // this.addCheckboxes();
     } else {
 
-      this.allUsers = (this.route.snapshot.data.newUsers);
-      this.addCheckboxes();
-      this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
-      this.displayedColumns = ['select', 'id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
+      this.recipentService.getAllNewUsers().subscribe(data => {
+        this.allUsers = data;
+        this.addCheckboxes();
+        this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
+        this.displayedColumns = ['select', 'id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
+      });
     }
 
-    this.preload(
+    this.icons = preload(
       this.assets_loc + "assets/upload.svg",
       this.assets_loc + "assets/download-orange.svg",
       this.assets_loc + "assets/certificate.svg",
       this.assets_loc + "assets/tag.svg",
       this.assets_loc + "assets/send-email-recipients.svg"
     );
-    document.getElementById("filter").appendChild(this.icons[1]);
-    document.getElementById("certificate").appendChild(this.icons[2]);
-    document.getElementById("tag").appendChild(this.icons[3]);
-    document.getElementById("email").appendChild(this.icons[4]);
-    this.fields.forEach(data => {
-      this.textAreaLegend = this.textAreaLegend + ", " + data.name;
-    });
   }
 
   private addCheckboxes() {
@@ -164,9 +175,9 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
       userTags: new FormArray([])
     });
     user.userTags.forEach(element => {
-        let Tags: FormControl = new FormControl(element.name);
-        (formGroup.controls.userTags as FormArray).push(Tags);
-      }
+      let Tags: FormControl = new FormControl(element.name);
+      (formGroup.controls.userTags as FormArray).push(Tags);
+    }
     );
     return formGroup;
   }
@@ -212,10 +223,10 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           div.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"showNoRecipientFound\">" +
             "All records are new. You can save them and search again to proceed for any task." +
             "</div>"
-          this.renderer.appendChild(this.message.nativeElement,div);
+          this.renderer.appendChild(this.message.nativeElement, div);
 
           // this.message.nativeElement.appendChild(div);
-          this.renderer.appendChild(this.message,div);
+          this.renderer.appendChild(this.message, div);
         } else {
           this.showPreview = true;
           this.showNoRecipientFound = false;
@@ -228,35 +239,35 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           let duplicates = result.duplicates;
           // this.searchDataSource = new MatTableDataSource<any>(this.allUsers);
           let div = this.renderer.createElement('div');
-          if(this.noOfRecipientsNotFound > 0) {
-          if(result.duplicates == 0) {
-            div.innerHTML = "\n" +
-              "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-              "        We found " + this.searchResultSize + " existing recipient and " + this.noOfRecipientsNotFound + " new one. Please save all before proceeding." +
-              "      </div>";
-          }else if(result.duplicates > 0) {
-            div.innerHTML = "\n" +
-              "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-              "        We found " + this.searchResultSize + " existing recipient and "+this.noOfRecipientsNotFound+" new one. Rest "+result.duplicates+" are duplicates. Please save all before proceeding." +
-              "      </div>";
-          }
-          }else if(this.noOfRecipientsNotFound == 0){
-            if(result.duplicates > 0) {
+          if (this.noOfRecipientsNotFound > 0) {
+            if (result.duplicates == 0) {
               div.innerHTML = "\n" +
                 "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-                "        We found " + this.searchResultSize + " existing recipient and Rest "+result.duplicates+" are duplicates. Please save all before proceeding." +
+                "        We found " + this.searchResultSize + " existing recipient and " + this.noOfRecipientsNotFound + " new one. Please save all before proceeding." +
                 "      </div>";
-            }else if(result.duplicates == 0){
+            } else if (result.duplicates > 0) {
               div.innerHTML = "\n" +
                 "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-                "       All "+this.searchResultSize+" recipients exist" +
+                "        We found " + this.searchResultSize + " existing recipient and " + this.noOfRecipientsNotFound + " new one. Rest " + result.duplicates + " are duplicates. Please save all before proceeding." +
+                "      </div>";
+            }
+          } else if (this.noOfRecipientsNotFound == 0) {
+            if (result.duplicates > 0) {
+              div.innerHTML = "\n" +
+                "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
+                "        We found " + this.searchResultSize + " existing recipient and Rest " + result.duplicates + " are duplicates. Please save all before proceeding." +
+                "      </div>";
+            } else if (result.duplicates == 0) {
+              div.innerHTML = "\n" +
+                "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
+                "       All " + this.searchResultSize + " recipients exist" +
                 "      </div>";
             }
 
           }
 
           // this.message.nativeElement.appendChild(div);
-          this.renderer.appendChild(this.message.nativeElement,div);
+          this.renderer.appendChild(this.message.nativeElement, div);
           this.showSearchResultMessage = true;
           this.showNewRecipients = false;
         }
@@ -451,7 +462,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
         div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
           "Done! You can search the recipients now." +
           "</div>"
-        this.renderer.appendChild(this.message.nativeElement,div);
+        this.renderer.appendChild(this.message.nativeElement, div);
         //  this.userService.getAllNewUsers().subscribe(data => {
         //    this.uncheckAll();
         //    this.allUsers = data;
@@ -471,7 +482,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
       const reader: FileReader = new FileReader();
       reader.onload = (e: any) => {
         const bstr: string = e.target.result;
-        const wb: XLSX.WorkBook = XLSX.read(bstr, {type: 'binary'});
+        const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
         const wsname: string = wb.SheetNames[0];
         const ws: XLSX.WorkSheet = wb.Sheets[wsname];
         const rows: string[] = XLSX.utils.sheet_to_csv(ws).split("\n");
@@ -480,7 +491,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           headers = rows[0].split(",");
         }
         this.validateHeaders(headers);
-        data = <any>(XLSX.utils.sheet_to_json(ws, {raw: false}));
+        data = <any>(XLSX.utils.sheet_to_json(ws, { raw: false }));
         this.loadUserDetails(data);
       };
       reader.readAsBinaryString(target.files[0]);
@@ -561,7 +572,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
             "The tag is added. You can search again to view it." +
             "</div>"
-          this.renderer.appendChild(this.message.nativeElement,div);
+          this.renderer.appendChild(this.message.nativeElement, div);
           // this.userService.getAllNewUsers().subscribe(data => {
           // })
         }, error => {
@@ -582,7 +593,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
             "The tag is added. You can search again to view it." +
             "</div>"
-          this.renderer.appendChild(this.message.nativeElement,div);
+          this.renderer.appendChild(this.message.nativeElement, div);
           // this.userService.getAllNewUsers().subscribe(data => {
           // })
         }, error => {
@@ -607,13 +618,12 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
   }
 
   openDialog(): void {
-
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
 
-      if (result.event == 'AddTag') {
+      if (result && result.event == 'AddTag') {
         this.addTags(result.data);
       }
     });
@@ -623,13 +633,6 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
     this.expandedView = true;
   }
 
-  preload(...args: any[]): void {
-    for (var i = 0; i < args.length; i++) {
-      this.icons[i] = new Image();
-      this.icons[i].src = args[i];
-
-    }
-  }
 
   exportToExcel() {
     let listOfRecipients: any[] = [];
@@ -693,53 +696,5 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
 
       }
     }
-
-
   }
-}
-
-
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  templateUrl: 'dialog-overview-example-dialog.html',
-})
-export class DialogOverviewExampleDialog implements OnInit {
-  action: string;
-  local_data: any;
-  tagForm: FormGroup;
-  title;
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private userService: RecipientService,
-    private fb: FormBuilder,
-    private dialogService: DialogService) {
-    this.title = this.dialogService.getTitle();
-    this.tagForm = this.fb.group({
-      tagInput: ['', [Validators.required, validateTag()]]
-    });
-  }
-
-  ngOnInit() {
-  }
-
-  selection = new SelectionModel<UserData>(true, []);
-
-  onNoClick(): void {
-    this.action = "close";
-    this.dialogRef.close();
-  }
-
-  addtag(tag) {
-    this.local_data = this.tagForm.get('tagInput').value;
-    this.action = "AddTag";
-    this.dialogRef.close({event: this.action, data: this.local_data});
-  }
-}
-
-export interface DialogData {
-  tag;
-  userForm;
-  allUsers: any[];
 }

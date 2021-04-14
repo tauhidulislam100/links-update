@@ -1,19 +1,18 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {AdminDetailService} from '../../_services/admin-detail.service'
-import {ActivatedRoute, Router} from '@angular/router';
-import {CertificateService} from '../../_services/certificate.service';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatSort, MatTableDataSource} from '@angular/material';
-import {formatDate} from '@angular/common';
-import {EmailService} from '../../_services/email.service';
-import {saveAs} from 'file-saver';
-import {ErrorService} from 'src/app/_services/error.service';
-import {ConfigService} from 'src/app/_services/config.service';
-import {Page} from 'src/app/pagination/page';
-import {CustomPaginationService} from 'src/app/_services/custom-pagination.service';
-import {ConfirmationDialogueComponent} from "../confirmation-dialogue/confirmation-dialogue.component";
-import {MatDialog} from "@angular/material/dialog";
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { CertificateService } from '../../_services/certificate.service';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSort, MatTableDataSource } from '@angular/material';
+import { formatDate } from '@angular/common';
+import { saveAs } from 'file-saver';
+import { ErrorService } from 'src/app/_services/error.service';
+import { ConfigService } from 'src/app/_services/config.service';
+import { Page } from 'src/app/pagination/page';
+import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
+import { ConfirmationDialogueComponent } from "../confirmation-dialogue/confirmation-dialogue.component";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from '@angular/router';
+import { slideUpAnimation } from 'src/app/_animations/slideUp';
 
 export interface JobData {
   id,
@@ -30,7 +29,9 @@ export interface CertificateData {
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
-  styleUrls: ['./jobs.component.css']
+  styleUrls: ['./jobs.component.css'],
+  animations: [slideUpAnimation],
+  host: {'[@slideUpAnimation]': ''},
 })
 export class JobsComponent implements OnInit {
   popoverIsVisible = false;
@@ -69,44 +70,50 @@ export class JobsComponent implements OnInit {
   publishLimit;
   deletePopoverTitle = "Archive Task";
   deletePopoverMessage = "Please confirm archiving of task, once archived it cannot be unarchived."
-  @ViewChild('message', {static: false}) message: ElementRef;
+  @ViewChild('message', { static: false }) message: ElementRef;
 
-  constructor(private route: ActivatedRoute,
-              private adminDetailService: AdminDetailService,
-              private certificateService: CertificateService,
-              private fb: FormBuilder,
-              private emailService: EmailService,
-              private router: Router,
-              private errorService: ErrorService,
-              private paginationService: CustomPaginationService,
-              private renderer:Renderer2
-    , private configService: ConfigService
-    , private dialog: MatDialog) {
+  constructor(
+    private router: Router,
+    private certificateService: CertificateService,
+    private fb: FormBuilder,
+    private errorService: ErrorService,
+    private paginationService: CustomPaginationService,
+    private renderer: Renderer2, 
+    private configService: ConfigService, 
+    private dialog: MatDialog
+    ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
   }
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   ngOnInit() {
     this.isPublished = false;
     this.isReleased = false;
     this.isArchived = false;
     this.isSubmitted = false;
-    this.allJobs = this.route.snapshot.data.jobs;
-    this.templates = this.route.snapshot.data.templates;
-    this.buildJobsForm();
-    this.jobsDataSource = new MatTableDataSource<JobData>(this.allJobs.content);
-    //console.log(this.allJobs.content);
 
-    this.page = this.allJobs;
-    this.displayedColumnsJobs = ['id', 'name','status', 'noOfRecipients', 'created_at', 'download', 'release', 'regenerate', 'view', 'publish', 'validate', 'archive'];
-    //  this.addCheckboxesToJobs();
-    this.jobsDataSource.sort = this.sort;
-    this.certificateDataSource = new MatTableDataSource<JobData>(this.templates.content);
-    this.templatePage = this.templates;
+    this.certificateService.getAllJobsPage(this.page.pageable).subscribe(data => {
+      this.allJobs = data;
+      this.buildJobsForm();
+      this.jobsDataSource = new MatTableDataSource<JobData>(this.allJobs.content);
+      this.page = this.allJobs;
+      this.jobsDataSource.sort = this.sort;
+      //console.log(this.allJobs.content);
+      //  this.addCheckboxesToJobs();
+    });
+
+    this.certificateService.getCertificateTemplatesPage(this.templatePage.pageable).subscribe(data => {
+      this.templates = data;
+      this.certificateDataSource = new MatTableDataSource<JobData>(this.templates.content);
+      this.templatePage = this.templates;
+    })
+
     this.displayedColumnsCertificates = ['id', 'certificate_templates', 'no_of_recipients', 'update'];
+    this.displayedColumnsJobs = ['id', 'name', 'status', 'noOfRecipients', 'created_at', 'download', 'release', 'regenerate', 'view', 'publish', 'validate', 'archive'];
+
     this.certificateForm = this.fb.group({
       allCerts: new FormArray([])
     });
@@ -188,14 +195,14 @@ export class JobsComponent implements OnInit {
             "        [routerLink]=\"'/AdminProfile'\" routerLinkActive=\"active\">profile's page</a>  and raise a ticket for limit increase at  <a\n" +
             "        [routerLink]=\"'/FAQ'\" routerLinkActive=\"active\">Support page</a> " +
             "</div>"
-          this.renderer.appendChild(this.message.nativeElement,div);
+          this.renderer.appendChild(this.message.nativeElement, div);
           this.isSubmitted = false;
         } else {
           let div = this.renderer.createElement('div');
           div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-            "Great! The publish task is submitted. You can track it with task# "+row.id +
+            "Great! The publish task is submitted. You can track it with task# " + row.id +
             "</div>"
-          this.renderer.appendChild(this.message.nativeElement,div);
+          this.renderer.appendChild(this.message.nativeElement, div);
           this.isSubmitted = true;
           this.publishLimitIsReached = false;
         }
@@ -205,15 +212,13 @@ export class JobsComponent implements OnInit {
         this.isPublished = true;
 
         this.errorService.setErrorVisibility(false, "");
-      },
-      error => {
+      },error => {
 
         this.loader = false
       });
   }
 
   generateCertificateTemplate() {
-
     // this.router.navigate(['/Certificates/AddTemplate']);
   }
 
@@ -224,46 +229,46 @@ export class JobsComponent implements OnInit {
     this.loader = true;
     this.isSubmitted = false;
     this.certificateService.releaseCertificate(row.id, data).subscribe(data => {
-        let data1 = JSON.parse(data);
-        if (data1.limitIsReached) {
-          this.emailLimitIsReached = true;
-          this.recipientSizeIsZero = false;
+      let data1 = JSON.parse(data);
+      if (data1.limitIsReached) {
+        this.emailLimitIsReached = true;
+        this.recipientSizeIsZero = false;
+        this.isReleased = false;
+        let div = this.renderer.createElement('div');
+        div.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">" +
+          "Oh! It seems there is not enough limit to send emails. You can check the balance at the <a\n" +
+          "        [routerLink]=\"'/AdminProfile'\" routerLinkActive=\"active\">profile's page</a>  and raise a ticket for limit increase at  <a\n" +
+          "        [routerLink]=\"'/FAQ'\" routerLinkActive=\"active\">Support page</a> " +
+          "</div>"
+        this.renderer.appendChild(this.message.nativeElement, div);
+      } else {
+        this.emailLimitIsReached = false;
+        if (data1.noOfRecipients == 0) {
+          this.recipientSizeIsZero = true;
           this.isReleased = false;
           let div = this.renderer.createElement('div');
           div.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">" +
-            "Oh! It seems there is not enough limit to send emails. You can check the balance at the <a\n" +
-            "        [routerLink]=\"'/AdminProfile'\" routerLinkActive=\"active\">profile's page</a>  and raise a ticket for limit increase at  <a\n" +
-            "        [routerLink]=\"'/FAQ'\" routerLinkActive=\"active\">Support page</a> " +
+            "Requested email addresses are invalid or unsubscribed for the email." +
             "</div>"
-          this.renderer.appendChild(this.message.nativeElement,div);
+          this.renderer.appendChild(this.message.nativeElement, div);
         } else {
-          this.emailLimitIsReached = false;
-          if (data1.noOfRecipients == 0) {
-            this.recipientSizeIsZero = true;
-            this.isReleased = false;
-            let div = this.renderer.createElement('div');
-            div.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">" +
-              "Requested email addresses are invalid or unsubscribed for the email." +
-              "</div>"
-            this.renderer.appendChild(this.message.nativeElement,div);
-          } else {
-            this.recipientSizeIsZero = false;
-            this.isReleased = true;
-            // this.popoverTitle = data;
-            let div = this.renderer.createElement('div');
-            div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-              "Great! The release task is submitted. You can track it with task# "+row.id +
-              "</div>"
-            this.renderer.appendChild(this.message.nativeElement,div);
-            this.errorService.setErrorVisibility(false, "");
-          }
+          this.recipientSizeIsZero = false;
+          this.isReleased = true;
+          // this.popoverTitle = data;
+          let div = this.renderer.createElement('div');
+          div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
+            "Great! The release task is submitted. You can track it with task# " + row.id +
+            "</div>"
+          this.renderer.appendChild(this.message.nativeElement, div);
+          this.errorService.setErrorVisibility(false, "");
         }
-        this.loader = false;
-        this.isPublished = false;
-        this.isSubmitted = true;
-        this.errorService.setErrorVisibility(false, "");
+      }
+      this.loader = false;
+      this.isPublished = false;
+      this.isSubmitted = true;
+      this.errorService.setErrorVisibility(false, "");
 
-      },
+    },
       error => {
 
         this.loader = false
@@ -278,18 +283,18 @@ export class JobsComponent implements OnInit {
     this.loader = true;
     this.isSubmitted = false;
     this.certificateService.regenerateCertificate(row.id, data).subscribe(data => {
-        this.loader = false;
-        this.isPublished = false;
-        this.isReleased = true;
-        this.isSubmitted = true;
-        let div = this.renderer.createElement('div');
-        div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-          "Great! The regenerate task is submitted. You can track it with task# "+row.id +
-          "</div>"
-        this.renderer.appendChild(this.message.nativeElement,div);
-        this.errorService.setErrorVisibility(false, "");
+      this.loader = false;
+      this.isPublished = false;
+      this.isReleased = true;
+      this.isSubmitted = true;
+      let div = this.renderer.createElement('div');
+      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
+        "Great! The regenerate task is submitted. You can track it with task# " + row.id +
+        "</div>"
+      this.renderer.appendChild(this.message.nativeElement, div);
+      this.errorService.setErrorVisibility(false, "");
 
-      },
+    },
       error => {
 
         this.loader = false
@@ -301,17 +306,17 @@ export class JobsComponent implements OnInit {
     this.loader = true;
     this.isSubmitted = false;
     this.certificateService.validateCertificatesOnServer(row.id).subscribe(data => {
-        this.loader = false;
-        this.isPublished = false;
-        this.isReleased = true;
-        this.isSubmitted = true;
-        let div = this.renderer.createElement('div');
-        div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-          "Great! The validate task is submitted. You can track it with task# "+row.id +
-          "</div>"
-        this.renderer.appendChild(this.message.nativeElement,div);
-        this.errorService.setErrorVisibility(false, "");
-      },
+      this.loader = false;
+      this.isPublished = false;
+      this.isReleased = true;
+      this.isSubmitted = true;
+      let div = this.renderer.createElement('div');
+      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
+        "Great! The validate task is submitted. You can track it with task# " + row.id +
+        "</div>"
+      this.renderer.appendChild(this.message.nativeElement, div);
+      this.errorService.setErrorVisibility(false, "");
+    },
       error => {
 
         this.loader = false
@@ -329,29 +334,29 @@ export class JobsComponent implements OnInit {
   }
 
   applyPopperStyles() {
-    const styles = {'top': '100px', 'left': '100px'};
+    const styles = { 'top': '100px', 'left': '100px' };
     return styles;
   }
 
   archive(row) {
     this.certificateService.deleteCertificateTemplate(row.id).subscribe(data => {
-        this.isArchived = true;
-        this.errorService.setErrorVisibility(false, "");
+      this.isArchived = true;
+      this.errorService.setErrorVisibility(false, "");
 
-      }
+    }
     );
   }
 
   submit(row, type) {
-  let title = "Please confirm the submission of job for " + row.numberOfRecipients + " recipients"
+    let title = "Please confirm the submission of job for " + row.numberOfRecipients + " recipients"
 
     if (row.numberOfRecipients > 100) {
-      if(type == "regenerate" ){
-        title = "This will regenerate the certificates for all recipient in the task# "+row.id+" with their updated details. Should we proceed?"
+      if (type == "regenerate") {
+        title = "This will regenerate the certificates for all recipient in the task# " + row.id + " with their updated details. Should we proceed?"
       }
       const dialogRef = this.dialog.open(ConfirmationDialogueComponent, {
         width: '400px',
-        data: {title: title}
+        data: { title: title }
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result.event == "Submit") {
@@ -374,19 +379,18 @@ export class JobsComponent implements OnInit {
     }
   }
 
-  archiveJob(row) { 
+  archiveJob(row) {
     this.certificateService.deleteCertificateJob(row.id).subscribe(data => {
-         let div = this.renderer.createElement('div');
-        div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-          "Job is archived successfully "+row.id +
-          "</div>"
-        this.renderer.appendChild(this.message.nativeElement,div);
-        this.errorService.setErrorVisibility(false, "");
-      
-     }
+      let div = this.renderer.createElement('div');
+      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
+        "Job is archived successfully " + row.id +
+        "</div>"
+      this.renderer.appendChild(this.message.nativeElement, div);
+      this.errorService.setErrorVisibility(false, "");
+
+    }
     )
   }
-
 
 }
 

@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EmailService} from 'src/app/_services/email.service';
-import {ActivatedRoute} from '@angular/router';
-import {ErrorService} from 'src/app/_services/error.service';
-import {validateField} from 'src/app/_custome-validators/certificateForm.validator';
-import {ConfigService} from 'src/app/_services/config.service';
-import {ThemePalette} from "@angular/material/core";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailService } from 'src/app/_services/email.service';
+import { ActivatedRoute } from '@angular/router';
+import { ErrorService } from 'src/app/_services/error.service';
+import { validateField } from 'src/app/_custome-validators/certificateForm.validator';
+import { ConfigService } from 'src/app/_services/config.service';
+import { ThemePalette } from "@angular/material/core";
+import { FieldService } from 'src/app/_services/field.service';
 
 @Component({
   selector: 'app-email-template',
@@ -20,17 +21,28 @@ export class EmailTemplateComponent implements OnInit {
   isCreated: boolean;
   emailTemplateDetails;
   isUpdated: boolean;
-  fields: any [] = [];
+  fields: any[] = [];
   popoverMessage = "Please confirm to add a new template.";
   popoverTitle = "Add New Template";
   color: ThemePalette = 'accent';
   checked = false;
   disabled = false;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private emailService: EmailService, private errorService: ErrorService, private configService: ConfigService) {
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private emailService: EmailService,
+    private errorService: ErrorService,
+    private configService: ConfigService,
+    private fieldService: FieldService,
+  ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
-    })
+    });
+
+    this.fieldService.getAllFields().subscribe(fields => {
+      this.fields = fields;
+    });
   }
 
   ngOnInit() {
@@ -42,21 +54,26 @@ export class EmailTemplateComponent implements OnInit {
       body: ['', Validators.required]
     });
 
-    if (this.route.snapshot.paramMap.get('id') != null) {
-      this.emailTemplateDetails = this.route.snapshot.data.templateData;
-      this.emailTemplateForm.get('name').setValue(this.emailTemplateDetails.name);
-      this.emailTemplateForm.get('subject').setValue(this.emailTemplateDetails.subject);
-      this.emailTemplateForm.get('body').setValue(this.emailTemplateDetails.body);
-      this.checked = this.emailTemplateDetails.unsubscribeOptionEnabled;
-      this.popoverMessage = "Please confirm to Update.";
-      this.popoverTitle = "Update Template";
-      // if(this.checked)
-      //  {
-      //     this.addUnsubscribeLink();
-      //  }
+    if (this.route.snapshot.paramMap.get('id') != null && !this.route.snapshot.data['update']) {
+      this.emailService.getEmailTemplateByIdAndCreatedBy(this.route.snapshot.paramMap.get('id')).subscribe(templateData => {
+        this.updateFields(templateData);
+      });
+    } else if (this.route.snapshot.paramMap.get('id') != null && this.route.snapshot.data['update'] == true) {
+      this.emailService.getEmailTemplateById(this.route.snapshot.paramMap.get('id')).subscribe(templateData => {
+        this.updateFields(templateData);
+      })
     }
 
-    this.fields = this.route.snapshot.data.fields;
+  }
+
+  updateFields(data) {
+    this.emailTemplateDetails = data;
+    this.emailTemplateForm.get('name').setValue(this.emailTemplateDetails.name);
+    this.emailTemplateForm.get('subject').setValue(this.emailTemplateDetails.subject);
+    this.emailTemplateForm.get('body').setValue(this.emailTemplateDetails.body);
+    this.checked = this.emailTemplateDetails.unsubscribeOptionEnabled;
+    this.popoverMessage = "Please confirm to Update.";
+    this.popoverTitle = "Update Template";
   }
 
   addTemplate() {
@@ -134,7 +151,6 @@ export class EmailTemplateComponent implements OnInit {
       container.getElementsByTagName('footer').item(i).innerHTML = "";
     }
     this.emailTemplateForm.get('body').setValue(container.innerHTML.toString());
-
   }
-
+  
 }

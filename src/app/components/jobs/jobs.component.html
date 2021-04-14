@@ -7,7 +7,7 @@
 
       <mat-tab-group class="mat-group-content">
         <mat-tab label="Released Certificates">
-          <form [formGroup]="jobsForm">
+          <form *ngIf="jobsForm" [formGroup]="jobsForm">
             <div class="table-container" style="width: fit-content;">
               <table mat-table formArrayName="allJobs" [dataSource]="jobsDataSource" matSort class="mat-elevation-z8"
                 class="table table-bordered table-rounded">
@@ -130,10 +130,7 @@
               </app-custom-pagination>
 
             </div>
-
           </form>
-
-
         </mat-tab>
 
         <mat-tab label="Certificate Templates">

@@ -1,0 +1,13 @@
+.not-found {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.not-found h1 {
+    font-size: 5vw;
+    text-transform: uppercase;
+    color: red;
+}

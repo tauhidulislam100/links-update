@@ -1,0 +1,11 @@
+.app-content-wrapper {
+    position: relative;
+}
+
+.route-change-progress {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}

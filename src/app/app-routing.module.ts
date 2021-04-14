@@ -1,140 +1,130 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AuthGuardService as AuthGuard} from './_guards/auth-guard.service';
-import {RecipientsComponent} from './components/recipients/recipients.component';
-import {Resolver} from './resolver';
-import {CertificateResolver} from './certificateResolver';
-import {TagsResolver} from './tagsResolver';
-import {CertificateComponent} from './components/certificate/certificate.component';
-import {EmailComponent} from './components/email/email.component';
-import {ProfileComponent} from './components/profile/profile.component';
-import {TagsComponent} from './components/tags/tags.component';
-import {JobsComponent} from './components/jobs/jobs.component';
-import {EmailJobsComponent} from './components/email-jobs/email-jobs.component';
-import {EmailJobResolver} from './emailJobResolver';
-import {EmailJobDetailComponent} from './components/email-job-detail/email-job-detail.component';
-import {CertificateJobDetailComponent} from './components/certificate-job-detail/certificate-job-detail.component';
-import {EmailJobDetailResolver} from './emailJobDetailResolver';
-import {CertificateJobDetailResolver} from './certificateJobDetailResolver';
-import {ProfileResolver} from './profileResolver';
-import {NavBarResolver} from './navbarResolver';
-import {AdminLoginComponent} from './components/admin-login/admin-login.component';
-import {AdminProfileComponent} from './components/admin-profile/admin-profile.component';
-import {AdminProfileResolver} from './AdminProfileResolver';
-import {AdminProfileEditComponent} from './components/admin-profile-edit/admin-profile-edit.component';
-import {HomeComponent} from './components/home/home.component';
-import {FaqComponent} from './components/faq/faq.component';
-import {CertificateTemplateComponent} from './components/certificate-template/certificate-template.component';
-import {EmailTemplateComponent} from './components/email-template/email-template.component';
-import {NavbarComponent} from './components/navbar/navbar.component';
-import {RecipientsResolver} from './RecipientsResolver';
-import {CertificateTemplatesResolver} from './CertificateTemplatesResolver';
-import {EmailTemplatesResolver} from './EmailTemplatesResolver';
-import {FieldResolver} from './FieldResolver';
-import {UpdateEmailTemplateResolver} from './UpdateEmailTemplateResolver';
-import {UpdateCertificateTemplateResolver} from './UpdateCertificateTemplateResolver';
-import {HomeResolver} from './HomeResolver';
-import {EmailTemplatesCreatedByAdmin} from './EmailTemplatesCreatedByAdmin';
-import {EmailTemplateCreatedByResolver} from './EmailTemplateCreatedByResolver';
-import {GenerateCertificateTemplatesResolver} from './GenerateCertificateTemplatesResolver';
-import {SendEmailGetTemplatesCreatedByAdmin} from './SendEmailGetTemplates';
-import {RecipientFieldsResolver} from './RecipientsFieldsResolver';
-import { UnsubscribeListResolver } from './UnsubscribeListResolver';
+import { NgModule } from '@angular/core';
+import { Router, RouterModule, Routes } from '@angular/router';
+import { AuthGuardService as AuthGuard } from './_guards/auth-guard.service';
+import { EmailComponent } from './components/email/email.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { EmailJobDetailComponent } from './components/email-job-detail/email-job-detail.component';
+import { CertificateJobDetailComponent } from './components/certificate-job-detail/certificate-job-detail.component';
+import { EmailJobDetailResolver } from './emailJobDetailResolver';
+import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
+import { ProfileResolver } from './profileResolver';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
+import { AdminProfileResolver } from './AdminProfileResolver';
+import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
+import { FaqComponent } from './components/faq/faq.component';
+import { CertificateTemplateComponent } from './components/certificate-template/certificate-template.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { UpdateCertificateTemplateResolver } from './UpdateCertificateTemplateResolver';
+import { SendEmailGetTemplatesCreatedByAdmin } from './SendEmailGetTemplates';
+import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  {path: 'AdminLogin', component: AdminLoginComponent},
+  { path: 'AdminLogin', component: AdminLoginComponent },
+  { path: '404', component: NotFoundComponent },
   {
-    path: '', component: NavbarComponent, resolve: {data: NavBarResolver},
+    path: '', component: NavbarComponent,
     children: [
-      {path: '', component: HomeComponent, resolve: { summary: HomeResolver}},
+      {
+        path: '',
+        loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
+      },
       {
         path: 'Recipients',
-        component: RecipientsComponent,
+        loadChildren: () => import('./components/recipients/recipents.module').then(m => m.RecipentsModule),
         canActivate: [AuthGuard],
-        resolve: {newUsers: RecipientsResolver, fields: RecipientFieldsResolver}
       },
       {
         path: 'Recipients/:id',
-        component: RecipientsComponent,
+        loadChildren: () => import('./components/recipients/recipents.module').then(m => m.RecipentsModule),
         canActivate: [AuthGuard],
-        resolve: {users: Resolver, fields: RecipientFieldsResolver}
       },
       {
         path: 'GenerateCertificate',
-        component: CertificateComponent,
+        loadChildren: () => import('./components/certificate/certificate.module').then(m => m.CertificateModule),
         canActivate: [AuthGuard],
-        resolve: {templates: GenerateCertificateTemplatesResolver}
       },
       {
         path: 'SendEmail',
         component: EmailComponent,
         canActivate: [AuthGuard],
-        resolve: {fields: RecipientFieldsResolver, templates: SendEmailGetTemplatesCreatedByAdmin}
+        resolve: { fields: RecipientFieldsResolver, templates: SendEmailGetTemplatesCreatedByAdmin }
       },
       {
         path: 'Profile/:id',
         component: ProfileComponent,
         canActivate: [AuthGuard],
-        resolve: {detail: ProfileResolver, fields: RecipientFieldsResolver}
+        resolve: { detail: ProfileResolver, fields: RecipientFieldsResolver }
       },
       {
         path: 'Tags',
-        component: TagsComponent,
+        loadChildren: () => import('./components/tags/tags.module').then(m => m.TagsModule),
         canActivate: [AuthGuard],
-        resolve: {tags: TagsResolver, fields: FieldResolver}
       },
       {
         path: 'Certificates',
-        component: JobsComponent,
+        loadChildren: () => import('./components/jobs/jobs.module').then(m => m.JobsModule),
         canActivate: [AuthGuard],
-        resolve: {jobs: CertificateResolver, templates: CertificateTemplatesResolver}
       },
       {
         path: 'Emails',
-        component: EmailJobsComponent,
+        loadChildren: () => import('./components/email-jobs/email-jobs.module').then(m => m.EmailJobsModule),
         canActivate: [AuthGuard],
-        resolve: {
-          jobs: EmailJobResolver,
-          templates: EmailTemplatesCreatedByAdmin,
-          mappedTemplates: EmailTemplatesResolver,
-          // unsubscribedlist: UnsubscribeListResolver
-        }
       },
       {
         path: 'Emails/View/:id',
         component: EmailJobDetailComponent,
         canActivate: [AuthGuard],
-        resolve: {detail: EmailJobDetailResolver}
+        resolve: { detail: EmailJobDetailResolver }
       },
       {
         path: 'Certificates/View/:id',
         component: CertificateJobDetailComponent,
         canActivate: [AuthGuard],
-        resolve: {detail: CertificateJobDetailResolver}
+        resolve: { detail: CertificateJobDetailResolver }
       },
-      {path: 'AdminProfile', component: AdminProfileComponent, resolve: {details: AdminProfileResolver}},
-      {path: 'AdminProfile/Edit', component: AdminProfileEditComponent, resolve: {details: AdminProfileResolver}},
-      {path: 'FAQ', component: FaqComponent},
-      {path: 'FAQ/:title', component: FaqComponent},
-      {path: 'Certificates/AddTemplate', component: CertificateTemplateComponent},
+      {
+        path: 'AdminProfile',
+        component: AdminProfileComponent,
+        resolve: { details: AdminProfileResolver }
+      },
+      {
+        path: 'AdminProfile/Edit',
+        component: AdminProfileEditComponent, resolve:
+          { details: AdminProfileResolver }
+      },
+      {
+        path: 'FAQ', component: FaqComponent
+      },
+      {
+        path: 'FAQ/:title', component: FaqComponent
+      },
+      {
+        path: 'Certificates/AddTemplate',
+        component: CertificateTemplateComponent
+      },
       {
         path: 'Certificates/AddTemplate/:id',
         component: CertificateTemplateComponent,
-        resolve: {templateData: UpdateCertificateTemplateResolver, fields: RecipientFieldsResolver}
+        resolve: { templateData: UpdateCertificateTemplateResolver, fields: RecipientFieldsResolver }
       },
       {
         path: 'Emails/AddTemplate/:id/:type',
-        component: EmailTemplateComponent,
+        loadChildren: () => import('./components/email-template/email-template.module').then(m => m.EmailTemplateModule),
         canActivate: [AuthGuard],
-        resolve: {templateData: UpdateEmailTemplateResolver, fields: RecipientFieldsResolver}
+        data: { update: true },
       },
       {
         path: 'Emails/UpdateTemplate/:id',
-        component: EmailTemplateComponent,
+        loadChildren: () => import('./components/email-template/email-template.module').then(m => m.EmailTemplateModule),
         canActivate: [AuthGuard],
-        resolve: {templateData: EmailTemplateCreatedByResolver, fields: RecipientFieldsResolver}
       },
-      {path: 'Emails/AddTemplate', component: EmailTemplateComponent, resolve: {fields: RecipientFieldsResolver}}
+      {
+        path: 'Emails/AddTemplate',
+        loadChildren: () => import('./components/email-template/email-template.module').then(m => m.EmailTemplateModule),
+        canActivate: [AuthGuard],
+      }
     ]
   }
   // { path: 'Recipients',component: RecipientsComponent, canActivate: [AuthGuard], resolve: {newUsers : RecipientsResolver, fields:RecipientFieldsResolver} } ,
@@ -163,4 +153,10 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
+  constructor(private router: Router) {
+    this.router.errorHandler = (error: any) => {
+      // this.router.navigate(['404']); // or redirect to 404
+      console.log("error ", error.message);
+    }
+  }
 }

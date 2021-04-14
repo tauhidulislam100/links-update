@@ -1,17 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatDialog, MatTableDataSource} from '@angular/material';
-import {TagService} from '../../_services/tag.service';
-import {DialogOverviewExampleDialog} from '../recipients/recipients.component';
-import {RecipientService} from '../../_services/recipient.service';
-import {DialogService} from 'src/app/_services/dialog.service';
-import {FieldService} from 'src/app/_services/field.service';
-import {ConfigService} from 'src/app/_services/config.service';
-import {Page} from 'src/app/pagination/page';
-import {CustomPaginationService} from 'src/app/_services/custom-pagination.service';
-
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { TagService } from '../../_services/tag.service';
+import { DialogOverview } from '../dialog-overview/dialog-overview.component';
+import { DialogService } from 'src/app/_services/dialog.service';
+import { FieldService } from 'src/app/_services/field.service';
+import { ConfigService } from 'src/app/_services/config.service';
+import { Page } from 'src/app/pagination/page';
+import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
+import { slideUpAnimation } from 'src/app/_animations/slideUp';
 
 export interface JobData {
   id,
@@ -22,7 +21,9 @@ export interface JobData {
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.css']
+  styleUrls: ['./tags.component.css'],
+  animations: [slideUpAnimation],
+  host: {'[@slideUpAnimation]': ''},
 })
 export class TagsComponent implements OnInit {
   loader = false;
@@ -48,9 +49,16 @@ export class TagsComponent implements OnInit {
   fieldDeletePopoverMessage = "Please raise a support ticket to delete the selected field";
   selection = new SelectionModel<JobData>(true, []);
 
-  constructor(private route: ActivatedRoute,
-              private fb: FormBuilder, private tagService: TagService, private router: Router, private dialog: MatDialog, private userService: RecipientService, private dialogService: DialogService, private fieldService: FieldService
-    , private configService: ConfigService, private paginationService: CustomPaginationService) {
+  constructor(
+    private fb: FormBuilder, 
+    private tagService: TagService, 
+    private router: Router, 
+    private dialog: MatDialog, 
+    private dialogService: DialogService, 
+    private fieldService: FieldService, 
+    private configService: ConfigService, 
+    private paginationService: CustomPaginationService
+  ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
@@ -61,44 +69,46 @@ export class TagsComponent implements OnInit {
     this.isFieldDeleted = false;
     this.tagsForm = this.fb.group({});
     this.fieldsForm = this.fb.group({});
-    this.allTags = this.route.snapshot.data.tags.content;
-    this.tagsPage = this.route.snapshot.data.tags;
-    this.allFields = this.route.snapshot.data.fields.content;
-    this.fieldsPage = this.route.snapshot.data.fields;
-    this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
-    this.dataSource = new MatTableDataSource<JobData>(this.allTags);
+
+    this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(data => {
+      this.allTags = data.content;
+      this.tagsPage = data;
+      this.dataSource = new MatTableDataSource<JobData>(this.allTags);
+    });
+
+    this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(data => {
+      this.allFields = data.content;
+      this.fieldsPage = data;
+      this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
+    });
+
     this.displayedColumnsTags = ['id', 'name', 'created_on', 'no_of_recipients', 'update_tag', 'view_users'];
     this.displayedColumnsFields = ['id', 'fields', 'created_on', 'delete'];
   }
 
-  clicked(row) {
-  }
-
   updateTag(id) {
     this.dialogService.setTitle("tag");
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px'
     });
+
     dialogRef.afterClosed().subscribe(result => {
-
-
-      if (result.event == 'AddTag') {
+      if (result && result.event == 'AddTag') {
         this.loader = true;
         this.tagService.updateTag(id, result.data).subscribe(data => {
-            this.loader = false;
+          this.loader = false;
 
-            this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(
-              data => {
-                this.allTags = data.content;
-                this.dataSource = new MatTableDataSource<JobData>(this.allTags);
-                this.isTagUpdated = true;
-                this.isFieldDeleted = false;
-                this.isTagAdded = false;
-                this.isFieldAdded = false;
-              }
-            )
-          }
-          , error => {
+          this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(
+            data => {
+              this.allTags = data.content;
+              this.dataSource = new MatTableDataSource<JobData>(this.allTags);
+              this.isTagUpdated = true;
+              this.isFieldDeleted = false;
+              this.isTagAdded = false;
+              this.isFieldAdded = false;
+            }
+          )
+        }, error => {
 
             this.isFieldDeleted = false;
             this.isTagAdded = false;
@@ -110,11 +120,13 @@ export class TagsComponent implements OnInit {
     });
   }
 
+  clicked(row) {
+    console.log("row ", row);
+  }
   private getAllTags(): void {
     this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(page => {
       this.tagsPage = page;
       this.dataSource = new MatTableDataSource<JobData>(this.tagsPage.content);
-
     });
   }
 
@@ -131,10 +143,8 @@ export class TagsComponent implements OnInit {
 
   private getAllFields(): void {
     this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(page => {
-
       this.fieldsPage = page;
       this.fieldsDataSource = new MatTableDataSource<JobData>(page.content);
-
     });
   }
 
@@ -151,35 +161,33 @@ export class TagsComponent implements OnInit {
 
   updateField(id) {
     this.dialogService.setTitle("tag");
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px'
     });
+
     dialogRef.afterClosed().subscribe(result => {
-
-
-      if (result.event == 'AddTag') {
+      if (result && result.event == 'AddTag') {
         this.loader = true;
         this.fieldService.updateField(id, result.data).subscribe(data => {
-            this.loader = false;
+          this.loader = false;
 
-            this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(
-              data => {
-                this.allFields = data.content;
-                this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
-                this.isTagUpdated = false;
-                this.isFieldDeleted = true;
-                this.isTagAdded = false;
-                this.isFieldAdded = false;
-              }
-            )
-          }
-          , error => {
-            this.isFieldDeleted = false;
-            this.isTagAdded = false;
-            this.isFieldAdded = false;
-            this.isTagUpdated = false;
-            this.loader = false
-          });
+          this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(
+            data => {
+              this.allFields = data.content;
+              this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
+              this.isTagUpdated = false;
+              this.isFieldDeleted = true;
+              this.isTagAdded = false;
+              this.isFieldAdded = false;
+            }
+          )
+        }, error => {
+          this.isFieldDeleted = false;
+          this.isTagAdded = false;
+          this.isFieldAdded = false;
+          this.isTagUpdated = false;
+          this.loader = false
+        });
       }
     });
   }
@@ -187,79 +195,77 @@ export class TagsComponent implements OnInit {
 
   addTag() {
     this.dialogService.setTitle("tag");
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event == 'AddTag') {
+      if (result && result.event == 'AddTag') {
         this.loader = true;
         this.tagService.addTag(result.data).subscribe(data => {
-            this.loader = false;
-            if (data != null) {
-              this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(
-                data => {
-                  this.allTags = data.content;
-                  this.dataSource = new MatTableDataSource<JobData>(this.allTags);
-                  this.tagsPage = data;
-                  this.isFieldDeleted = false;
-                  this.isTagAdded = true;
-                  this.isFieldAdded = false;
-                  this.isTagUpdated = false;
-                  this.tagAlreadyExists = false;
-                }
-              )
-            } else {
-              this.tagAlreadyExists = true;
-            }
+          this.loader = false;
+          if (data != null) {
+            this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(
+              data => {
+                this.allTags = data.content;
+                this.dataSource = new MatTableDataSource<JobData>(this.allTags);
+                this.tagsPage = data;
+                this.isFieldDeleted = false;
+                this.isTagAdded = true;
+                this.isFieldAdded = false;
+                this.isTagUpdated = false;
+                this.tagAlreadyExists = false;
+              }
+            )
+          } else {
+            this.tagAlreadyExists = true;
           }
-          , error => {
-            this.isFieldDeleted = false;
-            this.isTagAdded = false;
-            this.isFieldAdded = false;
-            this.isTagUpdated = false;
-            this.tagAlreadyExists = false;
-            this.loader = false
-          });
+        }, error => {
+          this.isFieldDeleted = false;
+          this.isTagAdded = false;
+          this.isFieldAdded = false;
+          this.isTagUpdated = false;
+          this.tagAlreadyExists = false;
+          this.loader = false
+        });
       }
     });
   }
 
   addField() {
     this.dialogService.setTitle("field");
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    const dialogRef = this.dialog.open(DialogOverview, {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result.event == 'AddTag') {
+      if (result && result.event == 'AddTag') {
         this.loader = true;
         this.fieldService.addField(result.data).subscribe(data => {
-            this.loader = false;
-            if (data != null) {
-              this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(
-                data => {
-                  this.allFields = data.content;
-                  this.fieldsPage = data;
-                  this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
-                  this.isFieldDeleted = false;
-                  this.isTagAdded = false;
-                  this.isFieldAdded = true;
-                  this.isTagUpdated = false;
-                  this.fieldAlreadyExists = false;
+          this.loader = false;
+          if (data != null) {
+            this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(
+              data => {
+                this.allFields = data.content;
+                this.fieldsPage = data;
+                this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
+                this.isFieldDeleted = false;
+                this.isTagAdded = false;
+                this.isFieldAdded = true;
+                this.isTagUpdated = false;
+                this.fieldAlreadyExists = false;
 
-                }
-              )
-            } else {
-              this.fieldAlreadyExists = true;
-            }
+              }
+            )
+          } else {
+            this.fieldAlreadyExists = true;
           }
-          , error => {
-            this.isFieldDeleted = false;
-            this.isTagAdded = false;
-            this.isFieldAdded = false;
-            this.isTagUpdated = false;
-            this.fieldAlreadyExists = false;
-            this.loader = false
-          });
+        }, error => {
+          this.isFieldDeleted = false;
+          this.isTagAdded = false;
+          this.isFieldAdded = false;
+          this.isTagUpdated = false;
+          this.fieldAlreadyExists = false;
+          this.loader = false
+        });
       }
     });
   }
@@ -267,16 +273,12 @@ export class TagsComponent implements OnInit {
 
   view(row) {
     this.tagService.setFilterTag(row.id);
-
     this.router.navigate(['/allUsers/' + row.id]);
   }
 
   deleteField(id) {
     let title = "Ticket to delete a FIELD with id " + id;
     this.router.navigate(['/FAQ', title]);
-
-
-
   }
 }
 
