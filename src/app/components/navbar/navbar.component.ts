@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {AdminDetailService} from '../../_services/admin-detail.service';
-import {NavbarService} from 'src/app/_services/navbar.service';
-import {ConfigService} from 'src/app/_services/config.service';
+import { AdminDetailService } from '../../_services/admin-detail.service';
+import { NavbarService } from 'src/app/_services/navbar.service';
+import { ConfigService } from 'src/app/_services/config.service';
+import { preload } from 'src/app/utils/preload';
 
 @Component({
   selector: 'app-navbar',
@@ -27,17 +28,14 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.adminService.getLoggedInAdmin().subscribe(data => {
       this.userName = data.name;
       this.userEmail = data.email;
     });
 
-    this.pload(
+    this.icons = preload(
       this.assets_loc + "assets/logo-h.png"
     );
-
-
   }
 
   toggleDropDown(e) {
@@ -49,14 +47,4 @@ export class NavbarComponent implements OnInit {
     e.preventDefault();
     this.showMobileMenu = !this.showMobileMenu;
   }
-
-
-  pload(...args: any[]): void {
-    for (var i = 0; i < args.length; i++) {
-      this.icons[i] = new Image();
-      this.icons[i].src = args[i];
-      // console.log('loaded: ' + args[i]);
-    }
-  }
-
 }

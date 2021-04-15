@@ -13,6 +13,7 @@ import { ConfirmationDialogueComponent } from "../confirmation-dialogue/confirma
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from '@angular/router';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { SelectedTabService } from 'src/app/_services/selected-tab.service';
 
 export interface JobData {
   id,
@@ -70,6 +71,8 @@ export class JobsComponent implements OnInit {
   publishLimit;
   deletePopoverTitle = "Archive Task";
   deletePopoverMessage = "Please confirm archiving of task, once archived it cannot be unarchived."
+  compName = 'certificates';
+  selectedTab = 0;
   @ViewChild('message', { static: false }) message: ElementRef;
 
   constructor(
@@ -80,11 +83,14 @@ export class JobsComponent implements OnInit {
     private paginationService: CustomPaginationService,
     private renderer: Renderer2, 
     private configService: ConfigService, 
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private selectedTabService: SelectedTabService,
     ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
-    })
+    });
+
+    this.selectedTab = selectedTabService.getTab(this.compName);
   }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -119,6 +125,10 @@ export class JobsComponent implements OnInit {
     });
   }
 
+  handleTabChange(e) {
+    this.selectedTabService.setTab(this.compName, e.index);
+  }
+  
   //Jobs
   buildJobsForm() {
     this.jobsForm = this.fb.group({

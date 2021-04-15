@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { NavbarService } from './_services/navbar.service';
+import { Component, OnInit, OnDestroy,  ChangeDetectorRef,AfterContentChecked } from '@angular/core';
 import {
   Event,
   NavigationCancel,
@@ -8,18 +7,25 @@ import {
   NavigationStart,
   Router
 } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { LoaderService } from './_services/loader.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy, AfterContentChecked  {
   title = 'links-web';
   loading = false;
+  subscription: Subscription;
 
-  constructor(private nav: NavbarService, private router: Router) {
-    //route change animation show and hide
+  constructor(
+    private router: Router,
+    private loaderService: LoaderService,
+    private changeDetector: ChangeDetectorRef
+  ) {
+    //show loading spinner when route change
     this.router.events.subscribe((event: Event) => {
       switch (true) {
         case event instanceof NavigationStart: {
@@ -40,4 +46,17 @@ export class AppComponent {
     });
   }
 
+  ngAfterContentChecked() : void {
+    this.changeDetector.detectChanges();
+  }
+
+  ngOnInit() {
+    this.subscription = this.loaderService.loadingState.subscribe(isLoading => {
+      this.loading = isLoading;
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

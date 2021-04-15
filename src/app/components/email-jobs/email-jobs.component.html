@@ -7,7 +7,7 @@
       <div class="alert alert-success" role="alert" *ngIf="isArchived">
         Archived Successfully.
       </div>
-      <mat-tab-group class="mat-group-content">
+      <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
         <mat-tab label="Sent Emails">
           <div class="table-container">
             <table mat-table [dataSource]="sentEmailsDataSource" class="mat-elevation-z8"

@@ -8,6 +8,7 @@ import {ConfigService} from 'src/app/_services/config.service';
 import {Page} from 'src/app/pagination/page';
 import {CustomPaginationService} from 'src/app/_services/custom-pagination.service';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { SelectedTabService } from 'src/app/_services/selected-tab.service';
 
 @Component({
   selector: 'app-email-jobs',
@@ -36,11 +37,23 @@ export class EmailJobsComponent implements OnInit {
   deletePopoverMessage = "Please confirm archiving of template, once archived it cannot be unarchived."
   deletePopoverTitleJob = "Archive Task";
   deletePopoverMessageJob = "Please confirm archiving of task, once archived it cannot be unarchived."
+  selectedTab = 0;
+  compName = 'emails';
 
-  constructor(private paginationService: CustomPaginationService, private emailJobService: EmailJobService, private route: ActivatedRoute, private router: Router, private errorService: ErrorService, private emailService: EmailService, private configService: ConfigService) {
+  constructor(
+    private paginationService: CustomPaginationService, 
+    private emailJobService: EmailJobService, 
+    private route: ActivatedRoute, 
+    private router: Router, private errorService: ErrorService, 
+    private emailService: EmailService, 
+    private configService: ConfigService,
+    private selectedTabService: SelectedTabService,
+    ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
+
+    this.selectedTab = this.selectedTabService.getTab(this.compName);
   }
 
   ngOnInit() {
@@ -67,6 +80,10 @@ export class EmailJobsComponent implements OnInit {
     this.displayedColumnsSentEmails = ['id','status', 'subject', 'sent_on', 'no_of_recipients','seen', 'view', 'archive'];
     this.displayedColumnsEmailTemplates = ['id', 'email_templates', 'created_on', 'no_of_times_used', 'no_of_recipients', 'update', 'archive'];
     this.displayedColumnsMappedEmailTemplates = ['id', 'email_templates', 'created_on', 'no_of_times_used', 'no_of_recipients', 'update'];
+  }
+
+  handleTabChange(e) {
+    this.selectedTabService.setTab(this.compName, e.index);
   }
 
   private getAllJobs(): void {

@@ -14,20 +14,17 @@ import {DatePipe, HashLocationStrategy, LocationStrategy} from '@angular/common'
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {EmailComponent} from './components/email/email.component';
-import {ProfileComponent} from './components/profile/profile.component';
 import {ErrorInterceptor} from './_helpers/error.interceptor';
 import {EmailJobDetailComponent} from './components/email-job-detail/email-job-detail.component';
 import {CertificateJobDetailComponent} from './components/certificate-job-detail/certificate-job-detail.component';
 import {EmailJobDetailResolver} from './emailJobDetailResolver';
 import {CertificateJobDetailResolver} from './certificateJobDetailResolver';
-import {ProfileResolver} from './profileResolver';
 import {AdminLoginComponent} from './components/admin-login/admin-login.component';
 import {AdminProfileComponent} from './components/admin-profile/admin-profile.component';
 import {AdminProfileResolver} from './AdminProfileResolver';
 import {AdminProfileEditComponent} from './components/admin-profile-edit/admin-profile-edit.component';
 import {FaqComponent} from './components/faq/faq.component';
 import {CertificateTemplateComponent} from './components/certificate-template/certificate-template.component';
-import {NavBarResolver} from './navbarResolver';
 import {UpdateCertificateTemplateResolver} from './UpdateCertificateTemplateResolver';
 import {ConfigService} from './_services/config.service';
 import {SendEmailGetTemplatesCreatedByAdmin} from './SendEmailGetTemplates';
@@ -37,14 +34,19 @@ import {ConfirmationDialogueComponent} from './components/confirmation-dialogue/
 import { UnsubscribeListResolver } from './UnsubscribeListResolver';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SharedModule } from './shared.module';
-
+import { LoaderInterceptor } from './_helpers/loader.interceptor';
+import { LoaderService } from './_services/loader.service';
+import { CacheMapService } from './_services/cache/cache-map.service';
+import { Cache } from './_services/cache/cache';
+import { CachingInterceptor } from './_helpers/caching.interceptor';
+import { SelectedTabService } from './_services/selected-tab.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     EmailComponent,
-    ProfileComponent,
+    // ProfileComponent,
     EmailJobDetailComponent,
     CertificateJobDetailComponent,
     AdminLoginComponent,
@@ -75,18 +77,23 @@ import { SharedModule } from './shared.module';
     BrowserAnimationsModule,
     CKEditorModule,
   ],
-  providers: [AuthenticationService,
+  providers: [
+    AuthenticationService,
     AuthGuardService,
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
     JwtHelperService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    LoaderService,
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true},
+    CacheMapService,
+    {provide: Cache, useClass: CacheMapService},
+    {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
+    SelectedTabService,
     EmailJobDetailResolver,
     RecipientFieldsResolver,
     CertificateJobDetailResolver,
-    ProfileResolver,
     AdminProfileResolver,
-    NavBarResolver,
     SendEmailGetTemplatesCreatedByAdmin,
     UpdateCertificateTemplateResolver,
     UnsubscribeListResolver,
