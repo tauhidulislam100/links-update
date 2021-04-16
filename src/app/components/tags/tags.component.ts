@@ -12,6 +12,7 @@ import { Page } from 'src/app/pagination/page';
 import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { SelectedTabService } from 'src/app/_services/selected-tab.service';
+import { FieldType } from 'src/app/_types';
 
 export interface JobData {
   id,
@@ -28,7 +29,7 @@ export interface JobData {
 })
 export class TagsComponent implements OnInit {
   loader = false;
-  allTags;
+  allTags: JobData[] = [];
   assets_loc;
   tagsForm: FormGroup;
   displayedColumnsTags: string[];
@@ -42,7 +43,7 @@ export class TagsComponent implements OnInit {
   isTagAdded: boolean;
   tagAlreadyExists: boolean = false;
   fieldAlreadyExists: boolean = false;
-  allFields;
+  allFields: FieldType[] = [];
   tagsPage: Page<any> = new Page();
   fieldsPage: Page<any> = new Page();
   isFieldDeleted;
@@ -86,7 +87,7 @@ export class TagsComponent implements OnInit {
     this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(data => {
       this.allFields = data.content;
       this.fieldsPage = data;
-      this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
+      this.fieldsDataSource = new MatTableDataSource<FieldType>(this.allFields);
     });
 
     this.displayedColumnsTags = ['id', 'name', 'created_on', 'no_of_recipients', 'update_tag', 'view_users'];

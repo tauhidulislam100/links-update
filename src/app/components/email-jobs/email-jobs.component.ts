@@ -9,6 +9,7 @@ import {Page} from 'src/app/pagination/page';
 import {CustomPaginationService} from 'src/app/_services/custom-pagination.service';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { SelectedTabService } from 'src/app/_services/selected-tab.service';
+import { PageType } from 'src/app/_types';
 
 @Component({
   selector: 'app-email-jobs',
@@ -18,9 +19,9 @@ import { SelectedTabService } from 'src/app/_services/selected-tab.service';
   host: {'[@slideUpAnimation]': ''},
 })
 export class EmailJobsComponent implements OnInit {
-  jobsPage: Page<any> = new Page();
-  allTemplatesPage: Page<any> = new Page();
-  allMappedTemplatesPage: Page<any> = new Page();
+  jobsPage: Page<PageType> = new Page();
+  allTemplatesPage: Page<PageType> = new Page();
+  allMappedTemplatesPage: Page<PageType> = new Page();
   loader = false;
   allJobs;
   assets_loc;
@@ -62,19 +63,19 @@ export class EmailJobsComponent implements OnInit {
     this.emailJobService.getAllJobsPage(this.jobsPage.pageable).subscribe(page => {
       this.allJobs = page;
       this.jobsPage = this.allJobs;
-      this.sentEmailsDataSource = new MatTableDataSource<any>(this.allJobs.content);
+      this.sentEmailsDataSource = new MatTableDataSource<PageType>(this.allJobs.content);
     });
 
     this.emailService.getTemplatesCreatedByAdminPage(this.allTemplatesPage.pageable).subscribe(page => {
       this.allTemplatesPage = page;
       this.allTemplates = page;
-      this.emailTemplatesDataSource = new MatTableDataSource<any>(this.allTemplatesPage.content);
+      this.emailTemplatesDataSource = new MatTableDataSource<PageType>(this.allTemplatesPage.content);
     });
 
     this.emailJobService.getEmailTemplatesPage(this.allMappedTemplatesPage.pageable).subscribe(page => {
       this.allMappedTemplatesPage = page;
       this.allMappedTemplates = page;
-      this.emailTemplatesMappedToCertificatesDataSource = new MatTableDataSource<any>(this.allMappedTemplatesPage.content);
+      this.emailTemplatesMappedToCertificatesDataSource = new MatTableDataSource<PageType>(this.allMappedTemplatesPage.content);
     });
 
     this.displayedColumnsSentEmails = ['id','status', 'subject', 'sent_on', 'no_of_recipients','seen', 'view', 'archive'];
@@ -89,21 +90,21 @@ export class EmailJobsComponent implements OnInit {
   private getAllJobs(): void {
     this.emailJobService.getAllJobsPage(this.jobsPage.pageable).subscribe(page => {
       this.jobsPage = page;
-      this.sentEmailsDataSource = new MatTableDataSource<any>(this.jobsPage.content);
+      this.sentEmailsDataSource = new MatTableDataSource<PageType>(this.jobsPage.content);
     });
   }
 
   private getAllTemplates(): void {
     this.emailService.getTemplatesCreatedByAdminPage(this.allTemplatesPage.pageable).subscribe(page => {
       this.allTemplatesPage = page;
-      this.emailTemplatesDataSource = new MatTableDataSource<any>(this.allTemplatesPage.content);
+      this.emailTemplatesDataSource = new MatTableDataSource<PageType>(this.allTemplatesPage.content);
     });
   }
 
   private getAllMappedTemplates(): void {
     this.emailJobService.getEmailTemplatesPage(this.allMappedTemplatesPage.pageable).subscribe(page => {
       this.allMappedTemplatesPage = page;
-      this.emailTemplatesMappedToCertificatesDataSource = new MatTableDataSource<any>(this.allMappedTemplatesPage.content);
+      this.emailTemplatesMappedToCertificatesDataSource = new MatTableDataSource<PageType>(this.allMappedTemplatesPage.content);
     });
   }
 

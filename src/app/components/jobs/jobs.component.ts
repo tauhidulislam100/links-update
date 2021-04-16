@@ -11,9 +11,9 @@ import { Page } from 'src/app/pagination/page';
 import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
 import { ConfirmationDialogueComponent } from "../confirmation-dialogue/confirmation-dialogue.component";
 import { MatDialog } from "@angular/material/dialog";
-import { Router } from '@angular/router';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { SelectedTabService } from 'src/app/_services/selected-tab.service';
+import { PageType } from 'src/app/_types';
 
 export interface JobData {
   id,
@@ -39,8 +39,8 @@ export class JobsComponent implements OnInit {
   popoverData = '';
   popperTop: '100px';
   popperLeft: '100px';
-  page: Page<any> = new Page();
-  templatePage: Page<any> = new Page();
+  page: Page<PageType> = new Page();
+  templatePage: Page<PageType> = new Page();
   assets_loc;
   allJobs;
   loader = false;
@@ -76,7 +76,6 @@ export class JobsComponent implements OnInit {
   @ViewChild('message', { static: false }) message: ElementRef;
 
   constructor(
-    private router: Router,
     private certificateService: CertificateService,
     private fb: FormBuilder,
     private errorService: ErrorService,
@@ -139,7 +138,7 @@ export class JobsComponent implements OnInit {
   private getAllJobs(): void {
     this.certificateService.getAllJobsPage(this.page.pageable).subscribe(page => {
       this.page = page;
-      this.jobsDataSource = new MatTableDataSource<JobData>(this.page.content);
+      this.jobsDataSource = new MatTableDataSource<{}>(this.page.content);
 
     });
   }
@@ -147,7 +146,7 @@ export class JobsComponent implements OnInit {
   private getAllTemplates(): void {
     this.certificateService.getCertificateTemplatesPage(this.templatePage.pageable).subscribe(page => {
       this.templatePage = page;
-      this.certificateDataSource = new MatTableDataSource<JobData>(this.templatePage.content);
+      this.certificateDataSource = new MatTableDataSource<{}>(this.templatePage.content);
 
     });
   }

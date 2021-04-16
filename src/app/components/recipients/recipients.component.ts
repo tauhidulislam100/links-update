@@ -22,6 +22,7 @@ import { preload } from 'src/app/utils/preload';
 import { DialogOverview } from 'src/app/components/dialog-overview/dialog-overview.component'
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { Subscription } from 'rxjs';
+import { FieldType, UserType } from 'src/app/_types';
 
 export interface UserData {
   checkBox,
@@ -40,7 +41,7 @@ export interface UserData {
 })
 export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   loader = false;
-  allUsers: any[];
+  allUsers: UserType[];
   searchResultSize;
   usersForm: FormGroup;
   displayedColumns: string[];
@@ -58,7 +59,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   expandedView;
   tagged: boolean;
   isSavedOrUpdated: boolean;
-  fields: any[];
+  fields: FieldType[];
   icons = [];
   subscription: Subscription[] = [];
   showNewRecipients = true;
@@ -152,7 +153,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.subscription[2] = this.recipentService.getAllNewUsers().subscribe(data => {
         this.allUsers = data;
         this.addCheckboxes();
-        this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
+        this.dataSource = new MatTableDataSource<UserType>(this.allUsers);
         this.displayedColumns = ['select', 'id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
       });
     }
@@ -246,8 +247,6 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           this.noOfRecipientsNotFound = result.totalRecipientsNotFound;
           this.previewDataSource = new MatTableDataSource<any>(result.recipientsToPreview);
           this.searchResultSize = result.totalRecipientsFound;
-          let duplicates = result.duplicates;
-          // this.searchDataSource = new MatTableDataSource<any>(this.allUsers);
           let div = this.renderer.createElement('div');
           if (this.noOfRecipientsNotFound > 0) {
             if (result.duplicates == 0) {
