@@ -1,7 +1,9 @@
 <nav class="navbar navbar-expand-lg link_header mb-5">
   <div class="container-fluid">
     <div class="navbar-brand">
-      <a class="logo" [routerLink]="'/'"><img src={{icons[0].src}} alt=""> <span class="ml-4">Links</span></a>
+      <a class="logo" [routerLink]="'/'">
+        <img src="../../../assets/logo.svg" alt="">
+      </a>
     </div>
     <button class="navbar-toggler" (click)="toggleMobileMenu($event)" type="button" data-toggle="collapse"
       data-target="#link_header" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -12,7 +14,7 @@
       <ul class="navbar-nav w-100 d-flex justify-content-center">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="'/'" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact:true}">Home</a>
+            [routerLinkActiveOptions]="{exact:true}">Dashboard</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="'/Recipients'" routerLinkActive="active">Recipients</a>

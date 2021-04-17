@@ -1,120 +1,102 @@
 <!--<app-navbar></app-navbar>-->
 
 <div class="container mt-6">
+  <div class="alert alert-secondary mb-5" role="alert">
+     <div class="row align-items-center">
+        <div class="col">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20.289" height="20.289" viewBox="0 0 20.289 20.289">
+            <path id="Path_178" data-name="Path 178" d="M12.145,2A10.145,10.145,0,1,0,22.289,12.145,10.148,10.148,0,0,0,12.145,2Zm0,15.217A1.017,1.017,0,0,1,11.13,16.2V12.145a1.014,1.014,0,0,1,2.029,0V16.2A1.017,1.017,0,0,1,12.145,17.217Zm.866-8.252a1.212,1.212,0,0,1-1.763,0,1.167,1.167,0,0,1,0-1.725,1.212,1.212,0,0,1,1.763,0A1.167,1.167,0,0,1,13.01,8.965Z" transform="translate(-2 -2)" fill="#28293d"/>
+          </svg>
+          There are 48 recipients who have not been informed of their newly issued certificates, inform them. <a href="#">Send Emails Now</a>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">Dismiss</span>
+          </button>
+        </div>
+
+     </div>
+  </div>
   <div class="row">
     <div class="col-md-4">
       <app-errors></app-errors>
       <mat-card>
-        <div class="top-left-text">
-          <div id="total-recipients">
-            <img [src]="icons[0]" alt="icon">
-          </div>
-        </div>
-        <div class="card-text">
-          <div class="number-text">
-            {{home.totalNoOfRecipients}}
-
-          </div>
-          <h5> Total number of recipients</h5>
+        <h5 class="card-text"> Total number of recipients </h5>
+        <div class="justify-content-between align-items-end d-flex">
+            <div class="number-text">
+              {{home.totalNoOfRecipients}}
+            </div>
+            <div class="icon-area">
+              <i class="fas fa-user-friends"></i>
+            </div>
         </div>
       </mat-card>
     </div>
     <div class="col-md-4">
       <mat-card>
-        <div class="top-left-text">
-          <div id="total-certificates">
-            <img [src]="icons[1]" alt="icon">
-          </div>
-        </div>
-        <div class="card-text">
-          <div class="number-text">
-            {{home.totalCertificatesReleased}}
-
-          </div>
-          <h5> Total certificates released</h5>
+        <h5 class="card-text"> Total certificates released </h5>
+        <div class="justify-content-between align-items-end d-flex">
+            <div class="number-text">
+              {{home.totalCertificatesReleased}}
+            </div>
+            <div class="icon-area">
+              <i class="far fa-file-alt"></i>
+            </div>
         </div>
       </mat-card>
     </div>
-
     <div class="col-md-4">
       <mat-card>
-        <div class="top-left-text">
-          <div id="total-emails">
-            <img [src]="icons[2]" alt="icon">
-          </div>
-        </div>
-        <div class="card-text">
-          <div class="number-text">
-            {{home.totalEmailsSent}}
-
-          </div>
-          <h5> Total emails sent</h5>
+        <h5 class="card-text"> Total emails sent </h5>
+        <div class="justify-content-between align-items-end d-flex">
+            <div class="number-text">
+              {{home.totalEmailsSent}}
+            </div>
+            <div class="icon-area">
+              <i class="fas fa-envelope"></i> 
+            </div>
         </div>
       </mat-card>
     </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-4">
       <mat-card>
-        <div class="top-right-text">
-          {{home.changeInRecipientsAddedThisMonth}}%
-        </div>
-        <div class="top-left-text">
-          <div id="total-recipients-this-month">
-            <img [src]="icons[3]" alt="icon">
-          </div>
-        </div>
-        <div class="card-text">
-          <div class="number-text">
-            {{home.totalRecipientsAddedThisMonth}}
-
-          </div>
-          <h5> Recipients added this month </h5>
+        <h5 class="card-text"> Recipients added this month </h5>
+        <div class="justify-content-between align-items-end d-flex">
+            <div class="number-text">
+              {{home.totalCertificatesReleasedThisMonth}}
+            </div>
+            <div class="icon-area text">
+              {{home.changeInRecipientsAddedThisMonth}}%
+            </div>
         </div>
       </mat-card>
     </div>
-
     <div class="col-md-4">
       <mat-card>
-        <div class="top-right-text">
-          {{home.changeInCertificatesReleasedThisMonth}}%
-        </div>
-        <div class="top-left-text">
-          <div id="total-certificates-this-month">
-            <img [src]="icons[4]" alt="icon">
-          </div>
-        </div>
-        <div class="card-text">
-          <div class="number-text">
-            {{home.totalCertificatesReleasedThisMonth}}
-
-          </div>
-          <h5> Certificates released this month</h5>
+        <h5 class="card-text"> Certificates released this month </h5>
+        <div class="justify-content-between align-items-end d-flex">
+            <div class="number-text">
+              {{home.totalCertificatesReleasedThisMonth}}
+            </div>
+            <div class="icon-area text red">
+              {{home.changeInCertificatesReleasedThisMonth}}%
+            </div>
         </div>
       </mat-card>
     </div>
-
-
     <div class="col-md-4">
       <mat-card>
-        <div class="top-right-text">
-          {{home.changeInEmailSentThisMonth}}%
-        </div>
-        <div class="top-left-text">
-          <div id="total-emails-this-month">
-            <img [src]="icons[5]" alt="icon">
-          </div>
-        </div>
-        <div class="card-text">
-          <div class="number-text">
-            {{home.totalEmailsSentThisMonth}}
-
-          </div>
-          <h5> Emails sent this month</h5>
+        <h5 class="card-text"> Emails sent this month </h5>
+        <div class="justify-content-between align-items-end d-flex">
+            <div class="number-text">
+              {{home.totalEmailsSentThisMonth}}
+            </div>
+            <div class="icon-area text">
+              {{home.changeInEmailSentThisMonth}}%
+            </div>
         </div>
       </mat-card>
-
     </div>
+
   </div>
 </div>

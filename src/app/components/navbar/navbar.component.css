@@ -45,7 +45,7 @@
 } */
 
 .link_header .navbar-nav li a {
-  color: white;
+  color:#CACACA;
   font-size: 15px;
   font-weight: 500;
   padding-left: 0 !important;
@@ -56,6 +56,7 @@
 
 .link_header .navbar-nav li a:hover, .link_header .navbar-nav li a.active {
   border-bottom: 2px solid #FF3A00;
+  color: white;
 }
 
 @media (max-width: 990px) {
