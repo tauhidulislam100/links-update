@@ -13,7 +13,7 @@ import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
 })
 export class LoginComponent implements OnInit {
   step: 'login' | 'otp' = 'login';
-  formInput = ['input1', 'input2', 'input3', 'input4'];
+  formInput = ['input1', 'input2', 'input3', 'input4', 'input5', 'input6'];
   returnUrl: string;
   countDownTime: number; //secs
   showLoader = true;
@@ -37,6 +37,14 @@ export class LoginComponent implements OnInit {
         Validators.pattern(/^[0-9]$/),
       ]),
       'input4': new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
+      'input5': new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
+      'input6': new FormControl('', [
         Validators.required,
         Validators.pattern(/^[0-9]$/),
       ]),
