@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Saira:wght@200;400;600;800&display=swap');
 
 .nav {
     margin-top: 0px;
@@ -95,7 +96,7 @@ color: #fff;
 
 
 .btn-orange-outline {
-  border: 1px solid #FF3A00 !important;
+  border: 1.5px solid #FF3A00 !important;
   min-width: 8rem;
   display: inline-flex;
   border: 0;
@@ -115,6 +116,15 @@ color: #fff;
 .btn-orange-outline svg {
   margin-right: 1em;
 }
+
+.btn-md {
+  height: 50px;
+  border-radius: 8px;
+  font-family: 'Saira', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+}
+
 
 .ck-editor .ck.ck-sticky-panel__content .ck.ck-toolbar {
   border: 0;
@@ -437,4 +447,28 @@ profile
   margin-top: 1rem;
 } 
 
-/*  */
+/**
+login register page realted style
+*/
+.auth-form .form-group {
+  margin-bottom: 2rem;
+}
+
+.auth-form .form-control {
+  height: 50px;
+  border-color: #707070;
+  color: #707070;
+  outline: none;
+  box-shadow: none;
+}
+.auth-form .form-control.ng-touched.ng-dirty.ng-invalid {
+  border-color: #FF3A00;
+}
+
+.form-step {
+  position: relative;
+  display: none;
+}
+.form-step.active {
+  display: block;
+}

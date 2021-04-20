@@ -1,0 +1,100 @@
+<app-loader *ngIf="showLoader"></app-loader>
+<app-noauthnav></app-noauthnav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <app-errors></app-errors>
+        </div>
+    </div>
+</div>
+
+<div class="container-wrapper">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-xl-5 col-lg-8 col-md-8 col-12">
+                <div class="card shadow border-0 auth-card">
+                    <h2 class="title" *ngIf="step === 1">Welcome Aboard!</h2>
+                    <h4 class="subtitle my-4">New User Registration</h4>
+                    
+                    <form class="auth-form" [formGroup]="registerForm">
+                        <div class="form-step" [ngClass]="{active: step == 1}">
+                            <div class="form-group">
+                                <input type="text" formControlName="name" class="form-control" placeholder="Your Name"/>
+                                <small *ngIf="showError && registerForm.get('name').invalid"   class="form-text text-danger text-left">
+                                    Name is required field.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <input  type="text" formControlName="designation" class="form-control" placeholder="Your Designation" />
+                                <small *ngIf="showError && registerForm.get('designation').invalid"   class="form-text text-danger text-left">
+                                    Designation field is required
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" formControlName="email" placeholder="Your Email*" />
+                                <small *ngIf="showError && registerForm.get('email').invalid"   class="form-text text-danger text-left">
+                                    Invalid email provided.
+                                </small>
+                                <small id="emailHelp" class="form-text text-muted text-right">
+                                    *This email will be used as username for log in
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-step" [ngClass]="{active: step == 2}">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="organization_name" placeholder="Organization Name" />
+                                <small *ngIf="showError && registerForm.get('organization_name').invalid"   class="form-text text-danger text-left">
+                                    this field is required.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" formControlName="official_email" class="form-control" placeholder="Official Email" />
+                                <small *ngIf="showError && registerForm.get('official_email').invalid"   class="form-text text-danger text-left">
+                                    invalid value provied.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <input type="url" fromControlName="website" class="form-control" placeholder="Official Website" />
+                                <small *ngIf="showError && registerForm.get('website').invalid"   class="form-text text-danger text-left">
+                                    invalid value provied.
+                                </small>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6 mb-4 mb-xl-0 mb-lg-0 mb-md-0">
+                                    <input type="text" formControlName="city" class="form-control" placeholder="City" />
+                                    <small *ngIf="showError && registerForm.get('city').invalid"   class="form-text text-danger text-left">
+                                        invalid value provied.
+                                    </small>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" formControlName="phone" class="form-control" placeholder="Phone Number" />
+                                    <small *ngIf="showError && registerForm.get('phone').invalid"   class="form-text text-danger text-left">
+                                        invalid value provied.
+                                    </small>
+                                    <!-- <select name="country" id="country" class="form-control">
+                                        <option value="bd">Bangladesh</option>
+                                        <option value="in">India</option>
+                                    </select> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="step === 2">
+                            <p class="terms">By continuing you accept our <a href="#">Terms of Use</a> & <a href="#">Privacy Policy.</a></p>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-block btn-orange-light btn-md" (click)="handleSubmit()">
+                                {{step === 1 ? 'Next' : 'Register'}}
+                            </button>
+                        </div>
+                        <div class="steps">
+                            <div class="step" [ngClass]="{active: step === 1}" (click)="goPrevStep()"></div>
+                            <div class="step" [ngClass]="{active: step === 2}" (click)="goNextStep()"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+.loader {
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+.content {
+    width: 250px;
+    text-align: center;
+}
+.content img {
+    max-width: 100%;
+}
+.loader-progress {
+    margin-top: 20px;
+    width: 100%;
+    height: 7px;
+    border-radius: 7px;
+    background: #CACACA;
+    overflow: hidden;
+}
+
+.loader-progress .inner-progress {
+    width: 0%;
+    height: 100%;
+    display: block;
+    background: #FF3A00;
+    transition: all 25ms linear;
+}

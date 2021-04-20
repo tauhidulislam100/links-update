@@ -19,8 +19,22 @@ import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  { path: 'AdminLogin', component: AdminLoginComponent },
-  { path: '404', component: NotFoundComponent },
+  {
+    path: 'register',
+    loadChildren: () => import('./components/register/register.module').then(m => m.RegisterModule), 
+  },
+  {
+    path: 'AdminLogin',
+    loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule), 
+  },
+  // { 
+  //   path: 'AdminLogin', 
+  //   component: AdminLoginComponent 
+  // },
+  { 
+    path: '404', 
+    component: NotFoundComponent 
+  },
   {
     path: '', component: NavbarComponent,
     children: [
