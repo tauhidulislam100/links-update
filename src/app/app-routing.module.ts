@@ -2,12 +2,10 @@ import { NgModule } from '@angular/core';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService as AuthGuard } from './_guards/auth-guard.service';
 import { EmailComponent } from './components/email/email.component';
-import { ProfileComponent } from './components/profile/profile.component';
 import { EmailJobDetailComponent } from './components/email-job-detail/email-job-detail.component';
 import { CertificateJobDetailComponent } from './components/certificate-job-detail/certificate-job-detail.component';
 import { EmailJobDetailResolver } from './emailJobDetailResolver';
 import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
-import { ProfileResolver } from './profileResolver';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
 import { AdminProfileResolver } from './AdminProfileResolver';
@@ -28,7 +26,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
+        loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'Recipients',
@@ -53,9 +52,8 @@ const routes: Routes = [
       },
       {
         path: 'Profile/:id',
-        component: ProfileComponent,
-        canActivate: [AuthGuard],
-        resolve: { detail: ProfileResolver, fields: RecipientFieldsResolver }
+        loadChildren: () => import('./components/profile/profile.module').then(m => m.ProfileModule),
+        canActivate: [AuthGuard]
       },
       {
         path: 'Tags',

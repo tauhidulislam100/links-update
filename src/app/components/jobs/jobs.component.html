@@ -5,7 +5,7 @@
       <app-errors></app-errors>
       <div #message></div>
 
-      <mat-tab-group class="mat-group-content">
+      <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
         <mat-tab label="Released Certificates">
           <form *ngIf="jobsForm" [formGroup]="jobsForm">
             <div class="table-container" style="width: fit-content;">

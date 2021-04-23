@@ -1,71 +1,143 @@
 <!--<app-navbar></app-navbar>-->
 <div class="container mt-6">
-  <div class="row">
-    <div class="col-md-12">
-      <app-errors></app-errors>
-      <div class="send-mail-heading">
-        <h3>Profile</h3>
+  <div class="profile-area">
+    <app-errors></app-errors>
+    <div class="profile-header row  align-items-center">
+      <div class="col">
+         <h3> <a href="#" class="back"><i class="fas fa-arrow-left"></i></a>  My Profile</h3>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-6">
-      <table width="100%">
-        <tr>
-          <td class="left-table-content">Name:</td>
-          <td class="right-table-conten">{{admin.name}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Designation:</td>
-          <td class="right-table-conten">{{admin.designation}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Email:</td>
-          <td class="right-table-conten">{{admin.email}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Organization:</td>
-          <td class="right-table-conten">{{admin.organization_name}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Organization Email:</td>
-          <td class="right-table-conten">{{admin.official_email}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Website:</td>
-          <td class="right-table-conten">{{admin.website}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">City:</td>
-          <td class="right-table-conten">{{admin.city}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Total Email Limit:</td>
-          <td class="right-table-conten">{{admin.emails_limit}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Total Certificate Publish Limit:</td>
-          <td class="right-table-conten">{{admin.certificate_push_limit}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Email Limit Remaining:</td>
-          <td class="right-table-conten">{{admin.emailLimitRemaining}}</td>
-        </tr>
-        <tr>
-          <td class="left-table-content">Certificate Publish Limit Remaining:</td>
-          <td class="right-table-conten">{{admin.certificatePushLimitRemaining}}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md">
-      <div style="margin-bottom: 20px" class="filter-btn">
-        <button class="btn-orange-outline" (click)="edit()"><img src="{{assets_loc}}assets/request_update.svg" />Request
-          Update
-        </button>
-      </div>
-    </div>
-  </div>
+      <div class="col-auto">
+        <a class="btn-orange-outline" [routerLink]="'/AdminLogin'"> 
+          <svg xmlns="http://www.w3.org/2000/svg" width="16.598" height="16.598" viewBox="0 0 16.598 16.598">
+            <g id="Icon_feather-log-out" data-name="Icon feather-log-out" transform="translate(15.848 15.848) rotate(180)">
+              <path id="Path_192" data-name="Path 192" d="M5.033,15.1H1.678A1.678,1.678,0,0,1,0,13.421V1.678A1.678,1.678,0,0,1,1.678,0H5.033" transform="translate(0 0)" fill="none" stroke="#707070" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <path id="Path_193" data-name="Path 193" d="M0,8.388,4.194,4.194,0,0" transform="translate(10.904 3.355)" fill="none" stroke="#707070" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <path id="Path_194" data-name="Path 194" d="M10.065,0H0" transform="translate(5.033 7.549)" fill="none" stroke="#707070" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+            </g>
+          </svg>
+          Log Out
+        </a>
 
+        <button class="btn-orange-outline" (click)="edit()">   
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19">
+            <g id="update-24px_1_" data-name="update-24px (1)" transform="translate(-0.449 -0.631)">
+              <g id="Group_529" data-name="Group 529" transform="translate(0.449 0.132)">
+                <rect id="Rectangle_111" data-name="Rectangle 111" width="19" height="19" transform="translate(0 0.5)" fill="none"/>
+              </g>
+              <g id="Group_531" data-name="Group 531" transform="translate(2.525 2.517)">
+                <g id="Group_530" data-name="Group 530">
+                  <path id="Path_196" data-name="Path 196" d="M18.02,8.424V4.01a.413.413,0,0,0-.709-.292L15.826,5.2a7.511,7.511,0,1,0,2.136,6.242.838.838,0,0,0-.834-.935.821.821,0,0,0-.818.718,5.854,5.854,0,0,1-5.883,5.123,5.927,5.927,0,0,1-5.758-5.758A5.842,5.842,0,0,1,14.641,6.38L12.9,8.124a.418.418,0,0,0,.292.718H17.6A.413.413,0,0,0,18.02,8.424Z" transform="translate(-3.003 -3.003)" fill="#ff3a00"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+          Request Update
+        </button>
+        
+      </div>
+    </div>
+    <!-- End profile header -->
+
+    <div class="user_part border p-3">
+      <div class="row align-items-center ">
+         <div class="col-auto">
+            <img src="../../../assets/avater.png" alt="">
+         </div>
+         <div class="col-auto">
+           <h4>{{admin.name}}</h4>
+           <p>{{admin.designation}} web developer</p>
+           <h6>{{admin.email}}</h6>
+         </div>
+      </div>
+   </div>
+   <!-- End user part -->
+
+   <div class="user_details mt-3 mb-3">
+      <div class="row px-3">
+         <div class="col-md-8 border p-3">
+             <div class="row">
+                <div class="col-lg-6">
+                   <p>Organization Name: <strong>{{admin.organization_name}}</strong></p>
+                   <p>Organization Email: <strong>{{admin.official_email}}</strong></p>
+                </div>
+
+                <div class="col-lg-6">
+                 <p>Website : <strong>{{admin.website}}</strong> </p>
+                 <p>City: <strong>{{admin.city}}</strong> </p>
+                </div>
+             </div>
+         </div>
+         <div class="col-md-4 pr-0">
+           <div class="w-100 border p-3">
+             <p> Email Limit: <strong>{{admin.emails_limit}}</strong></p>
+             <p>Certificate Publish Limit: <strong>{{admin.certificate_push_limit}}</strong></p>
+           </div>
+         </div>
+      </div>
+   </div>
+   <!-- End user details -->
+
+   <div class="upgrade_plan">
+      <div class="row">
+        <div class="col">
+           <div class="row px-3">
+              <div class="col-auto">
+                <img src="../../../assets/logo-h.png" alt="">
+              </div>
+              <div class="col pl-3">
+                <h2>Upgrade Your Plan</h2>
+                <p>And enjoy exclusive member benefits!</p>
+              </div>
+           </div>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-orange-medium"> 
+            <svg xmlns="http://www.w3.org/2000/svg" width="21.829" height="21.829" viewBox="0 0 21.829 21.829">
+              <g id="local_police-24px" transform="translate(-0.864 -0.543)">
+                <rect id="Rectangle_109" data-name="Rectangle 109" width="21.829" height="21.829" transform="translate(0.864 0.543)" fill="none"/>
+                <path id="Path_195" data-name="Path 195" d="M13.781,11.877l.591,2.559a.47.47,0,0,1-.7.506l-2.231-1.35L9.2,14.943a.47.47,0,0,1-.7-.506l.6-2.55-1.969-1.7a.469.469,0,0,1,.262-.825L9.994,9.14l1.012-2.4a.467.467,0,0,1,.862,0L12.881,9.13l2.606.225a.469.469,0,0,1,.262.825ZM4.116,4.265A1.883,1.883,0,0,0,3,5.98v4.406c0,5.2,3.6,10.068,8.437,11.25,4.837-1.181,8.437-6.047,8.437-11.25V5.98a1.883,1.883,0,0,0-1.116-1.716L12.2,1.349a1.864,1.864,0,0,0-1.519,0Z" transform="translate(-0.306 -0.099)" fill="#fff"/>
+              </g>
+            </svg>
+            Upgrade Now!</button>
+        </div>
+      </div>
+      <div class="row">
+         <div class="col-md-4">
+            <div class="row px-3">
+              <div class="col-auto icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div class="col pl-2">
+                <h4>asdfs</h4>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque facere iure corrupti error reprehenderit soluta incidunt quibusdam </p>
+              </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="row px-3">
+              <div class="col-auto icon">
+                <i class="fas fa-lock"></i>
+              </div>
+              <div class="col pl-2">
+                <h4>asdfs</h4>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque facere iure corrupti error reprehenderit soluta incidunt quibusdam </p>
+              </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="row px-3">
+              <div class="col-auto icon">
+                <i class="far fa-check-circle"></i>
+              </div>
+              <div class="col pl-2">
+                <h4>asdfs</h4>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque facere iure corrupti error reprehenderit soluta incidunt quibusdam </p>
+              </div>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+  </div>
 </div>

@@ -11,6 +11,8 @@ import { ConfigService } from 'src/app/_services/config.service';
 import { Page } from 'src/app/pagination/page';
 import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { SelectedTabService } from 'src/app/_services/selected-tab.service';
+import { FieldType } from 'src/app/_types';
 
 export interface JobData {
   id,
@@ -23,11 +25,11 @@ export interface JobData {
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.css'],
   animations: [slideUpAnimation],
-  host: {'[@slideUpAnimation]': ''},
+  host: { '[@slideUpAnimation]': '' },
 })
 export class TagsComponent implements OnInit {
   loader = false;
-  allTags;
+  allTags: JobData[] = [];
   assets_loc;
   tagsForm: FormGroup;
   displayedColumnsTags: string[];
@@ -41,27 +43,33 @@ export class TagsComponent implements OnInit {
   isTagAdded: boolean;
   tagAlreadyExists: boolean = false;
   fieldAlreadyExists: boolean = false;
-  allFields;
+  allFields: FieldType[] = [];
   tagsPage: Page<any> = new Page();
   fieldsPage: Page<any> = new Page();
   isFieldDeleted;
   fieldDeletePopoverTitle = "Delete Field";
   fieldDeletePopoverMessage = "Please raise a support ticket to delete the selected field";
   selection = new SelectionModel<JobData>(true, []);
+  selectedTab = 0;
+  compName = 'tags';
 
   constructor(
-    private fb: FormBuilder, 
-    private tagService: TagService, 
-    private router: Router, 
-    private dialog: MatDialog, 
-    private dialogService: DialogService, 
-    private fieldService: FieldService, 
-    private configService: ConfigService, 
-    private paginationService: CustomPaginationService
+    private fb: FormBuilder,
+    private tagService: TagService,
+    private router: Router,
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private fieldService: FieldService,
+    private configService: ConfigService,
+    private paginationService: CustomPaginationService,
+    private selectedTabService: SelectedTabService,
   ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
+
+    this.selectedTab = this.selectedTabService.getTab(this.compName);
+    console.log("selected Tab ", this.selectedTab);
   }
 
   ngOnInit() {
@@ -79,11 +87,15 @@ export class TagsComponent implements OnInit {
     this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(data => {
       this.allFields = data.content;
       this.fieldsPage = data;
-      this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
+      this.fieldsDataSource = new MatTableDataSource<FieldType>(this.allFields);
     });
 
     this.displayedColumnsTags = ['id', 'name', 'created_on', 'no_of_recipients', 'update_tag', 'view_users'];
     this.displayedColumnsFields = ['id', 'fields', 'created_on', 'delete'];
+  }
+
+  handleTabChange(e) {
+    this.selectedTabService.setTab(this.compName, e.index);
   }
 
   updateTag(id) {
@@ -110,12 +122,12 @@ export class TagsComponent implements OnInit {
           )
         }, error => {
 
-            this.isFieldDeleted = false;
-            this.isTagAdded = false;
-            this.isFieldAdded = false;
-            this.isTagUpdated = false;
-            this.loader = false
-          });
+          this.isFieldDeleted = false;
+          this.isTagAdded = false;
+          this.isFieldAdded = false;
+          this.isTagUpdated = false;
+          this.loader = false
+        });
       }
     });
   }

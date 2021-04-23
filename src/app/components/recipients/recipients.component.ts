@@ -1,26 +1,28 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild, Renderer2 } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { DialogOverview } from 'src/app/components/dialog-overview/dialog-overview.component';
+import { preload } from 'src/app/utils/preload';
+import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { ConfigService } from 'src/app/_services/config.service';
+import { FieldService } from 'src/app/_services/field.service';
+import { FieldType, UserType } from 'src/app/_types';
 import * as XLSX from 'xlsx';
 import { UserDetail } from '../../userDetail';
-import { RecipientService } from '../../_services/recipient.service';
-import { CertificateService } from '../../_services/certificate.service';
-import { MatDialog } from '@angular/material/dialog'
-import { TagService } from '../../_services/tag.service';
 import {
   validateCheckBox,
-  validateSaveAndUpdate,
+  validateSaveAndUpdate
 } from '../../_custome-validators/certificateForm.validator';
+import { CertificateService } from '../../_services/certificate.service';
 import { EmailService } from '../../_services/email.service';
-import { FieldService } from 'src/app/_services/field.service';
-import { ConfigService } from 'src/app/_services/config.service';
-import { preload } from 'src/app/utils/preload';
-import { DialogOverview } from 'src/app/components/dialog-overview/dialog-overview.component'
-import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { RecipientService } from '../../_services/recipient.service';
+import { TagService } from '../../_services/tag.service';
 
 export interface UserData {
   checkBox,
@@ -35,11 +37,11 @@ export interface UserData {
   templateUrl: './recipients.component.html',
   styleUrls: ['./recipients.component.css'],
   animations: [slideUpAnimation],
-  host: {'[@slideUpAnimation]': ''},
+  host: { '[@slideUpAnimation]': '' },
 })
-export class RecipientsComponent implements OnInit, AfterViewInit {
+export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   loader = false;
-  allUsers: any[];
+  allUsers: UserType[];
   searchResultSize;
   usersForm: FormGroup;
   displayedColumns: string[];
@@ -57,8 +59,9 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
   expandedView;
   tagged: boolean;
   isSavedOrUpdated: boolean;
-  fields: any[];
+  fields: FieldType[];
   icons = [];
+  subscription: Subscription[] = [];
   showNewRecipients = true;
   showSearchResults = false;
   textAreaLegend = "Email, Name, Gender, Mobile";
@@ -67,7 +70,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
   showNoRecipientFound = false;
   unMatchedHeaders: string[];
   allrecipientsToPreview;
-  previewDisplayColumns = ['email', 'name', 'user_tags', 'fields', 'profileLink'];
+  previewDisplayColumns = ['email', 'name', 'user_tags', 'fields'];
   previewDataSource;
   showPreview = false;
   noOfRecipientsNotFound = 0;
@@ -117,7 +120,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
 
     this.searchdisplayedColumns = ['id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
 
-    this.fieldService.getAllFields().subscribe(data => {
+    this.subscription[0] = this.fieldService.getAllFields().subscribe(data => {
       this.fields = data;
       this.fields.forEach(data => {
         this.textAreaLegend = this.textAreaLegend + ", " + data.name;
@@ -128,7 +131,7 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
     if (this.route.snapshot.paramMap.get('id') != null) {
       this.showPreview = true;
       this.showNewRecipients = false;
-      this.recipentService.getByTag(this.route.snapshot.paramMap.get('id')).subscribe(recipents => {
+      this.subscription[1] = this.recipentService.getByTag(this.route.snapshot.paramMap.get('id')).subscribe(recipents => {
         this.allUsers = recipents.recipientList;
         this.allrecipientsToPreview = recipents.recipientsToPreview;
         this.searchResultSize = this.allUsers.length;
@@ -136,20 +139,22 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
         this.noOfRecipientsNotFound = recipents.totalRecipientsNotFound;
 
         let div = this.renderer.createElement('div');
-        div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-          "All " + this.searchResultSize + " recipients exist." +
-          "</div>"
+        div.innerHTML = `
+          <div class="alert alert-success" role="alert">
+            All  ${this.searchResultSize} recipients exist. 
+          </div>
+        `;
         this.renderer.appendChild(this.message.nativeElement, div);
 
       });
       // this.addCheckboxes();
     } else {
 
-      this.recipentService.getAllNewUsers().subscribe(data => {
+      this.subscription[2] = this.recipentService.getAllNewUsers().subscribe(data => {
         this.allUsers = data;
         this.addCheckboxes();
-        this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
-        this.displayedColumns = ['select', 'id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
+        this.dataSource = new MatTableDataSource<UserType>(this.allUsers);
+        this.displayedColumns = ['email', 'name', 'user_tags', 'fields'];
       });
     }
 
@@ -184,13 +189,17 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
 
   applyFilter(filterValue: string) {
     this.selection.clear();
+
     this.usersForm.value.allUsers.forEach(element => {
       element.checkBox = false;
     });
-    this.dataSource.filterPredicate =
-      (data: UserData, filter: string) => data.userTags
+
+    this.dataSource.filterPredicate = (data: UserData, filter: string) => {
+      return data.userTags
         .map(data => filter.split(",").map(filterV =>
-          data.tag.name.toString().trim().toLowerCase().indexOf(filterV) !== -1).some(data => data)).some(data => data);
+          data.tag.name.toString().trim().toLowerCase().indexOf(filterV) !== -1).some(data => data)).some(data => data)
+    };
+
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -210,23 +219,25 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
     if (value != " ") {
       this.loader = true;
       let emails = [];
-      value.split("\n").map(data =>
-        emails.push(data.split(",")[0])
-      );
+      value.split("\n").map(data => emails.push(data.split(",")[0]));
+
       this.userService.getByEmails(emails).then(result => {
         if (result.totalRecipientsFound == 0) {
+
           this.showNoRecipientFound = true;
           this.loader = false;
           this.showSearchResultMessage = true;
           this.showNewRecipients = false;
           let div = this.renderer.createElement('div');
-          div.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"showNoRecipientFound\">" +
-            "All records are new. You can save them and search again to proceed for any task." +
-            "</div>"
-          this.renderer.appendChild(this.message.nativeElement, div);
+          div.innerHTML = `
+            <div class="alert alert-danger" role="alert" *ngIf="showNoRecipientFound">
+              All records are new. You can save them and search again to proceed for any task.
+            </div>
+          `;
 
-          // this.message.nativeElement.appendChild(div);
+          this.renderer.appendChild(this.message.nativeElement, div);
           this.renderer.appendChild(this.message, div);
+
         } else {
           this.showPreview = true;
           this.showNoRecipientFound = false;
@@ -236,32 +247,34 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           this.noOfRecipientsNotFound = result.totalRecipientsNotFound;
           this.previewDataSource = new MatTableDataSource<any>(result.recipientsToPreview);
           this.searchResultSize = result.totalRecipientsFound;
-          let duplicates = result.duplicates;
-          // this.searchDataSource = new MatTableDataSource<any>(this.allUsers);
           let div = this.renderer.createElement('div');
           if (this.noOfRecipientsNotFound > 0) {
             if (result.duplicates == 0) {
-              div.innerHTML = "\n" +
-                "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-                "        We found " + this.searchResultSize + " existing recipient and " + this.noOfRecipientsNotFound + " new one. Please save all before proceeding." +
-                "      </div>";
+              div.innerHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  We found  ${this.searchResultSize} existing recipient and ${this.noOfRecipientsNotFound}  new one. Please save all before proceeding.
+                </div>
+              `;
             } else if (result.duplicates > 0) {
-              div.innerHTML = "\n" +
-                "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-                "        We found " + this.searchResultSize + " existing recipient and " + this.noOfRecipientsNotFound + " new one. Rest " + result.duplicates + " are duplicates. Please save all before proceeding." +
-                "      </div>";
+              div.innerHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  We found  ${this.searchResultSize} existing recipient and  ${this.noOfRecipientsNotFound}  new one. Rest  ${result.duplicates}  are duplicates. Please save all before proceeding.
+                </div>
+              `;
             }
           } else if (this.noOfRecipientsNotFound == 0) {
             if (result.duplicates > 0) {
-              div.innerHTML = "\n" +
-                "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-                "        We found " + this.searchResultSize + " existing recipient and Rest " + result.duplicates + " are duplicates. Please save all before proceeding." +
-                "      </div>";
+              div.innerHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  We found  ${this.searchResultSize}  existing recipient and Rest  ${result.duplicates}  are duplicates. Please save all before proceeding.
+                </div>
+              `;
             } else if (result.duplicates == 0) {
-              div.innerHTML = "\n" +
-                "      <div class=\"alert alert-success alert-dismissible fade show \" role=\"alert\">\n" +
-                "       All " + this.searchResultSize + " recipients exist" +
-                "      </div>";
+              div.innerHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  All ${this.searchResultSize}  recipients exist
+                </div>
+              `;
             }
 
           }
@@ -287,7 +300,6 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
 
 
       this.allUsers = await this.userService.getByEmails(emails);
-      // console.log("after getting data");
       this.loader = false;
       // this.addCheckboxes();
       //this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
@@ -459,9 +471,11 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
         this.showNewRecipients = false;
         this.showPreview = false;
         let div = this.renderer.createElement('div');
-        div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-          "Done! You can search the recipients now." +
-          "</div>"
+        div.innerHTML = `
+          <div class="alert alert-success" role="alert">
+            Done! You can search the recipients now.
+          </div>
+        `;
         this.renderer.appendChild(this.message.nativeElement, div);
         //  this.userService.getAllNewUsers().subscribe(data => {
         //    this.uncheckAll();
@@ -569,9 +583,11 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           this.tagged = true;
           this.showPreview = false;
           let div = this.renderer.createElement('div');
-          div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-            "The tag is added. You can search again to view it." +
-            "</div>"
+          div.innerHTML = `
+            <div class="alert alert-success" role="alert">
+              The tag is added. You can search again to view it.
+            </div>
+          `
           this.renderer.appendChild(this.message.nativeElement, div);
           // this.userService.getAllNewUsers().subscribe(data => {
           // })
@@ -590,9 +606,11 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
           this.tagged = true;
           this.showPreview = false;
           let div = this.renderer.createElement('div');
-          div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-            "The tag is added. You can search again to view it." +
-            "</div>"
+          div.innerHTML = `
+            <div class="alert alert-success" role="alert">
+              The tag is added. You can search again to view it.
+            </div>
+          `;
           this.renderer.appendChild(this.message.nativeElement, div);
           // this.userService.getAllNewUsers().subscribe(data => {
           // })
@@ -694,6 +712,15 @@ export class RecipientsComponent implements OnInit, AfterViewInit {
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         XLSX.writeFile(wb, 'recipients.xlsx');
 
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription.length) {
+      for (const i in this.subscription) {
+        this.subscription[i].unsubscribe();
+        delete this.subscription[i];
       }
     }
   }

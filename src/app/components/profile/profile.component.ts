@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {RecipientService} from '../../_services/recipient.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatTableDataSource} from '@angular/material';
-import {ConfigService} from 'src/app/_services/config.service';
-import {CertificateService} from 'src/app/_services/certificate.service';
-
+import { Component, OnInit } from '@angular/core';
+import { RecipientService } from '../../_services/recipient.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
+import { ConfigService } from 'src/app/_services/config.service';
+import { CertificateService } from 'src/app/_services/certificate.service';
+import { SelectedTabService } from 'src/app/_services/selected-tab.service';
+import { FieldService } from 'src/app/_services/field.service';
+import { forkJoin } from 'rxjs';
 
 export interface CertificateData {
   createdAt,
@@ -36,32 +38,43 @@ export class ProfileComponent implements OnInit {
   certificateDisplayedColumns: string[] = ['job Id', 'Name of Certificate', 'createdAt'];
   certificateDataSource;
   newCertificate = null;
-
   emailDisplayedColumns: string[] = ['job Id', 'subject', 'from', 'sent on'];
   emailDataSource;
   isUpdated: boolean;
-  fields: any [] = [];
-  recipientFields: any [] = [];
+  fields: any[] = [];
+  recipientFields: any[] = [];
   recipientFieldsToUpdate;
+  selectedTab = 0;
+  compName = 'profile';
 
   //certificateSelection = new SelectionModel<CertificateData>(true, []);
 
-  constructor(private userService: RecipientService, private certificateService: CertificateService, private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private configService: ConfigService) {
+  constructor(
+    private userService: RecipientService,
+    private certificateService: CertificateService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router,
+    private configService: ConfigService,
+    private selectedTabService: SelectedTabService,
+    private fieldService: FieldService,
+  ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
+    this.selectedTab = this.selectedTabService.getTab(this.compName);
   }
 
   ngOnInit() {
-
-
     this.isUpdated = false;
-    this.route.params.subscribe(params => this.id = params.id);
-    //console.log(this.id);
-    this.user = this.route.snapshot.data.detail;
+    this.id = this.route.snapshot.paramMap.get('id');
 
-    this.fields = this.route.snapshot.data.fields;
-    this.buildForm();
+    forkJoin([this.userService.getById(this.id), this.fieldService.getAllFields()]).subscribe(results => {
+      this.user = results[0];
+      this.fields = results[1];
+      this.buildForm();
+    });
+
     this.userService.getCertificates(this.id).subscribe(data => {
       this.certificateDataSource = new MatTableDataSource<CertificateData>(data);
     });
@@ -70,6 +83,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  handleTabChange(e) {
+    this.selectedTabService.setTab(this.compName, e.index);
+  }
 
   buildForm() {
     this.updateForm = this.fb.group({
@@ -144,7 +160,7 @@ export class ProfileComponent implements OnInit {
 
   uploadCertificate() {
     if (this.newCertificate != null) {
-      let data = {"certificateImage": this.newCertificate};
+      let data = { "certificateImage": this.newCertificate };
       this.certificateService.uploadCertificate(this.id, data).subscribe(data => {
         this.loader = false;
         this.isUpdated = true

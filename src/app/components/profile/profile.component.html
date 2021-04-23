@@ -10,13 +10,13 @@
       <div class="alert alert-success" role="alert" *ngIf="isUpdated">
         Updated Successfully.
       </div>
-      <div class="d-flex justify-content-start">
+      <div class="d-flex justify-content-start" *ngIf="user">
         <div class="userData ml-3">
           <h4>{{user.name}}</h4>
           <h6>{{user.email}}</h6>
 
           <mat-chip-list #chipList>
-            <mat-chip color="primary" style="margin-top: 10px; " *ngFor="let tag of user.user_tags; let i = index">
+            <mat-chip color="primary" style="margin-top: 10px;" *ngFor="let tag of user.user_tags; let i = index">
               {{tag.name}}
 
             </mat-chip>
@@ -25,9 +25,10 @@
       </div>
 
 
-      <mat-tab-group class="mat-group-content">
+      <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab"
+        (selectedTabChange)="handleTabChange($event)">
         <mat-tab label="Details">
-          <form [formGroup]="updateForm" class="profile-update-form">
+          <form *ngIf="updateForm" [formGroup]="updateForm" class="profile-update-form">
 
             <div class="row">
               <div class="col-md-6">
@@ -36,10 +37,7 @@
                   <label>Name</label>
                 </div>
               </div>
-
-
               <div class="col-md-6">
-
                 <div class="custom-group">
                   <input class="custom-form-control" type="text" placeholder="Email" formControlName="email">
                   <label>Email</label>
@@ -48,7 +46,6 @@
 
 
               <div class="col-md-6">
-
                 <div class="custom-group">
                   <mat-select formControlName="gender" class="custom-form-control">
                     <mat-option value="male">Male

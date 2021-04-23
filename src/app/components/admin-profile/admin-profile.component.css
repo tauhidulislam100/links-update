@@ -1,3 +1,15 @@
+.profile-area{
+  padding: 30px 40px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 50px 5px #00000012 !important;
+  -o-box-shadow: 0px 0px 50px 5px #00000012 !important;
+  -moz-box-shadow: 0px 0px 50px 5px #00000012 !important;
+  -webkit-box-shadow: 0px 0px 50px 5px #00000012 !important;
+}
+
+
+
 td {
   text-align: left;
   padding: 8px;
@@ -7,4 +19,8 @@ td {
 table {
   margin-bottom: 2rem;
 
+}
+
+.btn-orange-outline:hover svg path {
+   fill: blue !important;
 }
