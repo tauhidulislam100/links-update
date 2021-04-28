@@ -149,9 +149,17 @@ common  style for all components that ara similar
   text-decoration: none;
 }
 
-.btn-orange-outline:hover svg path{
-  /* fill: white; */
+/* .btn-orange-outline:hover svg path{
+  fill: white;
+} */
+/* 
+.btn-orange-outline.btn-orange-outline svg path{
+  fill: #ff3a00;
 }
+
+.btn-orange-outline.btn-orange-outline.export svg path{
+  fill: rgb(5, 40, 133);
+} */
 
 .btn-orange-outline img,
 .btn-orange-outline i,

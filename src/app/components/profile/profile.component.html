@@ -7,10 +7,21 @@
   <div class="row">
     <div class="col-md-12">
       <app-errors></app-errors>
-      <div class="alert alert-success" role="alert" *ngIf="isUpdated">
-        Updated Successfully.
-      </div>
-      <div class="d-flex justify-content-start" *ngIf="user">
+
+      <div class="alert alert-success mb-5" *ngIf="isUpdated" role="alert" >
+        <div class="row align-items-center">
+           <div class="col">
+            <i class="fas fa-check-circle mr-2"></i>
+             Updated Successfully.
+           </div>
+           <div class="col-auto">
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="fas fa-times-circle"></i>
+             </button>
+           </div>
+        </div>
+     </div>
+      <!-- <div class="d-flex justify-content-start" *ngIf="user">
         <div class="userData ml-3">
           <h4>{{user.name}}</h4>
           <h6>{{user.email}}</h6>
@@ -22,7 +33,7 @@
             </mat-chip>
           </mat-chip-list>
         </div>
-      </div>
+      </div> -->
 
 
       <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab"
@@ -30,6 +41,18 @@
         <mat-tab label="Details">
           <form *ngIf="updateForm" [formGroup]="updateForm" class="profile-update-form">
 
+            <div class="form-group details_tab_action d-flex">
+              <button class="btn-orange-outline export" (click)="Cancel()">
+                Discard Changes
+              </button>
+              
+              <button class="btn-orange-outline ml-3" (click)="update()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
+                  <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
+                </svg>
+                Save Changes</button>
+
+            </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="custom-group">
@@ -75,15 +98,15 @@
               </div>
 
             </div>
-
-
-            <div class="form-group ml-4 mt-5 text-center text-md-left text-lg-left">
-              <button class="btn-orange-rounded" (click)="update()">Update</button>
-              <button class="btn-orange-rounded-outline ml-md-4 ml-lg-4 ml-0 mt-4 mt-lg-0 mt-md-0 " (click)="Cancel()">
-                Cancel
-              </button>
-            </div>
           </form>
+
+          <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Item 1</button>
+            <button mat-menu-item>Item 2</button>
+          </mat-menu>
+          
+
         </mat-tab>
 
         <mat-tab label="Certificates">
@@ -141,7 +164,6 @@
               <button class="btn-orange-rounded" (click)="uploadCertificate()">Upload Certificate</button>
             </div>
           </div>
-
 
         </mat-tab>
 

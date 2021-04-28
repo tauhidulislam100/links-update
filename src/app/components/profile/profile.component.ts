@@ -1,18 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipientService } from '../../_services/recipient.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
-import { ConfigService } from 'src/app/_services/config.service';
-import { CertificateService } from 'src/app/_services/certificate.service';
-import { SelectedTabService } from 'src/app/_services/selected-tab.service';
-import { FieldService } from 'src/app/_services/field.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { CertificateService } from 'src/app/_services/certificate.service';
+import { ConfigService } from 'src/app/_services/config.service';
+import { FieldService } from 'src/app/_services/field.service';
+import { SelectedTabService } from 'src/app/_services/selected-tab.service';
+import { RecipientService } from '../../_services/recipient.service';
+
+
+
+
+
 
 export interface CertificateData {
   createdAt,
   certificateName
-
 }
 
 export interface EmailData {
@@ -26,6 +30,8 @@ export interface EmailData {
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
+
 export class ProfileComponent implements OnInit {
   id;
   assets_loc;
