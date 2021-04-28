@@ -26,3 +26,15 @@ a.view-link {
 a {
   cursor: pointer;
 }
+
+
+.email_inwrap .mat-group-content .mat-tab-label-container{
+  padding-left: 50px !important;
+  /* margin-left: 80px !important; */
+  background: red;
+  padding: 100px;
+}
+
+.btn-back{
+  margin-bottom: -50px;
+}

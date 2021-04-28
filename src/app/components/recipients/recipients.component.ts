@@ -230,9 +230,22 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           this.showNewRecipients = false;
           let div = this.renderer.createElement('div');
           div.innerHTML = `
-            <div class="alert alert-danger" role="alert" *ngIf="showNoRecipientFound">
-              All records are new. You can save them and search again to proceed for any task.
-            </div>
+          <div class="alert alert-secondary error" *ngIf="showNoRecipientFound" role="alert">
+          <div class="row align-items-center">
+             <div class="col">
+               <svg xmlns="http://www.w3.org/2000/svg" width="20.289" height="20.289" viewBox="0 0 20.289 20.289">
+                 <path id="Path_178" data-name="Path 178" d="M12.145,2A10.145,10.145,0,1,0,22.289,12.145,10.148,10.148,0,0,0,12.145,2Zm0,15.217A1.017,1.017,0,0,1,11.13,16.2V12.145a1.014,1.014,0,0,1,2.029,0V16.2A1.017,1.017,0,0,1,12.145,17.217Zm.866-8.252a1.212,1.212,0,0,1-1.763,0,1.167,1.167,0,0,1,0-1.725,1.212,1.212,0,0,1,1.763,0A1.167,1.167,0,0,1,13.01,8.965Z" transform="translate(-2 -2)" fill="#28293d"/>
+               </svg>
+               All records are new. You can save them and search again to proceed for any task.
+             </div>
+             <div class="col-auto">
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">Dismiss</span>
+               </button>
+             </div>
+     
+          </div>
+       </div>
           `;
 
           this.renderer.appendChild(this.message.nativeElement, div);

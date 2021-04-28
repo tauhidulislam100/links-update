@@ -2,242 +2,247 @@
 
 <div class="container mt-6">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 email_inwrap">
       <app-errors></app-errors>
       <div class="alert alert-success" role="alert" *ngIf="isArchived">
         Archived Successfully.
       </div>
+      
+      <button class="btn btn-back  btn-info"><< </button>
+
+
       <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
-        <mat-tab label="Sent Emails">
-          <div class="table-container">
-            <table mat-table [dataSource]="sentEmailsDataSource" class="mat-elevation-z8"
-              class="table table-bordered table-rounded">
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Id</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Status</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.status}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="subject">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6> Subject</h6>
-                </th>
-                <td mat-cell *matCellDef="let element; let rowIndex = index">
-                  {{element.subject}}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="sent_on">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Sent On</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="no_of_recipients">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>No of Recipients</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_recipients}}</td>
-              </ng-container>
-              <ng-container matColumnDef="seen">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Seen</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.seen}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="view">
-                <th mat-header-cell *matHeaderCellDef>
-                  <img src="{{assets_loc}}assets/view.svg" />
-                </th>
-                <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                  <a (click)="loader = true" [routerLink]="'/Emails/View/'+element.id" class="view-link">View</a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="archive">
-                <th mat-header-cell *matHeaderCellDef>
-                  <img src="{{assets_loc}}assets/delete.svg" />
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  <a class="view-link" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
-                    [popoverMessage]="deletePopoverMessage" placement="left"
-                    (confirm)="archiveEmailJob(element)">Archive</a>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumnsSentEmails"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumnsSentEmails;" (click)="$event.stopPropagation()">
-              </tr>
-            </table>
-
-            <app-custom-pagination [page]="jobsPage" (nextPageEvent)="getJobsNextPage()"
-              (previousPageEvent)="getJobsPreviousPage()">
-            </app-custom-pagination>
-
+        
+          <div class="email_gp">
+            <mat-tab label="Sent Emails">
+              <div class="table-container">
+                <table mat-table [dataSource]="sentEmailsDataSource" class="mat-elevation-z8"
+                  class="table table-bordered table-rounded">
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Id</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Status</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.status}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="subject">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6> Subject</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIndex = index">
+                      {{element.subject}}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="sent_on">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Sent On</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="no_of_recipients">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>No of Recipients</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_recipients}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="seen">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Seen</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.seen}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="view">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <img src="{{assets_loc}}assets/view.svg" />
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                      <a (click)="loader = true" [routerLink]="'/Emails/View/'+element.id" class="view-link">View</a>
+                    </td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="archive">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <img src="{{assets_loc}}assets/delete.svg" />
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">
+                      <a class="view-link" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
+                        [popoverMessage]="deletePopoverMessage" placement="left"
+                        (confirm)="archiveEmailJob(element)">Archive</a>
+                    </td>
+                  </ng-container>
+    
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsSentEmails"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsSentEmails;" (click)="$event.stopPropagation()">
+                  </tr>
+                </table>
+    
+                <app-custom-pagination [page]="jobsPage" (nextPageEvent)="getJobsNextPage()"
+                  (previousPageEvent)="getJobsPreviousPage()">
+                </app-custom-pagination>
+    
+              </div>
+    
+            </mat-tab>
+            <mat-tab label="Email Templates">
+              <button class="btn-orange-outline add_new_email_template" (click)="generateEmailTemplate()">
+                <i class="fas fa-plus"></i> Add New Email Template
+              </button>
+              <div class="table-container">
+                <table mat-table [dataSource]="emailTemplatesDataSource" class="mat-elevation-z8"
+                  class="table table-bordered table-rounded">
+    
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Id</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="email_templates">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Email Templates</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
+                  </ng-container>
+    
+    
+                  <ng-container matColumnDef="created_on">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Created On</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="no_of_times_used">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Number of Times Used</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_times_used}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="no_of_recipients">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Number of Recipients</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_recipients}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="update">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <img src="{{assets_loc}}assets/update-tag.svg" />
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">
+                      <a (click)="loader=true" [routerLink]="'/Emails/UpdateTemplate/'+element.id" class="view-link"
+                        style="cursor: pointer;">Update</a>
+                    </td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="archive">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <img src="{{assets_loc}}assets/delete.svg" />
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">
+                      <a class="view-link" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
+                        [popoverMessage]="deletePopoverMessage" placement="left" (confirm)="archive(element)">Archive</a>
+                    </td>
+                  </ng-container>
+    
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsEmailTemplates"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsEmailTemplates;"
+                    (click)="$event.stopPropagation()">
+                  </tr>
+    
+                </table>
+    
+                <app-custom-pagination [page]="allTemplatesPage" (nextPageEvent)="getTemplatesNextPage()"
+                  (previousPageEvent)="getTemplatesPreviousPage()">
+                </app-custom-pagination>
+    
+              </div>
+    
+            </mat-tab>
+            <mat-tab label="Mapped Email Templates">
+              <div class="table-container">
+    
+                <table mat-table [dataSource]="emailTemplatesMappedToCertificatesDataSource" class="mat-elevation-z8"
+                  class="table table-bordered table-rounded">
+    
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Id</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="email_templates">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Email Templates</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
+                  </ng-container>
+    
+    
+                  <ng-container matColumnDef="created_on">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Created On</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="no_of_times_used">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Number of Times Used</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_times_used}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="no_of_recipients">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Number of Recipients</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_recipients}}</td>
+                  </ng-container>
+    
+                  <ng-container matColumnDef="update">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <img src="{{assets_loc}}assets/update-tag.svg" />
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">
+                      <a [routerLink]="'/Emails/AddTemplate/'+element.id+'/mapped'" class="view-link"
+                        style="cursor: pointer;">Update</a>
+                    </td>
+                  </ng-container>
+    
+                  <!-- <ng-container matColumnDef="archive">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <img src="{{assets_loc}}assets/delete.svg" />
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">
+                      <a class="view-link" (click)="archive(element)" >Archive</a></td>
+                  </ng-container> -->
+    
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsMappedEmailTemplates"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsMappedEmailTemplates;"
+                    (click)="$event.stopPropagation()">
+                  </tr>
+    
+                </table>
+                <app-custom-pagination [page]="allMappedTemplatesPage" (nextPageEvent)="getMappedTemplatesNextPage()"
+                  (previousPageEvent)="getMappedTemplatesPreviousPage()">
+                </app-custom-pagination>
+              </div>
+            </mat-tab>
           </div>
-
-        </mat-tab>
-        <mat-tab label="Email Templates">
-
-          <div class="table-container">
-            <table mat-table [dataSource]="emailTemplatesDataSource" class="mat-elevation-z8"
-              class="table table-bordered table-rounded">
-
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Id</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="email_templates">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Email Templates</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="created_on">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Created On</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="no_of_times_used">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Number of Times Used</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_times_used}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="no_of_recipients">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Number of Recipients</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_recipients}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="update">
-                <th mat-header-cell *matHeaderCellDef>
-                  <img src="{{assets_loc}}assets/update-tag.svg" />
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  <a (click)="loader=true" [routerLink]="'/Emails/UpdateTemplate/'+element.id" class="view-link"
-                    style="cursor: pointer;">Update</a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="archive">
-                <th mat-header-cell *matHeaderCellDef>
-                  <img src="{{assets_loc}}assets/delete.svg" />
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  <a class="view-link" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
-                    [popoverMessage]="deletePopoverMessage" placement="left" (confirm)="archive(element)">Archive</a>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumnsEmailTemplates"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumnsEmailTemplates;"
-                (click)="$event.stopPropagation()">
-              </tr>
-
-            </table>
-
-            <app-custom-pagination [page]="allTemplatesPage" (nextPageEvent)="getTemplatesNextPage()"
-              (previousPageEvent)="getTemplatesPreviousPage()">
-            </app-custom-pagination>
-
-
-            <button class="btn-orange-outline" (click)="generateEmailTemplate()"><img
-                src="{{assets_loc}}assets/plus.svg" /> Add New Email Template
-            </button>
-
-          </div>
-
-        </mat-tab>
-        <mat-tab label="Mapped Email Templates">
-          <div class="table-container">
-
-            <table mat-table [dataSource]="emailTemplatesMappedToCertificatesDataSource" class="mat-elevation-z8"
-              class="table table-bordered table-rounded">
-
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Id</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.id}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="email_templates">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Email Templates</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="created_on">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Created On</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="no_of_times_used">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Number of Times Used</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_times_used}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="no_of_recipients">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Number of Recipients</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.no_of_recipients}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="update">
-                <th mat-header-cell *matHeaderCellDef>
-                  <img src="{{assets_loc}}assets/update-tag.svg" />
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  <a [routerLink]="'/Emails/AddTemplate/'+element.id+'/mapped'" class="view-link"
-                    style="cursor: pointer;">Update</a>
-                </td>
-              </ng-container>
-
-              <!-- <ng-container matColumnDef="archive">
-                <th mat-header-cell *matHeaderCellDef>
-                  <img src="{{assets_loc}}assets/delete.svg" />
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  <a class="view-link" (click)="archive(element)" >Archive</a></td>
-              </ng-container> -->
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumnsMappedEmailTemplates"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumnsMappedEmailTemplates;"
-                (click)="$event.stopPropagation()">
-              </tr>
-
-            </table>
-            <app-custom-pagination [page]="allMappedTemplatesPage" (nextPageEvent)="getMappedTemplatesNextPage()"
-              (previousPageEvent)="getMappedTemplatesPreviousPage()">
-            </app-custom-pagination>
-          </div>
-        </mat-tab>
+        
       </mat-tab-group>
       <div class="loading-indicator">
         <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>

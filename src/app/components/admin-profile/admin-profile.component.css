@@ -1,6 +1,7 @@
 .profile-area{
   padding: 30px 40px;
   background: #fff;
+  margin-bottom: 25px;
   border-radius: 5px;
   box-shadow: 0px 0px 50px 5px #00000012 !important;
   -o-box-shadow: 0px 0px 50px 5px #00000012 !important;
@@ -9,18 +10,121 @@
 }
 
 
-
-td {
-  text-align: left;
-  padding: 8px;
-}
-
-
-table {
-  margin-bottom: 2rem;
-
-}
-
-.btn-orange-outline:hover svg path {
+/* .btn-orange-outline:hover svg path {
    fill: blue !important;
+} */
+
+.profile-header{
+   margin-bottom: 35px;
+}
+.profile-header .back{
+  margin-bottom: 0;
+  padding: 10px 15px;
+  border: 1px solid #d7d7d7;
+  border-radius: 5px;
+  margin-right: 15px;
+  color: black;
+}
+
+.profile-header .back:hover{
+  background: #05288540;
+}
+
+.profile-header .update:hover svg path{
+   fill: white;
+}
+.profile-header h3{
+   margin: 0;
+   font-size: 30px;
+   font-weight: 600;
+}
+
+.user_part img{
+   border-radius: 5px;
+   height: 83px;
+   width: 83px;
+   object-fit: cover;
+}
+.user_part h4{
+   font-size: 22px;
+   font-weight: 500;
+   margin-bottom: 3px;
+}
+.user_part p{
+  margin-bottom: 5px;
+   font-size: 18px;
+   font-weight: 300;
+   color: #707070;
+}
+.user_part h6{
+  font-size: 18px;
+  font-weight: 400;
+  color: #707070;
+  margin-bottom: 0;
+  font-family: Bahnschrift;
+}
+
+.user_details p{
+   margin: 20px 0;
+   font-size: 18px;
+   font-weight: 300;
+   color: #707070;
+   font-family: Bahnschrift;
+}
+
+.user_details strong{
+   font-weight: 600;
+   color: black;
+}
+
+.upgrade_plan{
+   background: #0731A1;
+   padding: 50px;
+   margin-top: 25px;
+   border-radius: 5px;
+   color: white;
+   position: relative;
+}
+
+.upgrade_plan::after{
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: -17px;
+  background: url(../../../assets/upgrade-badge.png) no-repeat left top;
+  width: 164px;
+  height: 164px;
+  z-index: 10;
+}
+
+.upgrade_plan .header{
+   align-items: center;
+   margin-bottom: 35px;
+}
+.upgrade_plan .header h2{
+   font-size: 40px;
+   font-weight: bolder;
+   font-family: Bahnschrift;
+   margin-bottom: 0;
+}
+.upgrade_plan .header p{
+   color: #CACACA;
+   font-size: 20px;
+   font-weight: 300;
+   margin-bottom: 0;
+}
+
+.upgrade_plan .body h4{
+  font-size: 18px;
+  font-weight: 400;
+
+}
+.upgrade_plan .body p{
+  color: #CACACA;
+  font-size: 15px;
+  font-weight: 300;
+  margin-bottom: 0;
+}
+.upgrade_plan .body i{
+    font-size: 40px;
 }

@@ -34,35 +34,11 @@ mat-card {
   font-size: 30px;
   font-weight: 300;
 }
+
 .icon-area.red {
   color: #FF0000;
 }
 
-
-
 .col-md-4{
    margin-bottom: 2.5rem;
-}
-
-.alert-secondary{
-   background: #E6E6ED;
-   font-size: 18px;
-   font-weight: 400;
-   border: 0;
-   padding-top: 25px;
-   padding-bottom: 25px;
-}
-.alert-secondary svg{
-  margin-right: 10px;
-  margin-top: -4px;
-}
-.alert-secondary a{
-  color: orangered;
-  display: inline-block;
-  margin-left: 10px;
-}
-.alert-secondary .close{
-   color: #052885;
-   font-weight: 500;
-   font-size: 18px;
 }

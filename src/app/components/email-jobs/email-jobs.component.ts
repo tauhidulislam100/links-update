@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {EmailJobService} from '../../_services/email-job.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatTableDataSource} from '@angular/material';
-import {ErrorService} from 'src/app/_services/error.service';
-import {EmailService} from 'src/app/_services/email.service';
-import {ConfigService} from 'src/app/_services/config.service';
-import {Page} from 'src/app/pagination/page';
-import {CustomPaginationService} from 'src/app/_services/custom-pagination.service';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Page } from 'src/app/pagination/page';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { ConfigService } from 'src/app/_services/config.service';
+import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
+import { EmailService } from 'src/app/_services/email.service';
+import { ErrorService } from 'src/app/_services/error.service';
 import { SelectedTabService } from 'src/app/_services/selected-tab.service';
 import { PageType } from 'src/app/_types';
+import { EmailJobService } from '../../_services/email-job.service';
 
 @Component({
   selector: 'app-email-jobs',

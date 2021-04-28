@@ -1,26 +1,39 @@
 import { NgModule } from '@angular/core';
 import { Router, RouterModule, Routes } from '@angular/router';
-import { AuthGuardService as AuthGuard } from './_guards/auth-guard.service';
-import { EmailComponent } from './components/email/email.component';
-import { EmailJobDetailComponent } from './components/email-job-detail/email-job-detail.component';
-import { CertificateJobDetailComponent } from './components/certificate-job-detail/certificate-job-detail.component';
-import { EmailJobDetailResolver } from './emailJobDetailResolver';
-import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
-import { AdminLoginComponent } from './components/admin-login/admin-login.component';
-import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
 import { AdminProfileResolver } from './AdminProfileResolver';
+import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
 import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
-import { FaqComponent } from './components/faq/faq.component';
+import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
+import { CertificateJobDetailComponent } from './components/certificate-job-detail/certificate-job-detail.component';
 import { CertificateTemplateComponent } from './components/certificate-template/certificate-template.component';
+import { EmailJobDetailComponent } from './components/email-job-detail/email-job-detail.component';
+import { EmailComponent } from './components/email/email.component';
+import { FaqComponent } from './components/faq/faq.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { UpdateCertificateTemplateResolver } from './UpdateCertificateTemplateResolver';
-import { SendEmailGetTemplatesCreatedByAdmin } from './SendEmailGetTemplates';
-import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
+import { EmailJobDetailResolver } from './emailJobDetailResolver';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
+import { SendEmailGetTemplatesCreatedByAdmin } from './SendEmailGetTemplates';
+import { UpdateCertificateTemplateResolver } from './UpdateCertificateTemplateResolver';
+import { AuthGuardService as AuthGuard } from './_guards/auth-guard.service';
 
 const routes: Routes = [
-  { path: 'AdminLogin', component: AdminLoginComponent },
-  { path: '404', component: NotFoundComponent },
+  {
+    path: 'register',
+    loadChildren: () => import('./components/register/register.module').then(m => m.RegisterModule), 
+  },
+  {
+    path: 'AdminLogin',
+    loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule), 
+  },
+  // { 
+  //   path: 'AdminLogin', 
+  //   component: AdminLoginComponent 
+  // },
+  { 
+    path: '404', 
+    component: NotFoundComponent 
+  },
   {
     path: '', component: NavbarComponent,
     children: [

@@ -6,6 +6,7 @@ import {catchError} from 'rxjs/operators';
 import {AuthenticationService} from '../_services/authentication.service';
 import {Router} from '@angular/router';
 import {ErrorService} from '../_services/error.service';
+import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -16,17 +17,17 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(catchError(err => {
       console.log("err ", err);
       if (err.status === 403) {
-        this.router.navigate(['/AdminLogin']);
+        // this.router.navigate(['/login']);
         this.errorService.setErrorVisibility(true, "Unautorized access forbiden, please login");
         return throwError(err);
-      } else if (err.status === 404 && this.hasErrorMessage(err)) {
-        this.errorService.setErrorVisibility(true, this.hasErrorMessage(err));
+      } else if (err.status === 404 && hasErrorMessage(err)) {
+        this.errorService.setErrorVisibility(true, hasErrorMessage(err));
         return throwError(err);
       } else if (err.status === 401) {
         this.errorService.setErrorVisibility(true, err.error.errors[0]);
         return throwError(err);
-      } else if(this.hasErrorMessage(err)) {
-        this.errorService.setErrorVisibility(true, this.hasErrorMessage(err));
+      } else if(hasErrorMessage(err)) {
+        this.errorService.setErrorVisibility(true, hasErrorMessage(err));
         return throwError(err);
       }
       this.errorService.setErrorVisibility(true, "Something went wrong at server side. ");
@@ -34,14 +35,4 @@ export class ErrorInterceptor implements HttpInterceptor {
     }))
   }
 
-  hasErrorMessage(err) {
-    try {
-      if(err && err.error && err.error.errors[0]) {
-        return err.error.errors[0];
-      }
-      return null;
-    } catch (error) {
-      return null;
-    }
-  }
 }

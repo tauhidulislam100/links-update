@@ -1,0 +1,47 @@
+@import "../register/register.component.css";
+
+.auth-card .title::after,
+.auth-card .title::before{
+    display: none;
+}
+
+.auth-card .title {
+    margin-bottom: 2rem;
+    font-size: 30px;
+}
+
+.change {
+    font-size: 13px;
+    font-weight: 400;
+    color: #707070;
+}
+.change span {
+    color: #052885;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.otp-container {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(40px, 50px));
+    gap: 10px;
+    align-items: center;
+    place-items: center;
+}
+.otp-field {
+    width: 50px;
+    text-align: center;
+    border-width: 1.5px;
+}
+
+.otp-field.ng-dirty.ng-touched.ng-invalid,
+.otp-field:focus,
+.otp-field:active {
+    border-color: #FF3A00;
+}
+
+.resend {
+   font-size: 15px;
+   font-weight: 400;
+   text-decoration: underline;
+}

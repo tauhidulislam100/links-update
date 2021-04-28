@@ -1,7 +1,5 @@
 .upload-btn-container {
-
   margin-left: 0rem;
-
   justify-content: center;
 }
 
@@ -13,9 +11,8 @@
   overflow: initial;
 }
 
-
 .usersForm {
-  margin-top: 5rem;
+  margin-top: 1.5rem;
 }
 
 .textarea-wrapper {
@@ -40,14 +37,69 @@ a.view-link {
 
 
 .search-area .custom-form-control {
-  padding: 1rem;
+  padding: .5rem 1rem;
   color: #000;
-  border-radius: 10px;
-  font-weight: 400;
-  font-size: 1.25rem;
+  border-radius: 5px;
+  font-weight: 300;
+  font-size: 1rem;
   margin-left: 0;
 }
 
 .userDetailWarning {
   color: green;
+}
+
+
+.mat-input-element {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #052885;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.button-group button{
+  margin-right: 15px;
+}
+
+.table-bordered tr td{
+  vertical-align: middle;
+}
+
+.table-bordered tr td.fields_area ul{
+  padding: 0;
+  margin: 0;
+  line-height: 12px;
+}
+
+.table-bordered tr td.fields_area ul li{
+  list-style: none;
+  display: inline-flex;
+  font-size: 18px;
+  font-weight: 300;
+  color: #28293D;
+  border-right: 1px solid #28293D;
+  padding: 0 10px;
+  margin-right:5px;
+}
+
+.view-link{
+  display: none;
+}
+
+.table-bordered tr td.fields_area:hover ul{
+  display: none;
+}
+
+.table-bordered tr td.fields_area:hover{
+  text-align: right;
+}
+
+.table-bordered tr td.fields_area:hover .view-link{
+  display: flex;
+  margin-left: auto;
+  padding: .3rem .5rem;
+    min-width: 5rem;
+    color: white;
 }

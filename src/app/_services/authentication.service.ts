@@ -53,8 +53,11 @@ export class AuthenticationService {
   }
 
   getOtp(email) {
-
     return this.http.get<any>(`${this.baseurl}sendOtp?email=${email}`);
+  }
+
+  register(userData: {}) {
+    return this.http.post(this.baseurl+'admin/registerRequest/', userData, this.httpOptions);
   }
 
 }

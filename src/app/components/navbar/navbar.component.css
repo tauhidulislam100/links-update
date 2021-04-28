@@ -78,6 +78,16 @@
   margin: 0 15px;
 }
 
+.link_header .navbar-nav.user_account li a.nav-link .avater {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid white;
+  display: inline-block;
+  object-fit: cover;
+  
+}
+
 .link_header .navbar-nav.user_account li a.nav-link .text h5 {
   font-size: 15px;
   font-weight: 500;
@@ -97,20 +107,57 @@
 }
 
 .link_header .navbar-nav.user_account li .dropdown-menu {
-  -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+   color: black;
+   font-size: 15px;
+   font-weight: 600;
+   display: block;
+   padding: 0;
+   min-width: 13rem;
+   display: none;
 }
 
-.link_header .navbar-nav.user_account li .dropdown-menu:after {
+.link_header .navbar-nav.user_account li .dropdown-menu.show {
+  display: block;
+}
+
+.link_header .navbar-nav.user_account .nav-item .dropdown-menu .dropdown-item:hover {
+   background: gainsboro;
+}
+
+.link_header .navbar-nav.user_account .nav-item .dropdown-menu li.upgrade .dropdown-item {
+  background: hsl(44, 100%, 50%);
+  border-radius: 5px;
+  color: white !important;
+}
+
+.link_header .navbar-nav.user_account .nav-item .dropdown-menu li.upgrade .dropdown-item:hover {
+  background: rgb(255, 166, 0);
+}
+
+.link_header .navbar-nav.user_account .nav-item .dropdown-menu li.upgrade{
+  padding: 8px;
+}
+
+
+
+
+.link_header .navbar-nav.user_account li .dropdown-menu i,
+.link_header .navbar-nav.user_account li .dropdown-menu svg {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.link_header .navbar-nav.user_account .nav-item .dropdown-menu:after {
   content: "";
   border-bottom: 10px solid #fff;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   position: absolute;
   top: -8px;
-  right: 5px;
+  right: 43%;
   z-index: 10;
 }
+
 
 @media (max-width: 990px) {
   .link_header .navbar-nav.user_account li .dropdown-menu:after {
@@ -119,7 +166,7 @@
 }
 
 .link_header .navbar-nav.user_account li .dropdown-menu li a {
-  padding: 5px 1.5em !important;
+  padding: 10px 1.5em !important;
   color: black;
   font-weight: 400;
   display: block;

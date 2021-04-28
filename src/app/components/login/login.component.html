@@ -1,0 +1,79 @@
+
+<app-loader *ngIf="showLoader"></app-loader>
+
+<app-noauthnav></app-noauthnav>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <app-errors></app-errors>
+        </div>
+    </div>
+</div>
+
+<div class="container-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8">
+                <img class="info_art" src="../../../assets/info-art.png" alt="info">
+            </div>
+            <div class="col-xl-4">
+                <div class="card shadow border-0 auth-card">
+                    <h2 class="title">
+                        {{step === 'login' ? 'Welcome Back!' : 'Enter OTP'}}
+                    </h2>
+
+                    <p *ngIf="step==='otp'" class="change">
+                        We've sent a code to your registered email address
+                        {{loginForm.get('email').value}} <span (click)="handleChange()">Change</span>
+                    </p>
+
+                    <form class="auth-form" [formGroup]="loginForm">
+                        <div class="form-step" [ngClass]="{active: step == 'login'}">
+                            <div class="form-group">
+                                <input type="email" name="email" formControlName="email" class="form-control"
+                                    placeholder="Your registered email address" />
+                            </div>
+                        </div>
+
+                        <div class="form-step" [ngClass]="{active: step == 'otp'}">
+                            <div class="form-group otp-container" formGroupName="otp">
+                                <input #formRow type="text" formControlName="input1" class="form-control otp-field"
+                                    placeholder="--" maxlength="1" (keyup)="keyUpEvent($event, 0)" />
+                                <input #formRow type="text" formControlName="input2" class="form-control otp-field"
+                                    placeholder="--" maxlength="1" (keyup)="keyUpEvent($event, 1)" />
+                                <input #formRow type="text" formControlName="input3" class="form-control otp-field"
+                                    placeholder="--" maxlength="1" (keyup)="keyUpEvent($event, 2)" />
+                                <input #formRow type="text" formControlName="input4" class="form-control otp-field"
+                                    placeholder="--" maxlength="1" (keyup)="keyUpEvent($event, 3)" />
+                                <input #formRow type="text" formControlName="input5" class="form-control otp-field"
+                                    placeholder="--" maxlength="1" (keyup)="keyUpEvent($event, 4)" />
+                                <input #formRow type="text" formControlName="input6" class="form-control otp-field"
+                                    placeholder="--" maxlength="1" (keyup)="keyUpEvent($event, 5)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <p class="terms">By continuing you accept our <a href="#">Terms of Use</a> & <a
+                                    href="#">Privacy Policy.</a></p>
+                        </div>
+
+                        <div class="form-group mb-5">
+                            <button class="btn btn-block btn-orange-light btn-md" (click)="handleSubmit(loginForm)">
+                                {{step === 'login' ? 'Receive OTP' : 'Login'}}
+                            </button>
+                        </div>
+
+                        
+                        <div class="form-group" *ngIf="step === 'login'">
+                            <p class="text-center my-5">Don't have an account?</p>
+                            <a [routerLink]="'/register'" class="btn btn-block btn-orange-outline-border btn-md">Register</a>
+                        </div>
+                        <div class="form-group" *ngIf="step === 'otp'">
+                            <p class="text-center my-5"><span class="resend" (click)="resendOTP()">Resend OTP</span> available {{format(countDownTime)}}</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
