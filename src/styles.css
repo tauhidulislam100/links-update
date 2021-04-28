@@ -106,7 +106,7 @@ common  style for all components that ara similar
 }
 
 .userDetailsError {
-  margin-top: -1rem;
+  /* margin-top: -1rem; */
   display: block;
   font-weight: 500;
   color: #FF0000 !important;

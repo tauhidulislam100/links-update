@@ -29,7 +29,7 @@
           <a class="nav-link" [routerLink]="'/Emails'" routerLinkActive="active">Emails</a>
         </li>
       </ul>
-      <ul class="user_account navbar-nav">
+      <ul class="user_account navbar-nav" #dropDownContainer>
         <li class="nav-item dropdown">
           <a class="nav-link d-flex justify-content-center  align-items-center" href="#" id="navbarDropdown"
             role="button" data-toggle="dropdown" aria-expanded="false" (click)="toggleDropDown($event)">

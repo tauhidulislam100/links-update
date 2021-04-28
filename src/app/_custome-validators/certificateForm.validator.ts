@@ -1,5 +1,5 @@
-import {AbstractControl, ValidatorFn} from "@angular/forms";
-import {formatDate} from '@angular/common';
+import { AbstractControl, ValidatorFn } from "@angular/forms";
+import { formatDate } from '@angular/common';
 
 export function compareDates(control: AbstractControl): { [key: string]: string } | null {
   const startDate = control.get("endDate").value;
@@ -9,7 +9,7 @@ export function compareDates(control: AbstractControl): { [key: string]: string 
     const e = formatDate(endDate, 'MM/dd/yyyy', 'en-US');
 
 
-    return (s >= e) ? {"value": "End date must be less then Release Date"} : null
+    return (s >= e) ? { "value": "End date must be less then Release Date" } : null
   }
   return null;
 }
@@ -71,7 +71,7 @@ export function validateUserDetail(template): ValidatorFn {
         //     }
         // }
       });
-    return (msg == "") ? null : {"value": msg};
+    return (msg == "") ? null : { "value": msg };
   }
 }
 
@@ -80,12 +80,13 @@ export function validateSaveAndUpdate(): ValidatorFn {
     let msg = "";
     let details = control.value;
     let detailList: string[] = details.split("\n");
+    
     detailList.map(
       (data, i) => {
         let user: string[] = data.split(",");
         if (data !== "") {
           if (user.length < 2) {
-            msg += `Check data at row No. ${i + 1} <br>`;
+            msg += `Check Data – Email and Name are mandatory fields for adding a new Recipient <br>`;
           } else {
             if (user[1] !== "") {
               if (!validateName(user[1].trim())) {
@@ -127,23 +128,23 @@ export function validateSaveAndUpdate(): ValidatorFn {
         }
       });
 
-    return (msg == "") ? null : {"value": msg};
+    return (msg == "") ? null : { "value": msg };
   }
 }
 
-export function validateField(fields: any []): ValidatorFn {
+export function validateField(fields: any[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
 
     let msg = "";
     let body = control.value;
     let res: string[] = body.match(/{.*?}/g);
-    let fixedFields: string [] = ["FirstName", "Name", "Gender", "Phone", "Email", "CertificateNumber", "Organization", "SenderEmail", "keyToUnsubscribe"];
+    let fixedFields: string[] = ["FirstName", "Name", "Gender", "Phone", "Email", "CertificateNumber", "Organization", "SenderEmail", "keyToUnsubscribe"];
     if (res != null) {
       res.forEach(data => {
         let flag = false;
         let r = data.replace(/{/, "").replace(/}/, "");
         fields.forEach(field => {
-          if (r.toLowerCase() ===  (field.name).toLowerCase() ) {
+          if (r.toLowerCase() === (field.name).toLowerCase()) {
             flag = true;
           }
 
@@ -153,7 +154,7 @@ export function validateField(fields: any []): ValidatorFn {
           fixedFields.forEach(field => {
             if (r.toLowerCase() === field.toLowerCase()) {
               flag = true
-            }          
+            }
           });
         }
         if (flag == false) {
@@ -162,7 +163,7 @@ export function validateField(fields: any []): ValidatorFn {
 
       });
     }
-    return (msg == "") ? null : {"value": msg};
+    return (msg == "") ? null : { "value": msg };
   }
 }
 
@@ -174,7 +175,7 @@ export function validateCheckBox(): ValidatorFn {
         checked = true;
       }
     });
-    return checked ? null : {"value": "please select a user"};
+    return checked ? null : { "value": "please select a user" };
   }
 }
 
@@ -186,7 +187,7 @@ export function validateTag(): ValidatorFn {
         error = true;
       }
     }
-    return error ? {"value": "Invalid Tag"} : null;
+    return error ? { "value": "Invalid Tag" } : null;
   }
 }
 

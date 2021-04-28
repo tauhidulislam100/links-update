@@ -103,3 +103,26 @@ a.view-link {
     min-width: 5rem;
     color: white;
 }
+
+
+
+
+.custom-form-control.is-invalid,
+.custom-form-control.ng-dirty.ng-touched.ng-invalid {
+  background-position: right 10px center;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20.108" height="20.108" viewBox="0 0 20.108 20.108"><path id="Icon_material-error" data-name="Icon material-error" d="M13.054,3A10.054,10.054,0,1,0,23.108,13.054,10.058,10.058,0,0,0,13.054,3Zm1.005,15.081H12.049V16.07h2.011Zm0-4.022s-1.508,1.508-2.011,0,0-6.032,0-6.032h2.011Z" transform="translate(-3 -3)" fill="red"/></svg>');
+  background-repeat: no-repeat;
+  border-color: #FF0000;
+  background-size: auto;
+  transition: all 0s;
+}
+
+.alert-black {
+  color: #fff;
+  background-color: #28293D;
+}
+.alert-black .dismiss {
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+}

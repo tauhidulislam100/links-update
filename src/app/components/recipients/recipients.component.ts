@@ -54,6 +54,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  btnPressed = false;
   selectedFileName = '';
   assets_loc;
   expandedView;
@@ -73,6 +74,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   previewDisplayColumns = ['email', 'name', 'user_tags', 'fields'];
   previewDataSource;
   showPreview = false;
+  tagView = false;
   noOfRecipientsNotFound = 0;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('message', { static: true }) message: ElementRef;
@@ -86,7 +88,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
     private fb: FormBuilder,
     private certificateService: CertificateService,
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
     public dialog: MatDialog,
     private tagService: TagService,
     private emailService: EmailService,
@@ -102,7 +104,9 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.myInput.nativeElement.focus();
+    if(this.myInput) {
+      this.myInput.nativeElement.focus();
+    }
   }
 
   ngOnInit() {
@@ -130,6 +134,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.route.snapshot.paramMap.get('id') != null) {
       this.showPreview = true;
+      this.tagView = true;
       this.showNewRecipients = false;
       this.subscription[1] = this.recipentService.getByTag(this.route.snapshot.paramMap.get('id')).subscribe(recipents => {
         this.allUsers = recipents.recipientList;
@@ -145,11 +150,11 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           </div>
         `;
         this.renderer.appendChild(this.message.nativeElement, div);
-
+        this.removeMessage(div);
       });
       // this.addCheckboxes();
     } else {
-
+      this.tagView = false;
       this.subscription[2] = this.recipentService.getAllNewUsers().subscribe(data => {
         this.allUsers = data;
         this.addCheckboxes();
@@ -215,8 +220,9 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   searchUsers1(value: string) {
-
-    if (value != " ") {
+    this.btnPressed = true;
+    if (value.trim()) {
+      this.btnPressed = false;
       this.loader = true;
       let emails = [];
       value.split("\n").map(data => emails.push(data.split(",")[0]));
@@ -231,25 +237,33 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           let div = this.renderer.createElement('div');
           div.innerHTML = `
           <div class="alert alert-secondary error" *ngIf="showNoRecipientFound" role="alert">
-          <div class="row align-items-center">
-             <div class="col">
-               <svg xmlns="http://www.w3.org/2000/svg" width="20.289" height="20.289" viewBox="0 0 20.289 20.289">
-                 <path id="Path_178" data-name="Path 178" d="M12.145,2A10.145,10.145,0,1,0,22.289,12.145,10.148,10.148,0,0,0,12.145,2Zm0,15.217A1.017,1.017,0,0,1,11.13,16.2V12.145a1.014,1.014,0,0,1,2.029,0V16.2A1.017,1.017,0,0,1,12.145,17.217Zm.866-8.252a1.212,1.212,0,0,1-1.763,0,1.167,1.167,0,0,1,0-1.725,1.212,1.212,0,0,1,1.763,0A1.167,1.167,0,0,1,13.01,8.965Z" transform="translate(-2 -2)" fill="#28293d"/>
-               </svg>
-               All records are new. You can save them and search again to proceed for any task.
-             </div>
-             <div class="col-auto">
-               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                 <span aria-hidden="true">Dismiss</span>
-               </button>
-             </div>
-     
+            <div class="row align-items-center">
+              <div class="col">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20.289" height="20.289" viewBox="0 0 20.289 20.289">
+                  <path id="Path_178" data-name="Path 178" d="M12.145,2A10.145,10.145,0,1,0,22.289,12.145,10.148,10.148,0,0,0,12.145,2Zm0,15.217A1.017,1.017,0,0,1,11.13,16.2V12.145a1.014,1.014,0,0,1,2.029,0V16.2A1.017,1.017,0,0,1,12.145,17.217Zm.866-8.252a1.212,1.212,0,0,1-1.763,0,1.167,1.167,0,0,1,0-1.725,1.212,1.212,0,0,1,1.763,0A1.167,1.167,0,0,1,13.01,8.965Z" transform="translate(-2 -2)" fill="#28293d"/>
+                </svg>
+                All records are new. You can save them and search again to proceed for any task.
+              </div>
+              <div class="col-auto">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">Dismiss</span>
+                </button>
+              </div>
+      
+            </div>
           </div>
-       </div>
           `;
-
+    
           this.renderer.appendChild(this.message.nativeElement, div);
-          this.renderer.appendChild(this.message, div);
+          const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+          if(closeBtns) {
+            closeBtns.forEach(element => {
+              this.renderer.listen(element, 'click', (e) => {
+                element.parentNode.parentNode.parentNode.remove();
+              })
+            });
+          }
+          // this.renderer.appendChild(this.message, div);
 
         } else {
           this.showPreview = true;
@@ -296,6 +310,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           this.renderer.appendChild(this.message.nativeElement, div);
           this.showSearchResultMessage = true;
           this.showNewRecipients = false;
+          this.removeMessage(div);
         }
         // this.showSearchResults = true;
       });
@@ -315,7 +330,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.allUsers = await this.userService.getByEmails(emails);
       this.loader = false;
       // this.addCheckboxes();
-      //this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
+      // this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
     }
     // this.uncheckAll();
   }
@@ -431,6 +446,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   saveAllAndSearch(userDetail: string) {
     this.usersForm.get('userDetails').setValidators([Validators.required, validateSaveAndUpdate()]);
     this.usersForm.get('userDetails').updateValueAndValidity();
+    this.btnPressed = true;
     if (this.usersForm.get('userDetails').valid) {
       this.loader = true;
       let users = userDetail.split("\n");
@@ -490,16 +506,12 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           </div>
         `;
         this.renderer.appendChild(this.message.nativeElement, div);
-        //  this.userService.getAllNewUsers().subscribe(data => {
-        //    this.uncheckAll();
-        //    this.allUsers = data;
-        //    this.addCheckboxes();
-        //    this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
-        // })
+        this.removeMessage(div);
       }, error => {
         this.loader = false
       });
     }
+    console.log('calling save on empty field');
   }
 
   onFileChange(evt: any) {
@@ -563,6 +575,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       details += `\n`;
     });
     this.usersForm.get('userDetails').setValue(details);
+    this.changeArea();
   }
 
   validateHeaders(headersPresent: string[]) {
@@ -602,6 +615,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
             </div>
           `
           this.renderer.appendChild(this.message.nativeElement, div);
+          this.removeMessage(div);
           // this.userService.getAllNewUsers().subscribe(data => {
           // })
         }, error => {
@@ -625,6 +639,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
             </div>
           `;
           this.renderer.appendChild(this.message.nativeElement, div);
+          this.removeMessage(div);
           // this.userService.getAllNewUsers().subscribe(data => {
           // })
         }, error => {
@@ -736,5 +751,15 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
         delete this.subscription[i];
       }
     }
+  }
+
+
+  removeMessage(element) {
+    let timer = setTimeout(() => {
+      clearTimeout(timer);
+      if(element) {
+        element.remove();
+      }
+    }, 2000);
   }
 }
