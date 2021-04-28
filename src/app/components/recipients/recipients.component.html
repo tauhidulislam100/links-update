@@ -28,7 +28,7 @@
 
   <form [formGroup]="usersForm" class="usersForm">
 
-    <div *ngIf="!tagView">
+    <ng-container *ngIf="!tagView">
       <div *ngIf="expandedView" class="box-area">
         <div class="row">
           <div class="col-md-12">
@@ -151,7 +151,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
     <div class="box-area">
       <div class="row">
