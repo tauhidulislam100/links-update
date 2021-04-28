@@ -157,14 +157,17 @@
       <div class="row">
         <div class="col-md-12">
           <div style="margin-bottom: 20px" class=" align-items-center d-flex justify-content-between">
-
+            
             <div class="button-group">
+              <button class="btn" (click)="goBack()" *ngIf="tagView">
+                <i class="fas fa-arrow-left"></i>
+              </button>
               <button class="btn btn-orange-outline" (click)="generateCertificate()">
                 <i class="far fa-file-alt"></i>
                 Generate Certificate
               </button>
 
-              <button class="btn btn-orange-outline" (click)="addTag()">
+              <button class="btn btn-orange-outline" (click)="addTag()" *ngIf="!tagView">
                 <i class="fas fa-tag"></i>
                 Add Tag
               </button>

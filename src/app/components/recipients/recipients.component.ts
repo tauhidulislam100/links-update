@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from '@angular/material/table';
@@ -95,6 +96,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
     private fieldService: FieldService,
     private renderer: Renderer2,
     private configService: ConfigService,
+    private location: Location,
     private recipentService: RecipientService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
@@ -103,6 +105,9 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  goBack() {
+    this.location.back()
+  }
   ngAfterViewInit() {
     if(this.myInput) {
       this.myInput.nativeElement.focus();
@@ -137,6 +142,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.tagView = true;
       this.showNewRecipients = false;
       this.subscription[1] = this.recipentService.getByTag(this.route.snapshot.paramMap.get('id')).subscribe(recipents => {
+        console.log("by tag ", recipents);
         this.allUsers = recipents.recipientList;
         this.allrecipientsToPreview = recipents.recipientsToPreview;
         this.searchResultSize = this.allUsers.length;
