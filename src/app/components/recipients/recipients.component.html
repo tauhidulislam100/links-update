@@ -27,137 +27,147 @@
   </div>
 
   <form [formGroup]="usersForm" class="usersForm">
-    <div *ngIf="expandedView" class="box-area">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <div appearance="outline" class="textarea-wrapper">
-              <label>Email, Name, Gender, Mobile</label>
-              <textarea #myExpandedInput formControlName="userDetails" placeholder="{{textAreaLegend}}" #filterValue
-                matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20></textarea>
-            </div>
 
-            <small class="userDetailsError" *ngIf="usersForm.controls.userDetails.errors"
-              [innerHtml]=usersForm.controls.userDetails.errors.value></small>
-            <span class="userDetailWarning"
-              *ngIf="!showWarningIfAFewFieldsAreMissing || !showWarningIfAFewFieldsAreMissing">
-              <p>Please make sure the details are in the same order as of the Fields. </p>
-            </span>
-            <span class="userDetailsError" *ngIf="showErrorIfNameOrEmailIsMissingAfterUpload">
-              <p>Looks like some of the Fields are missing. Did you make sure the names of the columns are same as the
-                Field names? Here are the missing Fields: </p>
-              <p> {{unMatchedHeaders.join(', ')}}</p>
-            </span>
-            <span class="userDetailWarning" *ngIf="showWarningIfAFewFieldsAreMissing">
-              <p>Looks like some of the Fields are missing. Did you make sure the names of the columns are same as the
-                Field names? Here are the missing Fields: </p>
-              <p> {{unMatchedHeaders.join(', ')}}</p>
-            </span>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center flex-md-row flex-lg-row flex-column">
-
-            <div class="action-btn mt-lg-0 mt-md-0 mt-4">
-              <button (click)="searchUsers1(filterValue.value)" class="btn-orange-rounded mr-4">
-                <svg id="search-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path id="Path_53" data-name="Path 53" d="M0,0H24V24H0Z" fill="none"/>
-                  <path id="Path_54" data-name="Path 54" d="M15.5,14h-.79l-.28-.27a6.518,6.518,0,1,0-.7.7l.27.28v.79l4.25,4.25a1.054,1.054,0,0,0,1.49-1.49Zm-6,0A4.5,4.5,0,1,1,14,9.5,4.494,4.494,0,0,1,9.5,14Z" fill="#fff"/>
-                </svg>
-                Search</button>
-              <button (click)="saveAllAndSearch(filterValue.value)" class="btn-orange-rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
-                  <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
-                </svg>
-                Save/Update</button>
-            </div>
-
-            <div class="upload-btn-container" style="float: left;">
-              <input type="file" accept=".xlsx" class="btn" (change)="onFileChange($event)" id="file">
-              <label for="file" class="upload-label">
-                <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
-                  <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
-                  <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
-                </svg> Upload File
-              </label>
-              <span>
-                <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}</ng-container>
-                <!-- <ng-template #elseTemplate>
-                  No file chosen
-                </ng-template> -->
+    <ng-container *ngIf="!tagView">
+      <div *ngIf="expandedView" class="box-area">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div appearance="outline" class="textarea-wrapper">
+                <label>Email, Name, Gender, Mobile</label>
+                <textarea #myExpandedInput formControlName="userDetails" placeholder="{{textAreaLegend}}" #filterValue
+                  matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20 class="mb-2"></textarea> {{myExpandedInput.focus()}}
+              </div>
+  
+              <small class="userDetailsError" *ngIf="usersForm.controls.userDetails.errors"
+                [innerHtml]=usersForm.controls.userDetails.errors.value></small>
+  
+              <span class="userDetailWarning"
+                *ngIf="!showWarningIfAFewFieldsAreMissing || !showWarningIfAFewFieldsAreMissing">
+                <p class="text-warning">Please make sure the details are in the same order as of the Fields. </p>
               </span>
+  
+              <span class="userDetailsError" *ngIf="showErrorIfNameOrEmailIsMissingAfterUpload">
+                <p>Looks like some of the Fields are missing. Did you make sure the names of the columns are same as the
+                  Field names? Here are the missing Fields: </p>
+                <p> {{unMatchedHeaders.join(', ')}}</p>
+              </span>
+  
+              <span class="userDetailWarning" *ngIf="showWarningIfAFewFieldsAreMissing">
+                <p>Looks like some of the Fields are missing. Did you make sure the names of the columns are same as the
+                  Field names? Here are the missing Fields: </p>
+                <p> {{unMatchedHeaders.join(', ')}}</p>
+              </span>
+  
             </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="!expandedView" class="search-area box-area">
-      <div class="row">
-        <div class="col-md-12">
-          <label for="">Email, Name, Gender, Mobile</label>
-          <div class="form-group">
-           
-            <textarea #myInput (ngModelChange)="changeArea()" (click)="changeArea()" class="custom-form-control"
-              rows="1" placeholder="Search and save" formControlName="userDetails" #filterValue></textarea>
-            <small class="userDetailsError" *ngIf="usersForm.controls.userDetails.errors"
-              [innerHtml]=usersForm.controls.userDetails.errors.value></small>
-          </div>
-          <!-- <input type="text" class="custom-form-control" > -->
-
-          <div class="row">
-            <div class="col">
-              <div class="action-btn">
-                <button class="btn-orange-rounded" (click)="searchUsers(filterValue.value)">
+  
+            <div class="d-flex justify-content-between align-items-center flex-md-row flex-lg-row flex-column">
+  
+              <div class="action-btn mt-lg-0 mt-md-0 mt-4">
+                <button (click)="searchUsers1(filterValue.value)" class="btn-orange-rounded mr-4">
                   <svg id="search-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path id="Path_53" data-name="Path 53" d="M0,0H24V24H0Z" fill="none"/>
                     <path id="Path_54" data-name="Path 54" d="M15.5,14h-.79l-.28-.27a6.518,6.518,0,1,0-.7.7l.27.28v.79l4.25,4.25a1.054,1.054,0,0,0,1.49-1.49Zm-6,0A4.5,4.5,0,1,1,14,9.5,4.494,4.494,0,0,1,9.5,14Z" fill="#fff"/>
                   </svg>
                   Search</button>
-                <button class="btn-orange-rounded ml-4" (click)="saveAllAndSearch(filterValue.value)">
+                <button (click)="saveAllAndSearch(filterValue.value)" class="btn-orange-rounded">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
                     <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
                   </svg>
-                  Save/Update
-                </button>
+                  Save/Update</button>
               </div>
-            </div>
-            <div class="col-auto">
-              <div class="upload-btn-container">
+  
+              <div class="upload-btn-container" style="float: left;">
                 <input type="file" accept=".xlsx" class="btn" (change)="onFileChange($event)" id="file">
-                <label for="file" class="upload-label"> 
+                <label for="file" class="upload-label">
                   <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
                     <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
                     <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
-                  </svg>
-                  Upload File</label>
+                  </svg> Upload File
+                </label>
                 <span>
-                  <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}
-                  </ng-container>
+                  <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}</ng-container>
                   <!-- <ng-template #elseTemplate>
                     No file chosen
                   </ng-template> -->
                 </span>
               </div>
+  
             </div>
           </div>
-
         </div>
       </div>
-    </div>
+  
+      <div *ngIf="!expandedView" class="search-area box-area">
+        <div class="row">
+          <div class="col-md-12">
+            <label for="">Email, Name, Gender, Mobile</label>
+            <div class="form-group">
+             
+              <textarea #myInput (keyup.enter)="changeArea()" class="custom-form-control mb-2" [ngClass]="{'is-invalid': !myInput.value && btnPressed}"
+                rows="1" placeholder="Search and save" formControlName="userDetails" #filterValue></textarea>
+              <small class="userDetailsError" *ngIf="usersForm.controls.userDetails.errors"
+                [innerHtml]=usersForm.controls.userDetails.errors.value></small>
+            </div>
+            <!-- <input type="text" class="custom-form-control" > -->
+  
+            <div class="row">
+              <div class="col">
+                <div class="action-btn">
+                  <button class="btn-orange-rounded" (click)="searchUsers1(filterValue.value)">
+                    <svg id="search-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path id="Path_53" data-name="Path 53" d="M0,0H24V24H0Z" fill="none"/>
+                      <path id="Path_54" data-name="Path 54" d="M15.5,14h-.79l-.28-.27a6.518,6.518,0,1,0-.7.7l.27.28v.79l4.25,4.25a1.054,1.054,0,0,0,1.49-1.49Zm-6,0A4.5,4.5,0,1,1,14,9.5,4.494,4.494,0,0,1,9.5,14Z" fill="#fff"/>
+                    </svg>
+                    Search</button>
+                  <button class="btn-orange-rounded ml-4" (click)="saveAllAndSearch(filterValue.value)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
+                      <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
+                    </svg>
+                    Save/Update
+                  </button>
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="upload-btn-container">
+                  <input type="file" accept=".xlsx" class="btn" (change)="onFileChange($event)" id="file">
+                  <label for="file" class="upload-label"> 
+                    <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
+                      <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
+                      <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
+                    </svg>
+                    Upload File</label>
+                  <span>
+                    <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}
+                    </ng-container>
+                    <!-- <ng-template #elseTemplate>
+                      No file chosen
+                    </ng-template> -->
+                  </span>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </ng-container>
 
     <div class="box-area">
       <div class="row">
         <div class="col-md-12">
           <div style="margin-bottom: 20px" class=" align-items-center d-flex justify-content-between">
-
+            
             <div class="button-group">
+              <button class="btn pt-2 pb-2 pl-3 pr-3 border" (click)="goBack()" *ngIf="tagView">
+                <i class="fas fa-arrow-left"></i>
+              </button>
               <button class="btn btn-orange-outline" (click)="generateCertificate()">
                 <i class="far fa-file-alt"></i>
                 Generate Certificate
               </button>
 
-              <button class="btn btn-orange-outline" (click)="addTag()">
+              <button class="btn btn-orange-outline" (click)="addTag()" *ngIf="!tagView">
                 <i class="fas fa-tag"></i>
                 Add Tag
               </button>
@@ -180,7 +190,17 @@
             </div>
 
           </div>
-
+          
+          <div class="alert alert-black d-flex align-items-center" *ngIf="tagView && allUsers" #alert2>
+            <span class="mr-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20.108" height="20.108" viewBox="0 0 20.108 20.108"><path id="Icon_material-error" data-name="Icon material-error" d="M13.054,3A10.054,10.054,0,1,0,23.108,13.054,10.058,10.058,0,0,0,13.054,3Zm1.005,15.081H12.049V16.07h2.011Zm0-4.022s-1.508,1.508-2.011,0,0-6.032,0-6.032h2.011Z" transform="translate(-3 -3)" fill="#fff"/>
+              </svg>
+            </span> 
+            {{ allUsers.length }} Recipients found with tag name 'Lorem'
+            <span class="dismiss ml-auto" (click)="alert2.remove()">
+              dismiss
+            </span>
+          </div>
 
           <div *ngIf="showNewRecipients" class="table-container">
             <table mat-table formArrayName="allUsers" [dataSource]="dataSource"
@@ -243,7 +263,7 @@
                   [formGroupName]="rowIndex">
                   <mat-chip-list formArrayName="userTags" #chipList>
                     <mat-chip color="primary" style="margin-top: 10px; "
-                      *ngFor="let tag of element.userTags; let i = index">
+                      *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id])">
                       {{tag.name}}
 
                     </mat-chip>

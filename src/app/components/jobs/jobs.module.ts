@@ -1,16 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { JobsComponent } from './jobs.component';
-import { JobsRoutingModule } from './jobs-routing.module';
-import { SharedModule } from 'src/app/shared.module';
+import { NgModule } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MaterialModule } from 'src/app/material/material.module';
+import { SharedModule } from 'src/app/shared.module';
+import { JobsRoutingModule } from './jobs-routing.module';
+import { JobsComponent } from './jobs.component';
+
 
 @NgModule({
   imports: [
     CommonModule,
     JobsRoutingModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    MatMenuModule,
+    MatSlideToggleModule
   ],
   declarations: [JobsComponent],
   exports: [ JobsComponent ]

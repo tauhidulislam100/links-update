@@ -1,201 +1,960 @@
 <!--<app-navbar></app-navbar>-->
 <div class="container mt-6">
-  <div class="row">
-    <div class="col-md-12">
-      <app-errors></app-errors>
-      <div #message></div>
+  <div class="box-area">
+    <div class="row">
+      <div class="col-md-12">
+        <app-errors></app-errors>
+        <div #message></div>
 
-      <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
-        <mat-tab label="Released Certificates">
-          <form *ngIf="jobsForm" [formGroup]="jobsForm">
-            <div class="table-container" style="width: fit-content;">
-              <table mat-table formArrayName="allJobs" [dataSource]="jobsDataSource" matSort class="mat-elevation-z8"
-                class="table table-bordered table-rounded">
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Id</h6>
+        <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
+
+          <mat-tab label="Unreleased Certificates (25)">
+            <div class="menu_dot_area">
+              <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <mat-menu #menu="matMenu">
+                <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
+                  <mat-slide-toggle [(ngModel)]="isChecked"></mat-slide-toggle>
+                </a>
+              </mat-menu>
+            </div>   
+            <div class="table-container mt-5">
+              <table  class="table table-header hoverEffect table-bordered table-rounded">
+                <tr>
+                  <th>
+                    <h6>Last Acted On</h6>
                   </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                    {{element.id}}
+                  <th>
+                    <h6>Certificate Name</h6>
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    Generated today 
                   </td>
-                </ng-container>
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Name</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-
-                    {{element.certificateTemplateName}}
+                  <td class="fields">
+                    Certificate of Completion - GRIP 
                   </td>
-                </ng-container>
-
-                <ng-container matColumnDef="status">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Status</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                    {{element.status}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="created_at">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Created At</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                    {{element.created_at}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="noOfRecipients">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>No of Recipients</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                    {{element.no_of_recipients}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="download">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <img src="{{assets_loc}}assets/download.svg" />
-                  </th>
-                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                    <a (click)="downloadCertificates(element)" class="view-link">Download</a>
-                    <p *ngIf="element.last_downloaded_on">Last downloaded on <br>{{element.last_downloaded_on}}</p>
+                  <td class="hover_details">
+                    <ul class="actiion_list">
+                      <li>
+                        <a class="btn-orange-outline-border">Validate</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Download</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Archive</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">View</a>
+                      </li>
+                    </ul>
                   </td>
-
-                </ng-container>
-
-                <ng-container matColumnDef="release">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <img src="{{assets_loc}}assets/release.svg" />
-                  </th>
-                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                    <a (click)="submit(element,'release')" class="view-link">Release</a>
-                    <p *ngIf="element.last_released_on">Last Released on <br>{{element.last_released_on}}</p>
+                </tr>
+                <tr>
+                  <td>
+                    Generated today 
                   </td>
-                </ng-container>
-                <ng-container matColumnDef="regenerate">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <img src="{{assets_loc}}assets/release.svg" />
-                  </th>
-                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                    <a (click)="submit(element,'regenerate')" class="view-link">Regenerate</a>
+                  <td class="fields">
+                    Certificate of Completion - GRIP 
                   </td>
-                </ng-container>
-
-                <ng-container matColumnDef="view">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <img src="{{assets_loc}}assets/view.svg" />
-                  </th>
-                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                    <a (click)="loader = true" [routerLink]="'/Certificates/View/'+element.id"
-                      class="view-link">View</a>
+                  <td class="hover_details">
+                    <ul class="actiion_list">
+                      <li>
+                        <a class="btn-orange-outline-border">Validate</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Download</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Archive</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">View</a>
+                      </li>
+                    </ul>
                   </td>
-                </ng-container>
-                <ng-container matColumnDef="validate">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <img src="{{assets_loc}}assets/release.svg" />
-                  </th>
-                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                    <a (click)="validateOnServer(element)" class="view-link">Validate</a>
+                </tr>
+                <tr>
+                  <td>
+                    Generated today 
                   </td>
-                </ng-container>
-
-                <ng-container matColumnDef="publish">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <img src="{{assets_loc}}assets/publish.svg" />
-                  </th>
-                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                    <a (click)="submit(element,'publish')" class="view-link">Publish</a>
-                    <p *ngIf="element.last_published_on">Last Published on<br>{{element.last_published_on}}</p>
+                  <td class="fields">
+                    Certificate of Completion - GRIP 
                   </td>
-                </ng-container>
-
-                <ng-container matColumnDef="archive">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <img src="{{assets_loc}}assets/delete.svg" />
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">
-                    <a class="view-link" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
-                      [popoverMessage]="deletePopoverMessage" placement="left"
-                      (confirm)="archiveJob(element)">Archive</a>
+                  <td class="hover_details">
+                    <ul class="actiion_list">
+                      <li>
+                        <a class="btn-orange-outline-border">Validate</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Download</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Archive</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">View</a>
+                      </li>
+                    </ul>
                   </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsJobs"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsJobs;"></tr>
+                </tr>
+                <tr>
+                  <td>
+                    Generated today 
+                  </td>
+                  <td class="fields">
+                    Certificate of Completion - GRIP 
+                  </td>
+                  <td class="hover_details">
+                    <ul class="actiion_list">
+                      <li>
+                        <a class="btn-orange-outline-border">Validate</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Download</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Archive</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">View</a>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Generated today 
+                  </td>
+                  <td class="fields">
+                    Certificate of Completion - GRIP 
+                  </td>
+                  <td class="hover_details">
+                    <ul class="actiion_list">
+                      <li>
+                        <a class="btn-orange-outline-border">Validate</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Download</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">Archive</a>
+                      </li>
+                      <li>
+                        <a class="btn-orange-outline-border">View</a>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
               </table>
-
-              <app-custom-pagination [page]="page" (nextPageEvent)="getNextPage()"
-                (previousPageEvent)="getPreviousPage()">
-              </app-custom-pagination>
-
             </div>
-          </form>
-        </mat-tab>
+          </mat-tab>
 
-        <mat-tab label="Certificate Templates">
-          <form [formGroup]="certificateForm">
-            <div>
+          <mat-tab label="Released Certificates (845)">
+            <div class="menu_dot_area">
+              <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <mat-menu #menu="matMenu">
+                <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
+                  <mat-slide-toggle [(ngModel)]="isChecked"></mat-slide-toggle>
+                </a>
+              </mat-menu>
+            </div>  
+            <form *ngIf="jobsForm" [formGroup]="jobsForm">
               <div class="table-container">
+                <table mat-table formArrayName="allJobs" [dataSource]="jobsDataSource" matSort class="mat-elevation-z8"
+                  class="table hoverEffect table-header table-bordered table-rounded">
 
-                <table mat-table formArrayName="allCerts" [dataSource]="certificateDataSource" matSort
-                  class="mat-elevation-z8" class="table table-bordered table-rounded">
-                  <ng-container matColumnDef="id">
+                  <ng-container matColumnDef="release">
                     <th mat-header-cell *matHeaderCellDef>
-                      <h6>Id</h6>
+                      <img src="{{assets_loc}}assets/release.svg" />
                     </th>
-                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                      {{element.id}}
+                    <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                      <a (click)="submit(element,'release')" class="view-link">Release</a>
+                      <p *ngIf="element.last_released_on">Last Released on <br>{{element.last_released_on}}</p>
                     </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="certificate_templates">
-
+                  <ng-container matColumnDef="created_at">
                     <th mat-header-cell *matHeaderCellDef>
-                      <h6>Certificate Templates</h6>
+                      <h6>Release</h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                      <!--                    <div (mouseover)="showPopover($event,element.certificate_image.data)"    (mouseleave)="hidePopover()">-->
-                      {{element.name}}
-                      <!--                    </div> -->
+                      {{element.created_at}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Name</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+
+                      {{element.certificateTemplateName}}
                     </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="no_of_recipients">
+                  <!-- <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef>
-                      <h6>No of Recipients</h6>
+                      <h6>Status</h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                      {{element.no_of_recipient}}</td>
+                      {{element.status}} </td>
+                  </ng-container> -->
+
+
+                  <ng-container matColumnDef="noOfRecipients">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Recipients</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                      {{element.no_of_recipients}} </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="update">
+                  <ng-container matColumnDef="seen">
                     <th mat-header-cell *matHeaderCellDef>
-                      <img src="{{assets_loc}}assets/update-tag.svg" />
+                      <h6>Seen</h6>
                     </th>
-                    <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                      <a [routerLink]="'/Certificates/AddTemplate/'+element.id" class="view-link">Update</a>
+                    <td mat-cell *matCellDef="let element">
+                      1
                     </td>
                   </ng-container>
 
-                  <tr mat-header-row *matHeaderRowDef="displayedColumnsCertificates"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumnsCertificates;"></tr>
+                  <ng-container matColumnDef="shared">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <h6>Shared</h6>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      0
+                    </td>
+                  </ng-container>
+
+                  <ng-container  matColumnDef="hovereffect">
+                    <th mat-header-cell *matHeaderCellDef>
+                      
+                    </th>
+                    <td mat-cell class="hover_details" *matCellDef="let element">
+                        <ul class="actiion_list">
+                          <li>
+                            <a (click)="validateOnServer(element)" class="btn-orange-outline-border">Validate</a>
+                          </li>
+                          <li>
+                            <a (click)="downloadCertificates(element)" class="btn-orange-outline-border">Download</a>
+                          </li>
+                          <li>
+                            <a class="btn-orange-outline-border" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
+                        [popoverMessage]="deletePopoverMessage" placement="left"
+                        (confirm)="archiveJob(element)">Archive</a>
+                          </li>
+                          <li>
+                            <a (click)="loader = true" [routerLink]="'/Certificates/View/'+element.id" class="btn-orange-outline-border">View</a>
+                          </li>
+                        </ul>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsJobs"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsJobs;"></tr>
                 </table>
-                <app-custom-pagination [page]="templatePage" (nextPageEvent)="getNextTemplatePage()"
-                  (previousPageEvent)="getPreviousTemplatePage()">
-                </app-custom-pagination>
-                <button class="btn-orange-outline" (click)="generateCertificateTemplate()"><img
-                    src="{{assets_loc}}assets/plus.svg" /> Add New Certificate Template
-                </button>
 
+                <app-custom-pagination [page]="page" (nextPageEvent)="getNextPage()"
+                  (previousPageEvent)="getPreviousPage()">
+                </app-custom-pagination>
 
               </div>
-
+            </form>
+          </mat-tab>
+          <mat-tab label="Certificate Templates (5)">
+            <div class="menu_dot_area">
+              <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <mat-menu #menu="matMenu">
+                <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
+                  <mat-slide-toggle [(ngModel)]="isChecked"></mat-slide-toggle>
+                </a>
+              </mat-menu>
             </div>
-          </form>
+            
+            <button class="btn-orange-outline add_certificate" (click)="generateCertificateTemplate()">
+              <i class="fas fa-plus"></i> Add New Certificate Template
+            </button>
+            <form [formGroup]="certificateForm">
+              <div>
+                <div class="table-container mt-5">
+                  <div class="row certificate_templates_wrap">
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
+                    <div class="col-small">
+                       <div class="certificateSingle">
+                         <img src="../../../assets/certificate.png" alt="">
+                         <h4>Data Analytics and Python Online </h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 24 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> Today
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                 35
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                 Today
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                Jan 12 2021
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                    <!-- End col small -->
 
-        </mat-tab>
-      </mat-tab-group>
+                  </div>
+
+
+                  <!-- <table mat-table formArrayName="allCerts" [dataSource]="certificateDataSource" matSort
+                    class="mat-elevation-z8" class="table table-header table-bordered table-rounded">
+                    <ng-container matColumnDef="id">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <h6>Id</h6>
+                      </th>
+                      <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                        {{element.id}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="certificate_templates">
+
+                      <th mat-header-cell *matHeaderCellDef>
+                        <h6>Certificate Templates</h6>
+                      </th>
+                      <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                        {{element.name}}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="no_of_recipients">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <h6>No of Recipients</h6>
+                      </th>
+                      <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                        {{element.no_of_recipient}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="update">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <img src="{{assets_loc}}assets/update-tag.svg" />
+                      </th>
+                      <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                        <a [routerLink]="'/Certificates/AddTemplate/'+element.id" class="view-link">Update</a>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsCertificates"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsCertificates;"></tr>
+                  </table> -->
+
+
+                  <app-custom-pagination [page]="templatePage" (nextPageEvent)="getNextTemplatePage()"
+                    (previousPageEvent)="getPreviousTemplatePage()">
+                  </app-custom-pagination>
+                  
+                </div>
+              </div>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
     </div>
   </div>
 </div>

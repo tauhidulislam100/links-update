@@ -1,22 +1,21 @@
-<div *ngIf="page">
-
-  <div style="float: right;">Shows {{ (page.number * page.size) + 1   }}
+<div class="pagination-area">
+  <div class="row" *ngIf="page">
+    <div class="col" style="float: right;">Showing {{ (page.number * page.size) + 1   }}
     - {{ (page.number * page.size) + page.numberOfElements }} of {{page.totalElements}}</div>
-  <div>
-    <nav aria-label="Page navigation example">
 
+    <nav class="col-auto" aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item" [ngClass]="{'disabled': page.first }"><a class="page-link" [routerLink]=""
-                                                                       (click)="previousPage()"> previous
+
+        <li class="page-item" [ngClass]="{'disabled': page.last }">
+          <a class="page-link" [routerLink]="" (click)="nextPage()"> <i class="fas fa-chevron-left"></i>
         </a></li>
-        <li class="page-item" [ngClass]="{'disabled': page.last }"><a class="page-link" [routerLink]=""
-                                                                      (click)="nextPage()"> next
+
+        <li class="page-item" [ngClass]="{'disabled': page.first }">
+          <a class="page-link" [routerLink]=""  (click)="previousPage()"> <i class="fas fa-chevron-right"></i>
         </a></li>
 
       </ul>
     </nav>
-
   </div>
-
-
 </div>
+

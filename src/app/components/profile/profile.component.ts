@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
@@ -8,9 +9,6 @@ import { ConfigService } from 'src/app/_services/config.service';
 import { FieldService } from 'src/app/_services/field.service';
 import { SelectedTabService } from 'src/app/_services/selected-tab.service';
 import { RecipientService } from '../../_services/recipient.service';
-
-
-
 
 
 
@@ -41,7 +39,7 @@ export class ProfileComponent implements OnInit {
   selectedFileName = "";
   updateForm: FormGroup;
   loader = false;
-  certificateDisplayedColumns: string[] = ['job Id', 'Name of Certificate', 'createdAt'];
+  // certificateDisplayedColumns: string[] = ['job Id', 'Name of Certificate', 'createdAt'];
   certificateDataSource;
   newCertificate = null;
   emailDisplayedColumns: string[] = ['job Id', 'subject', 'from', 'sent on'];
@@ -61,6 +59,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
+    private location: Location,
     private configService: ConfigService,
     private selectedTabService: SelectedTabService,
     private fieldService: FieldService,
@@ -69,6 +68,10 @@ export class ProfileComponent implements OnInit {
       this.assets_loc = data.assets_location;
     })
     this.selectedTab = this.selectedTabService.getTab(this.compName);
+  }
+
+  goBack() {
+    this.location.back()
   }
 
   ngOnInit() {

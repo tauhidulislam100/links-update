@@ -106,7 +106,7 @@ common  style for all components that ara similar
 }
 
 .userDetailsError {
-  margin-top: -1rem;
+  /* margin-top: -1rem; */
   display: block;
   font-weight: 500;
   color: #FF0000 !important;
@@ -149,9 +149,15 @@ common  style for all components that ara similar
   text-decoration: none;
 }
 
-/* .btn-orange-outline:hover svg path{
+.btn-orange-outline.save svg path{
+  fill: #ff3a00;
+}
+
+.btn-orange-outline.save:hover svg path{
   fill: white;
-} */
+}
+
+
 /* 
 .btn-orange-outline.btn-orange-outline svg path{
   fill: #ff3a00;
@@ -215,6 +221,8 @@ svg {
 .table-rounded th {
   padding: .5rem !important;
   vertical-align: middle;
+  border-left: 0;
+  border-right: 0;
 }
 
 .table thead th {
@@ -226,8 +234,6 @@ tr.mat-row {
   border-top: 1px solid #CACACA;
   border-bottom: 1px solid #CACACA;
 }
-
-
 
 /***CUSTOM  custom upload button style  ***/
 
@@ -553,6 +559,7 @@ login register page realted style
 
 .box-area{
   background: #ffffff;
+  position: relative;
   border-radius: 5px;
   padding: 40px;
   margin-bottom: 20px;
@@ -621,6 +628,8 @@ login register page realted style
 .mat-tab-label-container{
   background: #28293d15;
   display: inline-block !important;
+  position: relative;
+  z-index: 100000 !important;
 }
 
 .mat-tab-labels{
@@ -643,7 +652,9 @@ login register page realted style
 }
 
 .mat-tab-body-wrapper{
-  overflow: initial !important;
+  /* overflow: initial !important; */
+  margin-top: -60px;
+  padding-top: 60px;
 }
 
 .add_new_email_template{
@@ -658,3 +669,75 @@ login register page realted style
 .mat-group-content .mat-tab-body-content{
    overflow: unset !important;
 }
+
+.btn.back{
+  position: absolute;
+  z-index: 50;
+}
+
+.pagination-area{
+  border-top: 1px solid #d1d1d4;
+  padding-top: 20px;
+}
+
+/*  hover effect  */
+.hoverEffect tr, 
+.hoverEffect tr{
+    border: 0;
+    height: 46px;
+}
+
+.hoverEffect .hover_details{
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: right !important;
+    z-index: 10;
+    background:rgb(0 0 0 / 2%);
+    opacity: 0;
+    width: 0px;
+}
+
+.hoverEffect tr:hover .hover_details{
+    display: block;
+    opacity: 1;
+    width: auto;
+}
+
+.hoverEffect tr .hover_details .btn-orange-outline-border{
+    color: #FF3A00 !important;
+    display: block;
+    cursor: pointer;
+}
+
+.hoverEffect tr .hover_details .btn-orange-outline-border:hover{
+    color: white !important;
+}
+
+.actiion_list{
+  padding: 0;
+  margin: 0;
+  background: #fafafa;
+  display: inline-block;
+}
+
+.actiion_list li{
+  list-style: none;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.actiion_list li a{
+  padding: 0.1rem 1rem;
+  min-width: auto;
+}
+
+.col-small{
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0 15px;
+  margin-bottom: 25px;
+}
+
+

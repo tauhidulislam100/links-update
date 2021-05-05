@@ -26,10 +26,6 @@ const routes: Routes = [
     path: 'AdminLogin',
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule), 
   },
-  // { 
-  //   path: 'AdminLogin', 
-  //   component: AdminLoginComponent 
-  // },
   { 
     path: '404', 
     component: NotFoundComponent 

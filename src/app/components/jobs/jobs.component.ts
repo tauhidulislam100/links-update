@@ -1,19 +1,20 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { CertificateService } from '../../_services/certificate.service';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSort, MatTableDataSource } from '@angular/material';
 import { formatDate } from '@angular/common';
-import { saveAs } from 'file-saver';
-import { ErrorService } from 'src/app/_services/error.service';
-import { ConfigService } from 'src/app/_services/config.service';
-import { Page } from 'src/app/pagination/page';
-import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
-import { ConfirmationDialogueComponent } from "../confirmation-dialogue/confirmation-dialogue.component";
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog } from "@angular/material/dialog";
+import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+import { Page } from 'src/app/pagination/page';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { ConfigService } from 'src/app/_services/config.service';
+import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
+import { ErrorService } from 'src/app/_services/error.service';
 import { SelectedTabService } from 'src/app/_services/selected-tab.service';
 import { PageType } from 'src/app/_types';
+import { CertificateService } from '../../_services/certificate.service';
+import { ConfirmationDialogueComponent } from "../confirmation-dialogue/confirmation-dialogue.component";
 
 export interface JobData {
   id,
@@ -35,6 +36,7 @@ export interface CertificateData {
   host: {'[@slideUpAnimation]': ''},
 })
 export class JobsComponent implements OnInit {
+  isChecked = true;
   popoverIsVisible = false;
   popoverData = '';
   popperTop: '100px';
@@ -84,6 +86,7 @@ export class JobsComponent implements OnInit {
     private configService: ConfigService, 
     private dialog: MatDialog,
     private selectedTabService: SelectedTabService,
+    private router: Router, 
     ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
@@ -117,7 +120,8 @@ export class JobsComponent implements OnInit {
     })
 
     this.displayedColumnsCertificates = ['id', 'certificate_templates', 'no_of_recipients', 'update'];
-    this.displayedColumnsJobs = ['id', 'name', 'status', 'noOfRecipients', 'created_at', 'download', 'release', 'regenerate', 'view', 'publish', 'validate', 'archive'];
+
+    this.displayedColumnsJobs = ['created_at', 'name', 'noOfRecipients', 'seen', 'shared', 'hovereffect'];
 
     this.certificateForm = this.fb.group({
       allCerts: new FormArray([])
@@ -199,19 +203,40 @@ export class JobsComponent implements OnInit {
         if (data1.isLimitReached) {
           this.publishLimitIsReached = true;
           let div = this.renderer.createElement('div');
-          div.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">" +
+          div.innerHTML = "<div class=\"alert alert-secondary\" role=\"alert\"><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-exclamation-circle mr-2\"></i>" +
             "Oh! It seems there is not enough limit to publish certificates. You can check the balance at the <a\n" +
             "        [routerLink]=\"'/AdminProfile'\" routerLinkActive=\"active\">profile's page</a>  and raise a ticket for limit increase at  <a\n" +
             "        [routerLink]=\"'/FAQ'\" routerLinkActive=\"active\">Support page</a> " +
-            "</div>"
+            "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
           this.renderer.appendChild(this.message.nativeElement, div);
+          const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+          if(closeBtns) {
+            closeBtns.forEach(element => {
+              this.renderer.listen(element, 'click', (e) => {
+                element.parentNode.parentNode.parentNode.remove();
+              })
+            });
+          }
+
           this.isSubmitted = false;
         } else {
+
           let div = this.renderer.createElement('div');
-          div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-            "Great! The publish task is submitted. You can track it with task# " + row.id +
-            "</div>"
-          this.renderer.appendChild(this.message.nativeElement, div);
+          div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
+        
+          "Great! The publish task is submitted. You can track it with task# " + row.id +
+          "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+
+        this.renderer.appendChild(this.message.nativeElement, div);
+        const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+        if(closeBtns) {
+          closeBtns.forEach(element => {
+            this.renderer.listen(element, 'click', (e) => {
+              element.parentNode.parentNode.parentNode.remove();
+            })
+          });
+        }
+        // this.renderer.appendChild(this.message, div);
           this.isSubmitted = true;
           this.publishLimitIsReached = false;
         }
@@ -228,7 +253,7 @@ export class JobsComponent implements OnInit {
   }
 
   generateCertificateTemplate() {
-    // this.router.navigate(['/Certificates/AddTemplate']);
+    this.router.navigate(['/Certificates/AddTemplate']);
   }
 
   releaseCertificates(row) {
@@ -244,12 +269,21 @@ export class JobsComponent implements OnInit {
         this.recipientSizeIsZero = false;
         this.isReleased = false;
         let div = this.renderer.createElement('div');
-        div.innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">" +
+        div.innerHTML = "<div class=\"alert alert-secondary\" role=\"alert\"><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-exclamation-circle mr-2\"></i>" +
           "Oh! It seems there is not enough limit to send emails. You can check the balance at the <a\n" +
           "        [routerLink]=\"'/AdminProfile'\" routerLinkActive=\"active\">profile's page</a>  and raise a ticket for limit increase at  <a\n" +
           "        [routerLink]=\"'/FAQ'\" routerLinkActive=\"active\">Support page</a> " +
-          "</div>"
+          "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
         this.renderer.appendChild(this.message.nativeElement, div);
+        const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+        if(closeBtns) {
+          closeBtns.forEach(element => {
+            this.renderer.listen(element, 'click', (e) => {
+              element.parentNode.parentNode.parentNode.remove();
+            })
+          });
+        }
+
       } else {
         this.emailLimitIsReached = false;
         if (data1.noOfRecipients == 0) {
@@ -265,10 +299,22 @@ export class JobsComponent implements OnInit {
           this.isReleased = true;
           // this.popoverTitle = data;
           let div = this.renderer.createElement('div');
-          div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-            "Great! The release task is submitted. You can track it with task# " + row.id +
-            "</div>"
+
+          div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
+    
+          "Great! The release task is submitted. You can track it with task# " + row.id +
+          "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+  
           this.renderer.appendChild(this.message.nativeElement, div);
+          const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+          if(closeBtns) {
+            closeBtns.forEach(element => {
+              this.renderer.listen(element, 'click', (e) => {
+                element.parentNode.parentNode.parentNode.remove();
+              })
+            });
+          }
+
           this.errorService.setErrorVisibility(false, "");
         }
       }
@@ -297,17 +343,34 @@ export class JobsComponent implements OnInit {
       this.isReleased = true;
       this.isSubmitted = true;
       let div = this.renderer.createElement('div');
-      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
+
+      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
+    
         "Great! The regenerate task is submitted. You can track it with task# " + row.id +
-        "</div>"
+        "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+
       this.renderer.appendChild(this.message.nativeElement, div);
+      const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+      if(closeBtns) {
+        closeBtns.forEach(element => {
+          this.renderer.listen(element, 'click', (e) => {
+            element.parentNode.parentNode.parentNode.remove();
+          })
+        });
+      }
+      // this.renderer.appendChild(this.message, div);
+
+
       this.errorService.setErrorVisibility(false, "");
+
+
 
     },
       error => {
-
         this.loader = false
       });
+
+
 
   }
 
@@ -320,10 +383,24 @@ export class JobsComponent implements OnInit {
       this.isReleased = true;
       this.isSubmitted = true;
       let div = this.renderer.createElement('div');
-      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-        "Great! The validate task is submitted. You can track it with task# " + row.id +
-        "</div>"
-      this.renderer.appendChild(this.message.nativeElement, div);
+
+      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
+    
+      "Great! The validate task is submitted. You can track it with task# " + row.id +
+      "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+      
+    this.renderer.appendChild(this.message.nativeElement, div);
+    const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+    if(closeBtns) {
+      closeBtns.forEach(element => {
+        this.renderer.listen(element, 'click', (e) => {
+          element.parentNode.parentNode.parentNode.remove();
+        })
+      });
+    }
+    // this.renderer.appendChild(this.message, div);
+
+
       this.errorService.setErrorVisibility(false, "");
     },
       error => {
@@ -391,10 +468,23 @@ export class JobsComponent implements OnInit {
   archiveJob(row) {
     this.certificateService.deleteCertificateJob(row.id).subscribe(data => {
       let div = this.renderer.createElement('div');
-      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" >" +
-        "Job is archived successfully " + row.id +
-        "</div>"
+
+      div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
+    
+      "Job is archived successfully " + row.id +
+      "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+
       this.renderer.appendChild(this.message.nativeElement, div);
+      const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+      if(closeBtns) {
+        closeBtns.forEach(element => {
+          this.renderer.listen(element, 'click', (e) => {
+            element.parentNode.parentNode.parentNode.remove();
+          })
+        });
+      }
+
+
       this.errorService.setErrorVisibility(false, "");
 
     }

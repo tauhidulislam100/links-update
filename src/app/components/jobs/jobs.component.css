@@ -2,25 +2,15 @@
   background-color: #f2f4f9 !important;
 }
 
-a.view-link {
-  color: #01288f;
-  font-weight: 500;
-  text-decoration: none;
-}
-
 .mat-header-cell {
-  text-align: center;
+  text-align: left;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
 }
 
 .mat-cell {
-  text-align: center;
-  justify-content: center;
-}
-
-a {
-  cursor: pointer;
+  text-align: left;
+  justify-content: left;
 }
 
 .popover {
@@ -33,4 +23,118 @@ a {
 a.disabled {
   pointer-events: none;
   cursor: default;
+}
+
+.table-header tr th h6{
+   font-weight: 600;
+}
+
+.certificate_templates_wrap{
+
+}
+
+.certificateSingle{
+   border: 1px solid gray;
+   border-radius: 5px;
+   position: relative;
+   padding-bottom: 15px;
+   box-shadow: 1px 5px 20px 2px #0403034f !important;
+   -o-box-shadow: 1px 5px 20px 2px #0403034f !important;
+   -moz-box-shadow: 1px 5px 20px 2px #0403034f !important;
+   -webkit-box-shadow:1px 5px 20px 2px #0403034f !important;
+}
+
+.certificateSingle img{
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+.certificateSingle h4{
+   font-size: 14px;
+   font-weight: 600;
+   padding: 15px;
+   margin-bottom: 0;
+   border-top: 1px solid gray;
+}
+
+.certificateSingle .meta{
+    font-size: 14px;
+    font-weight: 300;
+    padding: 0 15px;
+    color: #707070;
+}
+
+.certificateSingle .hoverSection{
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 190px;
+    background: white;
+    z-index: 10;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 15px;
+    border-left:1px solid gray ;
+    border-right:1px solid gray ;
+    font-size: 14px;
+}
+
+.certificateSingle:hover .hoverSection{
+    display: block;
+}
+
+.certificateSingle .hoverSection .col-4{
+    color: gray;
+}
+
+.certificateSingle .hoverSection .btn-orange-outline-border{
+    padding: .5rem 1.5rem;
+}
+
+::ng-deep .mat-tab-label-container {
+  margin-left: 0 !important;
+}
+
+.add_certificate{
+  position: absolute;
+  right: 56px;
+  top: -60px;
+  z-index: 10;
+  border: 0;
+  outline: none;
+}
+
+.menu_dot_area{
+  position: absolute;
+  right: 0;
+  top: -55px;
+  z-index: 10;
+  border: 0;
+  outline: none;
+}
+
+.menu_dot_area .btn:focus .mat-menu-item,
+.menu_dot_area .btn:focus .mat-menu-item{
+   border: 0;
+   outline: none;
+}
+
+::ng-deep .mat-menu-item{
+   color: black;
+   text-decoration: none;
+}
+
+::ng-deep .mat-menu-item:hover{
+   text-decoration: none;
+   color: black;
+}
+
+::ng-deep mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: white !important;
+}
+
+::ng-deep mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: #FF3A00 !important;
+  opacity: 1;
 }

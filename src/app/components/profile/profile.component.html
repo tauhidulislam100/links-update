@@ -4,221 +4,567 @@
 </div>
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <app-errors></app-errors>
+  <div class="box-area">
+    <div class="row">
+      <div class="col-md-12">
+        <app-errors></app-errors>
+  
+        <div class="alert alert-success mb-5" *ngIf="isUpdated" role="alert" >
+          <div class="row align-items-center">
+             <div class="col">
+              <i class="fas fa-check-circle mr-2"></i>
+               Updated Successfully.
+             </div>
+             <div class="col-auto">
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="fas fa-times-circle"></i>
+               </button>
+             </div>
+          </div>
+       </div>
+        <!-- <div class="d-flex justify-content-start" *ngIf="user">
+          <div class="userData ml-3">
+            <h4>{{user.name}}</h4>
+            <h6>{{user.email}}</h6>
+  
+            <mat-chip-list #chipList>
+              <mat-chip color="primary" style="margin-top: 10px;" *ngFor="let tag of user.user_tags; let i = index">
+                {{tag.name}}
+  
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div> -->
 
-      <div class="alert alert-success mb-5" *ngIf="isUpdated" role="alert" >
+<!-- 
         <div class="row align-items-center">
-           <div class="col">
-            <i class="fas fa-check-circle mr-2"></i>
-             Updated Successfully.
-           </div>
-           <div class="col-auto">
-             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <i class="fas fa-times-circle"></i>
-             </button>
-           </div>
-        </div>
-     </div>
-      <!-- <div class="d-flex justify-content-start" *ngIf="user">
-        <div class="userData ml-3">
-          <h4>{{user.name}}</h4>
-          <h6>{{user.email}}</h6>
-
-          <mat-chip-list #chipList>
-            <mat-chip color="primary" style="margin-top: 10px;" *ngFor="let tag of user.user_tags; let i = index">
-              {{tag.name}}
-
-            </mat-chip>
-          </mat-chip-list>
-        </div>
-      </div> -->
-
-
-      <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab"
-        (selectedTabChange)="handleTabChange($event)">
-        <mat-tab label="Details">
-          <form *ngIf="updateForm" [formGroup]="updateForm" class="profile-update-form">
-
-            <div class="form-group details_tab_action d-flex">
-              <button class="btn-orange-outline export" (click)="Cancel()">
-                Discard Changes
-              </button>
-              
-              <button class="btn-orange-outline ml-3" (click)="update()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
-                  <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
-                </svg>
-                Save Changes</button>
-
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="custom-group">
-                  <input class="custom-form-control" type="text" placeholder="Name" formControlName="name">
-                  <label>Name</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="custom-group">
-                  <input class="custom-form-control" type="text" placeholder="Email" formControlName="email">
-                  <label>Email</label>
-                </div>
-              </div>
-
-
-              <div class="col-md-6">
-                <div class="custom-group">
-                  <mat-select formControlName="gender" class="custom-form-control">
-                    <mat-option value="male">Male
-                    </mat-option>
-                    <mat-option value="female">Female
-                    </mat-option>
-                  </mat-select>
-                  <label>Gender</label>
-                </div>
-              </div>
-
-
-              <div class="col-md-6">
-                <div class="custom-group">
-                  <input class="custom-form-control" type="text" placeholder="Mobile" formControlName="mobile">
-                  <label>Mobile</label>
-                </div>
-              </div>
-
-
-              <div class="col-md-6" *ngFor="let field of recipientFields">
-                <div class="custom-group">
-                  <input class="custom-form-control" type="text" placeholder="Class"
-                    [formControl]="updateForm.get(field.name)">
-                  <label>{{field.name}}</label>
-                </div>
-              </div>
-
-            </div>
-          </form>
-
-          <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
-          </mat-menu>
-          
-
-        </mat-tab>
-
-        <mat-tab label="Certificates">
-          <div class="table-container">
-            <table mat-table [dataSource]="certificateDataSource" class="table table-bordered table-rounded">
-              <ng-container matColumnDef="job Id">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Job Id</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  <a mat-button color="primary" [routerLink]="'/Certificates/View/'+element.certificateJob.id">
-                    {{element.certificateJob.id}}</a>
-                </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="Name of Certificate">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Name of Certificate</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.certificateTemplateDetail.name}}
-                </td>
-
-              </ng-container>
-
-
-              <ng-container matColumnDef="createdAt">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>CreatedAt</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  {{element.created_at}} </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="certificateDisplayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: certificateDisplayedColumns;">
-              </tr>
-            </table>
-
-
+          <div class="col">
+           <i class="fas fa-check-circle mr-2"></i>
+            Updated Successfully.
           </div>
-          <div>
-            <div class="upload-btn-container">
-              <input type="file" class="btn" id="file" (change)="handleCertificateUpload($event)" accept="image/*">
-              <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Select
-                Certificate</label>
-              <span>
-                <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}</ng-container>
-                <ng-template #elseTemplate>
-                  No file chosen
-                </ng-template>
-              </span>
-            </div>
-            <div>
-              <button class="btn-orange-rounded" (click)="uploadCertificate()">Upload Certificate</button>
-            </div>
+          <div class="col-auto">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <i class="fas fa-times-circle"></i>
+            </button>
           </div>
+       </div> -->
+  
+        <a href="javascript:void(0)" (click)="goBack()"  class="back p-3 d-inline-block border rounder btn btn-light"><i class="fas fa-arrow-left"></i></a>
+        <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab"
+          (selectedTabChange)="handleTabChange($event)">
+          <mat-tab label="Details">
+            <form *ngIf="updateForm" [formGroup]="updateForm" class="profile-update-form">
+  
+              <div class="form-group details_tab_action d-flex">
+                <button class="btn-orange-outline export" (click)="Cancel()">
+                  Discard Changes
+                </button>
+                
+                <button class="btn-orange-outline save ml-3" (click)="update()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
+                    <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
+                  </svg>
+                  Save Changes</button>
+  
+              </div>
+              <div class="row">
+                <div class="col-xl-4">
+                  <div class="custom-group">
+                    <label>Name</label>
+                    <input class="custom-form-control" type="text" placeholder="Name" formControlName="name">
+                  </div>
+  
+                  <div class="custom-group">
+                    <label>Email</label>
+                    <input class="custom-form-control" type="text" placeholder="Email" formControlName="email">
+                  </div>
+  
+                  <div class="custom-group">
+                    <label>Gender</label>
+                    <mat-select formControlName="gender" class="custom-form-control bg-white">
+                      <mat-option value="male">Male
+                      </mat-option>
+                      <mat-option value="female">Female
+                      </mat-option>
+                    </mat-select>
+                  </div>
+  
+                  <div class="custom-group">
+                    <label>Mobile</label>
+                    <input class="custom-form-control" type="text" placeholder="Mobile" formControlName="mobile">
+                  </div>
+  
+                  <div class="custom-group mb-0">
+                    <label>Tags</label>
+                    <ul>
+                      <li>Lorem</li>
+                      <li>Ipsum</li>
+                      <li>Dolar</li>
+                    </ul>
+                  </div>
+  
+                  <!-- <div class="custom-group" *ngFor="let field of recipientFields">
+                    <input class="custom-form-control" type="text" placeholder="Class"
+                      [formControl]="updateForm.get(field.name)">
+                    <label>{{field.name}}</label>
+                  </div> -->
+  
+                </div>
+                <div class="col-xl-4">
+                  <div class="custom-group">
+                    <label>Sample Field </label>
+                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
+                  </div>
+                  <div class="custom-group">
+                    <label>Sample Field </label>
+                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
+                  </div>
+                  <div class="custom-group">
+                    <label>Sample Field </label>
+                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
+                  </div>
+                  <div class="custom-group">
+                    <label>Sample Field </label>
+                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
+                  </div>
+  
+                </div>
+                <div class="col-xl-4">
+                  <div class="custom-group">
+                    <label>Sample Field </label>
+                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
+                  </div>
+                  <div class="custom-group">
+                    <label>Sample Field </label>
+                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
+                  </div>
+                </div>
+              </div>
+              <div class="time_added">
+                <span class="text-gray">Added : A week ago</span>
+              </div>
+            </form>
+  
+            <!-- <button mat-button [matMenuTriggerFor]="menu">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Item 1</button>
+              <button mat-menu-item>Item 2</button>
+            </mat-menu>           -->
+            
+          </mat-tab>
+  
+          <mat-tab label="Certificates">
+            <div class="table-container">
 
-        </mat-tab>
+              <div class="menu_dot_area">
+                <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
+                    <mat-slide-toggle [(ngModel)]="isChecked"></mat-slide-toggle>
+                  </a>
+                </mat-menu>
+              </div>
 
+              <form [formGroup]="certificateForm">
+                <div>
+                  <div class="table-container mt-5">
+                    <div class="row certificate_templates_wrap">
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
+                      <div class="col-small">
+                          <div class="certificateSingle">
+                            <img src="../../../assets/certificate.png" alt="">
+                            <h4>Data Analytics and Python Online </h4>
+                            <div class="meta row">
+                              <div class="col-auto">
+                                <i class="fas mr-2 fa-user-friends"></i> 24 
+                              </div>
+                              <div class="col">
+                                <i class="fas mr-2 fa-pencil-alt"></i> Today
+                              </div>
+                            </div>
+                            <div class="hoverSection">
+                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                            </div>
+                          </div>
+                      </div>
+                      <!-- End col small -->
 
-        <mat-tab label="Emails">
+  
+                    </div>
+                    
+                  </div>
+                </div>
+              </form>
 
-          <div class="table-container">
-            <table mat-table [dataSource]="emailDataSource" class="table table-bordered table-rounded">
+              <!-- <table mat-table [dataSource]="certificateDataSource" class="table table-bordered table-rounded">
+                <ng-container matColumnDef="job Id">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Job Id</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    <a mat-button color="primary" [routerLink]="'/Certificates/View/'+element.certificateJob.id">
+                      {{element.certificateJob.id}}</a>
+                  </td>
+                </ng-container>
+  
+  
+                <ng-container matColumnDef="Name of Certificate">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Name of Certificate</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.certificateTemplateDetail.name}}
+                  </td>
+  
+                </ng-container>
+  
+  
+                <ng-container matColumnDef="createdAt">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>CreatedAt</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    {{element.created_at}} </td>
+                </ng-container>
+  
+                <tr mat-header-row *matHeaderRowDef="certificateDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: certificateDisplayedColumns;">
+                </tr>
+              </table> -->
+            </div>
 
-              <ng-container matColumnDef="job Id">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Job Id</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  <a mat-button color="primary" [routerLink]="'/Emails/View/'+element.email_job.id">
-                    {{element.email_job.id}}</a>
-
-                </td>
-
-              </ng-container>
-
-
-              <ng-container matColumnDef="subject">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Subject</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">{{element.subject}}</td>
-
-              </ng-container>
-
-
-              <ng-container matColumnDef="from">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>From</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  {{element.sentFrom}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="sent on">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Sent on</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index">
-                  {{element.sent_at}} </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="emailDisplayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: emailDisplayedColumns;">
-              </tr>
-            </table>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
-
+            <!-- <div>
+              <div class="upload-btn-container">
+                <input type="file" class="btn" id="file" (change)="handleCertificateUpload($event)" accept="image/*">
+                <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Select
+                  Certificate</label>
+                <span>
+                  <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}</ng-container>
+                  <ng-template #elseTemplate>
+                    No file chosen
+                  </ng-template>
+                </span>
+              </div>
+              <div>
+                <button class="btn-orange-rounded" (click)="uploadCertificate()">Upload Certificate</button>
+              </div>
+            </div> -->
+  
+          </mat-tab>
+  
+  
+          <mat-tab label="Emails">
+  
+            <div class="table-container">
+              <table mat-table [dataSource]="emailDataSource" class="table table-bordered table-rounded">
+  
+                <ng-container matColumnDef="job Id">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Job Id</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    <a mat-button color="primary" [routerLink]="'/Emails/View/'+element.email_job.id">
+                      {{element.email_job.id}}</a>
+  
+                  </td>
+  
+                </ng-container>
+  
+  
+                <ng-container matColumnDef="subject">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Subject</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.subject}}</td>
+  
+                </ng-container>
+  
+  
+                <ng-container matColumnDef="from">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>From</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    {{element.sentFrom}} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="sent on">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Sent on</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index">
+                    {{element.sent_at}} </td>
+                </ng-container>
+  
+                <tr mat-header-row *matHeaderRowDef="emailDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: emailDisplayedColumns;">
+                </tr>
+              </table>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+  
+      </div>
     </div>
   </div>
 </div>
