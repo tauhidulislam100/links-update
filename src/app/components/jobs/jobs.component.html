@@ -166,7 +166,7 @@
             </div>  
             <form *ngIf="jobsForm" [formGroup]="jobsForm">
               <div class="table-container">
-                <table mat-table formArrayName="allJobs" [dataSource]="jobsDataSource" matSort class="mat-elevation-z8"
+                <table mat-table formArrayName="allJobs" [dataSource]="jobsDataSource" matSort 
                   class="table hoverEffect table-header table-bordered table-rounded">
 
                   <ng-container matColumnDef="release">
@@ -267,6 +267,7 @@
               </div>
             </form>
           </mat-tab>
+
           <mat-tab label="Certificate Templates (5)">
             <div class="menu_dot_area">
               <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">

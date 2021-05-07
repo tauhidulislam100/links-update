@@ -2,17 +2,6 @@
   background-color: #f2f4f9 !important;
 }
 
-.mat-header-cell {
-  text-align: left;
-  flex-direction: column;
-  justify-content: left;
-}
-
-.mat-cell {
-  text-align: left;
-  justify-content: left;
-}
-
 .popover {
   position: absolute;
   z-index: 100;
@@ -23,14 +12,6 @@
 a.disabled {
   pointer-events: none;
   cursor: default;
-}
-
-.table-header tr th h6{
-   font-weight: 600;
-}
-
-.certificate_templates_wrap{
-
 }
 
 .certificateSingle{

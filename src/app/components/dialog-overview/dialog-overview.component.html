@@ -1,13 +1,14 @@
 <form [formGroup]="tagForm">
+  <h1 mat-dialog-title>{{title}}</h1>
   <div mat-dialog-content>
     <p>Special characters are not allowed, except underscore "_" and space</p>
     <mat-error *ngIf="tagForm.controls.tagInput.errors">{{tagForm.controls.tagInput.errors.value}}</mat-error>
-    <mat-form-field floatLabel="always">
-      <input formControlName="tagInput" matInput #tag cdkFocusInitial>
+    <mat-form-field class="w-100" floatLabel="always">
+      <input class="form-control px-2" formControlName="tagInput" matInput   #tag cdkFocusInitial>
     </mat-form-field>
   </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button cdkFocusInitial [disabled]="tagForm.invalid" (click)="addtag(tag.value)">Ok</button>
+  <div mat-dialog-actions class="mb-0 justify-content-end d-flex">
+    <button class="btn-orange-outline mr-2" cdkFocusInitial [disabled]="tagForm.invalid" (click)="addtag(tag.value)">Create</button>
+    <button class="btn-orange-outline export" style="min-width: auto;" (click)="onNoClick()">Cancel</button>
   </div>
 </form>

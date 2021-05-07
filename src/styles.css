@@ -681,10 +681,26 @@ login register page realted style
 }
 
 /*  hover effect  */
+
+.mat-header-cell {
+  text-align: left;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.mat-cell {
+  text-align: left;
+  justify-content: left;
+}
+
+.table-header tr th h6{
+  font-weight: 600;
+}
+
 .hoverEffect tr, 
 .hoverEffect tr{
     border: 0;
-    height: 46px;
+    height: 46px !important;
 }
 
 .hoverEffect .hover_details{

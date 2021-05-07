@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
-import { TagService } from '../../_services/tag.service';
-import { DialogOverview } from '../dialog-overview/dialog-overview.component';
+import { Router } from '@angular/router';
+import { Page } from 'src/app/pagination/page';
+import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { ConfigService } from 'src/app/_services/config.service';
+import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
 import { DialogService } from 'src/app/_services/dialog.service';
 import { FieldService } from 'src/app/_services/field.service';
-import { ConfigService } from 'src/app/_services/config.service';
-import { Page } from 'src/app/pagination/page';
-import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
-import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { SelectedTabService } from 'src/app/_services/selected-tab.service';
 import { FieldType } from 'src/app/_types';
+import { TagService } from '../../_services/tag.service';
+import { DialogOverview } from '../dialog-overview/dialog-overview.component';
 
 export interface JobData {
   id,
@@ -90,8 +90,9 @@ export class TagsComponent implements OnInit {
       this.fieldsDataSource = new MatTableDataSource<FieldType>(this.allFields);
     });
 
-    this.displayedColumnsTags = ['id', 'name', 'created_on', 'no_of_recipients', 'update_tag', 'view_users'];
-    this.displayedColumnsFields = ['id', 'fields', 'created_on', 'delete'];
+    this.displayedColumnsTags = ['name', 'no_of_recipients', 'last_used', 'created_on', 'view_users'];
+
+    this.displayedColumnsFields = ['fields', 'created_on', 'recipients_filled', 'recipients_empty', 'view_users'];
   }
 
   handleTabChange(e) {
@@ -101,7 +102,7 @@ export class TagsComponent implements OnInit {
   updateTag(id) {
     this.dialogService.setTitle("tag");
     const dialogRef = this.dialog.open(DialogOverview, {
-      width: '250px'
+      width: '415px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -174,7 +175,7 @@ export class TagsComponent implements OnInit {
   updateField(id) {
     this.dialogService.setTitle("tag");
     const dialogRef = this.dialog.open(DialogOverview, {
-      width: '250px'
+      width: '415px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -206,9 +207,9 @@ export class TagsComponent implements OnInit {
 
 
   addTag() {
-    this.dialogService.setTitle("tag");
+    this.dialogService.setTitle("Create/ Edit Tags");
     const dialogRef = this.dialog.open(DialogOverview, {
-      width: '250px'
+      width: '415px'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.event == 'AddTag') {
@@ -244,9 +245,9 @@ export class TagsComponent implements OnInit {
   }
 
   addField() {
-    this.dialogService.setTitle("field");
+    this.dialogService.setTitle("Create/ Edit Field");
     const dialogRef = this.dialog.open(DialogOverview, {
-      width: '250px'
+      width: '415px'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.event == 'AddTag') {
