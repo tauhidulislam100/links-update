@@ -41,7 +41,8 @@ export class JobsComponent implements OnInit {
   popoverData = '';
   popperTop: '100px';
   popperLeft: '100px';
-  page: Page<PageType> = new Page();
+  unReleasedPage: Page<PageType> = new Page();
+  releasedPage: Page<PageType> = new Page();
   templatePage: Page<PageType> = new Page();
   assets_loc;
   allJobs;
@@ -54,7 +55,9 @@ export class JobsComponent implements OnInit {
   isSubmitted: boolean;
   jobsForm: FormGroup;
   displayedColumnsJobs: string[];
-  jobsDataSource;
+  releasedJobsDataSource;
+  unReleasedJobsDataSource;
+  templatesData=[];
   templates;
   isArchived;
   selection = new SelectionModel<JobData>(true, []);
@@ -103,12 +106,20 @@ export class JobsComponent implements OnInit {
     this.isArchived = false;
     this.isSubmitted = false;
 
-    this.certificateService.getAllJobsPage(this.page.pageable).subscribe(data => {
+    this.certificateService.getAllReleasedJobsPage(this.releasedPage.pageable).subscribe(data => {
       this.allJobs = data;
       this.buildJobsForm();
-      this.jobsDataSource = new MatTableDataSource<JobData>(this.allJobs.content);
-      this.page = this.allJobs;
-      this.jobsDataSource.sort = this.sort;
+      this.releasedJobsDataSource = new MatTableDataSource<JobData>(this.allJobs.content);
+      this.releasedPage = this.allJobs;
+      this.releasedJobsDataSource.sort = this.sort;
+      //console.log(this.allJobs.content);
+      //  this.addCheckboxesToJobs();
+    });
+    this.certificateService.getAllUnrealsedJobsPage(this.unReleasedPage.pageable).subscribe(data => {
+      // this.unReleasedJobsDataSource = new MatTableDataSource<JobData>(data.content);
+      this.unReleasedJobsDataSource = data.content;
+      this.unReleasedPage = data;
+      // this.unReleasedJobsDataSource.sort = this.sort;
       //console.log(this.allJobs.content);
       //  this.addCheckboxesToJobs();
     });
@@ -117,6 +128,7 @@ export class JobsComponent implements OnInit {
       this.templates = data;
       this.certificateDataSource = new MatTableDataSource<JobData>(this.templates.content);
       this.templatePage = this.templates;
+      this.templatesData = data.content;
     })
 
     this.displayedColumnsCertificates = ['id', 'certificate_templates', 'no_of_recipients', 'update'];
@@ -140,9 +152,9 @@ export class JobsComponent implements OnInit {
   }
 
   private getAllJobs(): void {
-    this.certificateService.getAllJobsPage(this.page.pageable).subscribe(page => {
-      this.page = page;
-      this.jobsDataSource = new MatTableDataSource<{}>(this.page.content);
+    this.certificateService.getAllJobsPage(this.releasedPage.pageable).subscribe(page => {
+      this.releasedPage = page;
+      this.releasedJobsDataSource = new MatTableDataSource<{}>(this.releasedPage.content);
 
     });
   }
@@ -156,12 +168,12 @@ export class JobsComponent implements OnInit {
   }
 
   public getNextPage(): void {
-    this.page.pageable = this.paginationService.getNextPage(this.page);
+    this.releasedPage.pageable = this.paginationService.getNextPage(this.releasedPage);
     this.getAllJobs();
   }
 
   public getPreviousPage(): void {
-    this.page.pageable = this.paginationService.getPreviousPage(this.page);
+    this.releasedPage.pageable = this.paginationService.getPreviousPage(this.releasedPage);
     this.getAllJobs();
   }
 
@@ -186,9 +198,7 @@ export class JobsComponent implements OnInit {
       saveAs(res, `${row.id}_${row.certificateTemplateName}_${myFormattedDate}_certificates.zip`);
       this.errorService.setErrorVisibility(false, "");
     }, error => {
-
       this.loader = false;
-
     });
   }
 

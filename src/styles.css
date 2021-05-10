@@ -757,3 +757,25 @@ login register page realted style
 }
 
 
+th[role="columnheader"]  .mat-sort-header-arrow .mat-sort-header-indicator::before{
+  font-size: 1.2rem;
+  font-family: "Font Awesome 5 Free";                     
+  font-weight: 900;
+  position: absolute;
+  content: "\f0dc";    
+}
+
+th[aria-sort='ascending']  .mat-sort-header-arrow .mat-sort-header-indicator::before{
+  content: "\f0d7";
+  top: -1rem;
+}
+
+th[aria-sort='descending'] .mat-sort-header-arrow .mat-sort-header-indicator::before { 
+  content: "\f0d8";
+  top: -1.8rem;
+}
+
+th[role="columnheader"] .mat-sort-header-indicator [class^="mat-sort-header-pointer"],
+th[role="columnheader"] .mat-sort-header-stem {
+  display: none !important;
+}

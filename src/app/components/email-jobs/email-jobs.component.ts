@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, Sort } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page } from 'src/app/pagination/page';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
@@ -157,4 +157,5 @@ export class EmailJobsComponent implements OnInit {
       }
     );
   }
+
 }

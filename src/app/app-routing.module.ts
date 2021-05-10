@@ -16,15 +16,18 @@ import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
 import { SendEmailGetTemplatesCreatedByAdmin } from './SendEmailGetTemplates';
 import { UpdateCertificateTemplateResolver } from './UpdateCertificateTemplateResolver';
 import { AuthGuardService as AuthGuard } from './_guards/auth-guard.service';
+import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
 
 const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./components/register/register.module').then(m => m.RegisterModule), 
+    canActivate: [LoggedInAuthGuard],
   },
   {
     path: 'AdminLogin',
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule), 
+    canActivate: [LoggedInAuthGuard],
   },
   { 
     path: '404', 

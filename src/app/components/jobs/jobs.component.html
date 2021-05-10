@@ -8,7 +8,7 @@
 
         <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
 
-          <mat-tab label="Unreleased Certificates (25)">
+          <mat-tab label="Unreleased Certificates ({{unReleasedPage.totalElements}})">
             <div class="menu_dot_area">
               <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">
                 <i class="fas fa-ellipsis-v"></i>
@@ -29,122 +29,28 @@
                     <h6>Certificate Name</h6>
                   </th>
                 </tr>
-                <tr>
+                <tr *ngFor="let element of unReleasedJobsDataSource">
                   <td>
-                    Generated today 
+                    {{element.updatedAt|dateAgo}}
                   </td>
                   <td class="fields">
-                    Certificate of Completion - GRIP 
+                    {{element.certificateTemplateName}}
                   </td>
                   <td class="hover_details">
                     <ul class="actiion_list">
                       <li>
-                        <a class="btn-orange-outline-border">Validate</a>
+                        <a class="btn-orange-outline-border" (click)="validateOnServer(element)">Validate</a>
                       </li>
                       <li>
-                        <a class="btn-orange-outline-border">Download</a>
+                        <a (click)="downloadCertificates(element)" class="btn-orange-outline-border">Download</a>
                       </li>
                       <li>
-                        <a class="btn-orange-outline-border">Archive</a>
+                        <a class="btn-orange-outline-border" mwlConfirmationPopover [popoverTitle]="deletePopoverTitle"
+                        [popoverMessage]="deletePopoverMessage" placement="left"
+                        (confirm)="archiveJob(element)">Archive</a>
                       </li>
                       <li>
-                        <a class="btn-orange-outline-border">View</a>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Generated today 
-                  </td>
-                  <td class="fields">
-                    Certificate of Completion - GRIP 
-                  </td>
-                  <td class="hover_details">
-                    <ul class="actiion_list">
-                      <li>
-                        <a class="btn-orange-outline-border">Validate</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Download</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Archive</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">View</a>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Generated today 
-                  </td>
-                  <td class="fields">
-                    Certificate of Completion - GRIP 
-                  </td>
-                  <td class="hover_details">
-                    <ul class="actiion_list">
-                      <li>
-                        <a class="btn-orange-outline-border">Validate</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Download</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Archive</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">View</a>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Generated today 
-                  </td>
-                  <td class="fields">
-                    Certificate of Completion - GRIP 
-                  </td>
-                  <td class="hover_details">
-                    <ul class="actiion_list">
-                      <li>
-                        <a class="btn-orange-outline-border">Validate</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Download</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Archive</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">View</a>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Generated today 
-                  </td>
-                  <td class="fields">
-                    Certificate of Completion - GRIP 
-                  </td>
-                  <td class="hover_details">
-                    <ul class="actiion_list">
-                      <li>
-                        <a class="btn-orange-outline-border">Validate</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Download</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">Archive</a>
-                      </li>
-                      <li>
-                        <a class="btn-orange-outline-border">View</a>
+                        <a [routerLink]="'/Certificates/View/'+element.id" class="btn-orange-outline-border">View</a>
                       </li>
                     </ul>
                   </td>
@@ -153,7 +59,7 @@
             </div>
           </mat-tab>
 
-          <mat-tab label="Released Certificates (845)">
+          <mat-tab label="Released Certificates ({{releasedPage.totalElements}})">
             <div class="menu_dot_area">
               <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">
                 <i class="fas fa-ellipsis-v"></i>
@@ -166,7 +72,7 @@
             </div>  
             <form *ngIf="jobsForm" [formGroup]="jobsForm">
               <div class="table-container">
-                <table mat-table formArrayName="allJobs" [dataSource]="jobsDataSource" matSort 
+                <table mat-table formArrayName="allJobs" [dataSource]="releasedJobsDataSource" matSort 
                   class="table hoverEffect table-header table-bordered table-rounded">
 
                   <ng-container matColumnDef="release">
@@ -228,7 +134,7 @@
                       <h6>Shared</h6>
                     </th>
                     <td mat-cell *matCellDef="let element">
-                      0
+                      {{ element.share }}
                     </td>
                   </ng-container>
 
@@ -250,7 +156,7 @@
                         (confirm)="archiveJob(element)">Archive</a>
                           </li>
                           <li>
-                            <a (click)="loader = true" [routerLink]="'/Certificates/View/'+element.id" class="btn-orange-outline-border">View</a>
+                            <a [routerLink]="'/Certificates/View/'+element.id" class="btn-orange-outline-border">View</a>
                           </li>
                         </ul>
                     </td>
@@ -268,7 +174,7 @@
             </form>
           </mat-tab>
 
-          <mat-tab label="Certificate Templates (5)">
+          <mat-tab label="Certificate Templates ({{templatePage.totalElements}})">
             <div class="menu_dot_area">
               <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu">
                 <i class="fas fa-ellipsis-v"></i>
@@ -287,619 +193,64 @@
               <div>
                 <div class="table-container mt-5">
                   <div class="row certificate_templates_wrap">
-                    <div class="col-small">
+                    
+                    <div class="col-small" *ngFor="let element of templatesData;">
                        <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
-                    <div class="col-small">
-                       <div class="certificateSingle">
-                         <img src="../../../assets/certificate.png" alt="">
-                         <h4>Data Analytics and Python Online </h4>
-                         <div class="meta row">
-                            <div class="col-auto">
-                              <i class="fas mr-2 fa-user-friends"></i> 24 
-                            </div>
-                            <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> Today
-                            </div>
-                         </div>
-                         <div class="hoverSection">
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                No. Of recipients:
-                               </div>
-                               <div class="col-6">
-                                 35
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Last edited:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-2">
-                               <div class="col-6">
-                                Lest used:
-                               </div>
-                               <div class="col-6">
-                                 Today
-                               </div>
-                            </div>
-                            <div class="row mb-5">
-                               <div class="col-6">
-                                Date Created:
-                               </div>
-                               <div class="col-6">
-                                Jan 12 2021
-                               </div>
-                            </div>
-                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                            <a href="#" class="btn-orange-outline-border btn-block">Update</a>
-                         </div>
-                       </div>
-                    </div>
-                    <!-- End col small -->
 
+                         <img *ngIf="element.certificate_image_thumbnail; else noImage" src="data:image/png;base64,{{element.certificate_image_thumbnail.data}}" alt="">
+                         <ng-template #noImage>
+                          <img src="/assets/certificate.png" alt="">
+                         </ng-template>
+                         <h4>{{element.name}}</h4>
+                         <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i>
+                              {{element.no_of_recipient}} 
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> 
+                              {{element.created_at|dateAgo}}
+                            </div>
+                         </div>
+                         <div class="hoverSection">
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                No. Of recipients:
+                               </div>
+                               <div class="col-6">
+                                {{element.no_of_recipient}}
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Last edited:
+                               </div>
+                               <div class="col-6">
+                                {{element.last_edited_on|dateAgo}}
+                               </div>
+                            </div>
+                            <div class="row mb-2">
+                               <div class="col-6">
+                                Lest used:
+                               </div>
+                               <div class="col-6">
+                                {{element.last_edited_on|dateAgo}}
+                               </div>
+                            </div>
+                            <div class="row mb-5">
+                               <div class="col-6">
+                                Date Created:
+                               </div>
+                               <div class="col-6">
+                                {{element.created_at|dateAgo}}
+                               </div>
+                            </div>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a [routerLink]="'/Certificates/AddTemplate/'+element.id" class="btn-orange-outline-border btn-block">Update</a>
+                         </div>
+                       </div>
+                    </div>
+                   
                   </div>
 
 

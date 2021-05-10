@@ -39,8 +39,9 @@ export class ProfileComponent implements OnInit {
   selectedFileName = "";
   updateForm: FormGroup;
   loader = false;
+  Object = Object;
   // certificateDisplayedColumns: string[] = ['job Id', 'Name of Certificate', 'createdAt'];
-  certificateDataSource;
+  certificateDataSource=[];
   newCertificate = null;
   emailDisplayedColumns: string[] = ['job Id', 'subject', 'from', 'sent on'];
   emailDataSource;
@@ -80,12 +81,14 @@ export class ProfileComponent implements OnInit {
 
     forkJoin([this.userService.getById(this.id), this.fieldService.getAllFields()]).subscribe(results => {
       this.user = results[0];
+      console.log('user data ', this.user);
       this.fields = results[1];
       this.buildForm();
     });
 
     this.userService.getCertificates(this.id).subscribe(data => {
-      this.certificateDataSource = new MatTableDataSource<CertificateData>(data);
+      // this.certificateDataSource = new MatTableDataSource<CertificateData>(data);
+      this.certificateDataSource = data;
     });
     this.userService.getEmails(this.id).subscribe(data => {
       this.emailDataSource = new MatTableDataSource<EmailData>(data);

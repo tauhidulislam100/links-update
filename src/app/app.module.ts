@@ -40,6 +40,7 @@ import { CacheMapService } from './_services/cache/cache-map.service';
 import { Cache } from './_services/cache/cache';
 import { CachingInterceptor } from './_helpers/caching.interceptor';
 import { SelectedTabService } from './_services/selected-tab.service';
+import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { SelectedTabService } from './_services/selected-tab.service';
   providers: [
     AuthenticationService,
     AuthGuardService,
+    LoggedInAuthGuard,
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
     JwtHelperService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

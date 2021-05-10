@@ -21,7 +21,7 @@
         
         <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
             <div class="email_gp">
-              <mat-tab label="Sent Emails">
+              <mat-tab label="Sent Emails ({{jobsPage.totalElements}})">
                 <div class="menu_dot_area">
                   <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_2">
                     <i class="fas fa-ellipsis-v"></i>
@@ -112,7 +112,7 @@
                 </div>
       
               </mat-tab>
-              <mat-tab label="Email Templates">
+              <mat-tab label="Email Templates ({{allTemplatesPage.totalElements}})">
                 <div class="menu_dot_area">
                   <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_2">
                     <i class="fas fa-ellipsis-v"></i>
@@ -203,7 +203,7 @@
                 </div>
       
               </mat-tab>
-              <mat-tab label="Mapped Email Templates">
+              <mat-tab label="Mapped Email Templates ({{allMappedTemplates.totalElements}})">
                 <div class="menu_dot_area">
                   <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_3">
                     <i class="fas fa-ellipsis-v"></i>

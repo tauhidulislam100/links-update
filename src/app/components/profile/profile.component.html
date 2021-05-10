@@ -94,12 +94,10 @@
                     <input class="custom-form-control" type="text" placeholder="Mobile" formControlName="mobile">
                   </div>
   
-                  <div class="custom-group mb-0">
+                  <div class="custom-group mb-0" *>
                     <label>Tags</label>
                     <ul>
-                      <li>Lorem</li>
-                      <li>Ipsum</li>
-                      <li>Dolar</li>
+                      <li *ngFor="let tag of user.userTags">{{tag}}</li>
                     </ul>
                   </div>
   
@@ -108,40 +106,16 @@
                       [formControl]="updateForm.get(field.name)">
                     <label>{{field.name}}</label>
                   </div> -->
-  
                 </div>
                 <div class="col-xl-4">
-                  <div class="custom-group">
-                    <label>Sample Field </label>
-                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
-                  </div>
-                  <div class="custom-group">
-                    <label>Sample Field </label>
-                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
-                  </div>
-                  <div class="custom-group">
-                    <label>Sample Field </label>
-                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
-                  </div>
-                  <div class="custom-group">
-                    <label>Sample Field </label>
-                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
-                  </div>
-  
-                </div>
-                <div class="col-xl-4">
-                  <div class="custom-group">
-                    <label>Sample Field </label>
-                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
-                  </div>
-                  <div class="custom-group">
-                    <label>Sample Field </label>
-                    <input class="custom-form-control" type="text" placeholder="Lorem Ipsum" formControlName="name">
+                  <div class="custom-group" *ngFor="let field of recipientFields">
+                    <label>{{field.name}}</label>
+                    <input class="custom-form-control" type="text" value="{{field.value}}" placeholder="Lorem Ipsum" [formControl]="updateForm.get(field.name)">
                   </div>
                 </div>
               </div>
               <div class="time_added">
-                <span class="text-gray">Added : A week ago</span>
+                <span class="text-gray">Added : {{user.created_at|dateAgo}}</span>
               </div>
             </form>
   
@@ -155,7 +129,7 @@
             
           </mat-tab>
   
-          <mat-tab label="Certificates">
+          <mat-tab label="Certificates ({{certificateDataSource.length}})">
             <div class="table-container">
 
               <div class="menu_dot_area">
@@ -169,293 +143,38 @@
                 </mat-menu>
               </div>
 
-              <form [formGroup]="certificateForm">
-                <div>
-                  <div class="table-container mt-5">
-                    <div class="row certificate_templates_wrap">
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
-                      <div class="col-small">
-                          <div class="certificateSingle">
-                            <img src="../../../assets/certificate.png" alt="">
-                            <h4>Data Analytics and Python Online </h4>
-                            <div class="meta row">
-                              <div class="col-auto">
-                                <i class="fas mr-2 fa-user-friends"></i> 24 
-                              </div>
-                              <div class="col">
-                                <i class="fas mr-2 fa-pencil-alt"></i> Today
-                              </div>
-                            </div>
-                            <div class="hoverSection">
-                              <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Release</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Update </a>
-                              <a href="#" class="btn-orange-outline-border btn-block">Download</a>
-                            </div>
-                          </div>
-                      </div>
-                      <!-- End col small -->
 
-  
+              <div>
+                <div class="table-container mt-5">
+                  <div class="row certificate_templates_wrap">
+                    <div class="col-small" *ngFor="let element of certificateDataSource">
+                        <div class="certificateSingle">
+                          <img src="{{element.certificateTemplateDetail.certificate_image_thumbnail || '../../../assets/certificate.png'}}" alt="">
+                          <h4> </h4>
+                          <div class="meta row">
+                            <div class="col-auto">
+                              <i class="fas mr-2 fa-user-friends"></i> 
+                              {{element.certificateTemplateDetail.no_of_recipient}}
+                            </div>
+                            <div class="col">
+                              <i class="fas mr-2 fa-pencil-alt"></i> {{ element.created_at | dateAgo }}
+                            </div>
+                          </div>
+                          <div class="hoverSection">
+                            <a href="#" class="btn-orange-outline-border btn-block">Unpublish </a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Release</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Archive</a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Validate </a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Update </a>
+                            <a href="#" class="btn-orange-outline-border btn-block">Download</a>
+                          </div>
+                        </div>
                     </div>
-                    
+                    <!-- End col small -->
                   </div>
+                  
                 </div>
-              </form>
+              </div>
 
               <!-- <table mat-table [dataSource]="certificateDataSource" class="table table-bordered table-rounded">
                 <ng-container matColumnDef="job Id">
@@ -513,7 +232,7 @@
           </mat-tab>
   
   
-          <mat-tab label="Emails">
+          <mat-tab label="Emails ({{emailDataSource.length}})">
   
             <div class="table-container">
               <table mat-table [dataSource]="emailDataSource" class="table table-bordered table-rounded">
