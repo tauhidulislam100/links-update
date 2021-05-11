@@ -63,6 +63,7 @@ export class EmailJobsComponent implements OnInit {
     this.emailJobService.getAllJobsPage(this.jobsPage.pageable).subscribe(page => {
       this.allJobs = page;
       this.jobsPage = this.allJobs;
+      console.log(this.allJobs.content)
       this.sentEmailsDataSource = new MatTableDataSource<PageType>(this.allJobs.content);
     });
 

@@ -21,11 +21,7 @@
         
         <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
             <div class="email_gp">
-<<<<<<< HEAD
-              <mat-tab label="Sent Emails (725)">
-=======
               <mat-tab label="Sent Emails ({{jobsPage.totalElements}})">
->>>>>>> 283fbbfd1a39e2b7bb38af6e0ca912d4587bcd59
                 <div class="menu_dot_area">
                   <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_2">
                     <i class="fas fa-ellipsis-v"></i>
@@ -46,13 +42,12 @@
                         <h6>Sent</h6>
                       </th>
                       <td mat-cell *matCellDef="let element let rowIndex = index">
-                        <!-- {{element.created_at}} -->
-                        Today 
-                        <button mat-raised-button
+                        {{element.created_at|dateAgo}}
+                        <!-- <button mat-raised-button
                         matTooltip="Info about the action"
                         aria-label="Button that displays a tooltip when focused or hovered over">
-                  Action
-                </button>
+                          Action
+                          </button> -->
                       </td>
                     </ng-container>
                     <ng-container matColumnDef="subject">
@@ -68,7 +63,9 @@
                       <th mat-header-cell *matHeaderCellDef>
                         <h6>Email Template</h6>
                       </th>
-                      <td mat-cell *matCellDef="let element let rowIndex = index">New Course Marketing</td>
+                      <td mat-cell *matCellDef="let element let rowIndex = index">
+                        {{element.emailTemplate}}
+                      </td>
                     </ng-container>
 
                     <!-- <ng-container matColumnDef="status">
@@ -96,7 +93,9 @@
                       <th mat-header-cell *matHeaderCellDef>
                         <h6>Unsubscribed </h6>
                       </th>
-                      <td mat-cell *matCellDef="let element let rowIndex = index">2</td>
+                      <td mat-cell *matCellDef="let element let rowIndex = index">
+                        {{element.unsubscribed}}
+                      </td>
                     </ng-container>
       
                     <ng-container matColumnDef="archive">
@@ -129,11 +128,7 @@
                 </div>
       
               </mat-tab>
-<<<<<<< HEAD
-              <mat-tab label="Email Templates (5)">
-=======
               <mat-tab label="Email Templates ({{allTemplatesPage.totalElements}})">
->>>>>>> 283fbbfd1a39e2b7bb38af6e0ca912d4587bcd59
                 <div class="menu_dot_area">
                   <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_2">
                     <i class="fas fa-ellipsis-v"></i>
@@ -157,8 +152,7 @@
                         <h6>Created On</h6>
                       </th>
                       <td mat-cell *matCellDef="let element let rowIndex = index">
-                        <!-- {{element.created_at}} -->
-                        Today 
+                        {{element.created_at|dateAgo}}
                       </td>
                     </ng-container>
 
@@ -167,7 +161,7 @@
                         <h6>Subject</h6>
                       </th>
                       <td mat-cell *matCellDef="let element let rowIndex = index">
-                        New Course Launched – Python and...
+                        {{element.subject}}
                       </td>
                     </ng-container>
       
@@ -220,15 +214,11 @@
                   <app-custom-pagination [page]="allTemplatesPage" (nextPageEvent)="getTemplatesNextPage()"
                     (previousPageEvent)="getTemplatesPreviousPage()">
                   </app-custom-pagination>
-      
                 </div>
-      
+                
               </mat-tab>
-<<<<<<< HEAD
-              <mat-tab label="Mapped Email Templates (451)">
-=======
-              <mat-tab label="Mapped Email Templates ({{allMappedTemplates.totalElements}})">
->>>>>>> 283fbbfd1a39e2b7bb38af6e0ca912d4587bcd59
+
+              <mat-tab label="Mapped Email Templates ({{allMappedTemplatesPage.totalElements}})">
                 <div class="menu_dot_area">
                   <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_3">
                     <i class="fas fa-ellipsis-v"></i>
@@ -250,8 +240,7 @@
                         <h6>Created</h6>
                       </th>
                       <td mat-cell *matCellDef="let element let rowIndex = index">
-                        <!-- {{element.created_at}} -->
-                        Today 
+                        {{element.created_at|dateAgo}}
                       </td>
                     </ng-container>
       
@@ -259,7 +248,9 @@
                       <th mat-header-cell *matHeaderCellDef>
                         <h6>Subject</h6>
                       </th>
-                      <td mat-cell *matCellDef="let element let rowIndex = index">New Course Launched – Python and...</td>
+                      <td mat-cell *matCellDef="let element let rowIndex = index">
+                        {{element.subject}}
+                      </td>
                     </ng-container>
 
                     <ng-container matColumnDef="email_templates">
