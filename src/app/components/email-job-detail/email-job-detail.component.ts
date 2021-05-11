@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {EmailJobService} from '../../_services/email-job.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ConfigService} from 'src/app/_services/config.service';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfigService } from 'src/app/_services/config.service';
+import { EmailJobService } from '../../_services/email-job.service';
 
 @Component({
   selector: 'app-email-job-detail',
@@ -13,7 +14,7 @@ export class EmailJobDetailComponent implements OnInit {
   details;
   id;
 
-  constructor(private emailJobService: EmailJobService, private route: ActivatedRoute, private router: Router, private configService: ConfigService) {
+  constructor(private emailJobService: EmailJobService, private route: ActivatedRoute, private router: Router, private location: Location,  private configService: ConfigService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
@@ -23,6 +24,10 @@ export class EmailJobDetailComponent implements OnInit {
 
     this.details = this.route.snapshot.data.detail;
 
+  }
+
+  goBack() {
+    this.location.back()
   }
 
 }

@@ -4,18 +4,6 @@ a.view-link {
   text-decoration: none;
 }
 
-
-.mat-header-cell {
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.mat-cell {
-  text-align: center;
-  justify-content: center;
-}
-
 .table-container {
   /* height: 50%; */
   margin-bottom: 20px;

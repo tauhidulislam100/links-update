@@ -253,7 +253,8 @@ export class JobsComponent implements OnInit {
   }
 
   generateCertificateTemplate() {
-    this.router.navigate(['/Certificates/AddTemplate']);
+    // this.router.navigate(['/Certificates/AddTemplate']);
+    this.router.navigate(['/add-certificate']);
   }
 
   releaseCertificates(row) {

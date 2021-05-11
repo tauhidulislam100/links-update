@@ -1,10 +1,11 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CertificateService } from 'src/app/_services/certificate.service';
-import { ErrorService } from 'src/app/_services/error.service';
 import { validateField } from 'src/app/_custome-validators/certificateForm.validator';
+import { CertificateService } from 'src/app/_services/certificate.service';
 import { ConfigService } from 'src/app/_services/config.service';
+import { ErrorService } from 'src/app/_services/error.service';
 
 @Component({
   selector: 'app-certificate-template',
@@ -22,10 +23,14 @@ export class CertificateTemplateComponent implements OnInit {
   editable_fields: any[] = [];
   certificateTemplateForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private certificateService: CertificateService, private errorService: ErrorService, private configService: ConfigService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private location: Location, private certificateService: CertificateService, private errorService: ErrorService, private configService: ConfigService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
+  }
+
+  goBack() {
+    this.location.back()
   }
 
   ngOnInit() {

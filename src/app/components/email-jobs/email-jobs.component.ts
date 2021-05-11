@@ -78,9 +78,11 @@ export class EmailJobsComponent implements OnInit {
       this.emailTemplatesMappedToCertificatesDataSource = new MatTableDataSource<PageType>(this.allMappedTemplatesPage.content);
     });
 
-    this.displayedColumnsSentEmails = ['id','status', 'subject', 'sent_on', 'no_of_recipients','seen', 'view', 'archive'];
-    this.displayedColumnsEmailTemplates = ['id', 'email_templates', 'created_on', 'no_of_times_used', 'no_of_recipients', 'update', 'archive'];
-    this.displayedColumnsMappedEmailTemplates = ['id', 'email_templates', 'created_on', 'no_of_times_used', 'no_of_recipients', 'update'];
+    this.displayedColumnsSentEmails = ['sent_on','subject', 'email_template', 'no_of_recipients', 'seen', 'unsubscribed', 'archive'];
+
+    this.displayedColumnsEmailTemplates = ['created_on', 'subject', 'email_templates', 'no_of_recipients', 'no_of_times_used', 'archive'];
+
+    this.displayedColumnsMappedEmailTemplates = ['created_on', 'subject', 'email_templates', 'no_of_recipients', 'no_of_times_used', 'update'];
   }
 
   handleTabChange(e) {

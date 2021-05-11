@@ -1,12 +1,13 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmailService } from 'src/app/_services/email.service';
+import { ThemePalette } from "@angular/material/core";
 import { ActivatedRoute } from '@angular/router';
-import { ErrorService } from 'src/app/_services/error.service';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { validateField } from 'src/app/_custome-validators/certificateForm.validator';
 import { ConfigService } from 'src/app/_services/config.service';
-import { ThemePalette } from "@angular/material/core";
+import { EmailService } from 'src/app/_services/email.service';
+import { ErrorService } from 'src/app/_services/error.service';
 import { FieldService } from 'src/app/_services/field.service';
 
 @Component({
@@ -35,6 +36,7 @@ export class EmailTemplateComponent implements OnInit {
     private errorService: ErrorService,
     private configService: ConfigService,
     private fieldService: FieldService,
+    private location: Location,
   ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
@@ -43,6 +45,10 @@ export class EmailTemplateComponent implements OnInit {
     this.fieldService.getAllFields().subscribe(fields => {
       this.fields = fields;
     });
+  }
+
+  goBack() {
+    this.location.back()
   }
 
   ngOnInit() {

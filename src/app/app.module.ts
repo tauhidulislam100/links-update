@@ -1,44 +1,45 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {AuthenticationService} from './_services/authentication.service';
-import {AuthGuardService} from './_guards/auth-guard.service';
-import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
-import {JwtInterceptor} from './_helpers/jwt.interceptor';
-import {MaterialModule} from './material/material.module';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DatePipe, HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
-import {NavbarComponent} from './components/navbar/navbar.component';
-import {EmailComponent} from './components/email/email.component';
-import {ErrorInterceptor} from './_helpers/error.interceptor';
-import {EmailJobDetailComponent} from './components/email-job-detail/email-job-detail.component';
-import {CertificateJobDetailComponent} from './components/certificate-job-detail/certificate-job-detail.component';
-import {EmailJobDetailResolver} from './emailJobDetailResolver';
-import {CertificateJobDetailResolver} from './certificateJobDetailResolver';
-import {AdminLoginComponent} from './components/admin-login/admin-login.component';
-import {AdminProfileComponent} from './components/admin-profile/admin-profile.component';
-import {AdminProfileResolver} from './AdminProfileResolver';
-import {AdminProfileEditComponent} from './components/admin-profile-edit/admin-profile-edit.component';
-import {FaqComponent} from './components/faq/faq.component';
-import {CertificateTemplateComponent} from './components/certificate-template/certificate-template.component';
-import {UpdateCertificateTemplateResolver} from './UpdateCertificateTemplateResolver';
-import {ConfigService} from './_services/config.service';
-import {SendEmailGetTemplatesCreatedByAdmin} from './SendEmailGetTemplates';
-import {RecipientFieldsResolver} from './RecipientsFieldsResolver';
-import {EditorModule, TINYMCE_SCRIPT_SRC} from '@tinymce/tinymce-angular';
-import {ConfirmationDialogueComponent} from './components/confirmation-dialogue/confirmation-dialogue.component';
-import { UnsubscribeListResolver } from './UnsubscribeListResolver';
+import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { AdminProfileResolver } from './AdminProfileResolver';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
+import { AddCertificateComponent } from './components/add-certificate/add-certificate.component';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
+import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
+import { CertificateJobDetailComponent } from './components/certificate-job-detail/certificate-job-detail.component';
+import { CertificateTemplateComponent } from './components/certificate-template/certificate-template.component';
+import { ConfirmationDialogueComponent } from './components/confirmation-dialogue/confirmation-dialogue.component';
+import { EmailJobDetailComponent } from './components/email-job-detail/email-job-detail.component';
+import { EmailComponent } from './components/email/email.component';
+import { FaqComponent } from './components/faq/faq.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { EmailJobDetailResolver } from './emailJobDetailResolver';
+import { MaterialModule } from './material/material.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
+import { SendEmailGetTemplatesCreatedByAdmin } from './SendEmailGetTemplates';
 import { SharedModule } from './shared.module';
-import { LoaderInterceptor } from './_helpers/loader.interceptor';
-import { LoaderService } from './_services/loader.service';
-import { CacheMapService } from './_services/cache/cache-map.service';
-import { Cache } from './_services/cache/cache';
+import { UnsubscribeListResolver } from './UnsubscribeListResolver';
+import { UpdateCertificateTemplateResolver } from './UpdateCertificateTemplateResolver';
+import { AuthGuardService } from './_guards/auth-guard.service';
 import { CachingInterceptor } from './_helpers/caching.interceptor';
+import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { JwtInterceptor } from './_helpers/jwt.interceptor';
+import { LoaderInterceptor } from './_helpers/loader.interceptor';
+import { AuthenticationService } from './_services/authentication.service';
+import { Cache } from './_services/cache/cache';
+import { CacheMapService } from './_services/cache/cache-map.service';
+import { ConfigService } from './_services/config.service';
+import { LoaderService } from './_services/loader.service';
 import { SelectedTabService } from './_services/selected-tab.service';
 
 @NgModule({
@@ -55,7 +56,8 @@ import { SelectedTabService } from './_services/selected-tab.service';
     FaqComponent,
     CertificateTemplateComponent,
     ConfirmationDialogueComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AddCertificateComponent,
   ],
   imports: [
     BrowserModule,

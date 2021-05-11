@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { AdminProfileResolver } from './AdminProfileResolver';
 import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
+import { AddCertificateComponent } from './components/add-certificate/add-certificate.component';
 import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
 import { CertificateJobDetailComponent } from './components/certificate-job-detail/certificate-job-detail.component';
@@ -77,6 +78,11 @@ const routes: Routes = [
       {
         path: 'Emails',
         loadChildren: () => import('./components/email-jobs/email-jobs.module').then(m => m.EmailJobsModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'add-certificate',
+        component: AddCertificateComponent,
         canActivate: [AuthGuard],
       },
       {
