@@ -84,7 +84,7 @@
        </div>
 
         <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
-          <mat-tab label="Tags">
+          <mat-tab label="Tags ({{tagsPage.totalElements}})">
             <button class="btn-orange-outline add_button"
             (click)="addTag()"> <i class="fas fa-plus"></i> Create New Tag
             </button>
@@ -99,7 +99,7 @@
                   </ng-container>
                   <ng-container matColumnDef="no_of_recipients">
                     <th mat-header-cell *matHeaderCellDef>
-                      <h6>Recipients</h6>
+                      <h6>Recipients </h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index">
                       {{element.no_of_recipients}} </td>
@@ -146,7 +146,7 @@
               </div>
             </form>
           </mat-tab>
-          <mat-tab label="Fields">
+          <mat-tab label="Fields ({{fieldsPage.totalElements}})">
             <button class="btn-orange-outline add_button" (click)="addField()"><i class="fas fa-plus"></i>      Create New Field
             </button>
             <form [formGroup]="fieldsForm">
@@ -169,14 +169,14 @@
                     <th mat-header-cell *matHeaderCellDef>
                       <h6>Recipients filled</h6>
                     </th>
-                    <td mat-cell *matCellDef="let element let rowIndex = index"> 25</td>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.recipient_filled}}</td>
                   </ng-container>
 
                   <ng-container matColumnDef="recipients_empty">
                     <th mat-header-cell *matHeaderCellDef>
                       <h6>Recipients empty</h6>
                     </th>
-                    <td mat-cell *matCellDef="let element let rowIndex = index">10</td>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.recipient_empty}}</td>
                   </ng-container>
 
                   <ng-container matColumnDef="view_users">
@@ -195,7 +195,7 @@
                                 class="btn-orange-outline-border">Delete</a>
                             </li>
                             <li>
-                              <a class="btn-orange-outline-border">Update</a>
+                              <a class="btn-orange-outline-border" (click)="updateField(element.id)">Update</a>
                             </li>
                           </ul>
                       </td>

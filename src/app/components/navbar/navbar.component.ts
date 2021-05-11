@@ -1,9 +1,11 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 
 import { AdminDetailService } from '../../_services/admin-detail.service';
+import { AuthenticationService } from '../../_services/authentication.service';
 import { NavbarService } from 'src/app/_services/navbar.service';
 import { ConfigService } from 'src/app/_services/config.service';
 import { preload } from 'src/app/utils/preload';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +22,7 @@ export class NavbarComponent implements OnInit {
   backgroundimg = 'assets/shape-with-border.svg';
   icons = [];
 
-  constructor(private adminService: AdminDetailService, public nav: NavbarService, private configService: ConfigService) {
+  constructor(private adminService: AdminDetailService, public nav: NavbarService, private configService: ConfigService, private router: Router, private authService: AuthenticationService) {
     // document.getElementsByClassName('links-header')
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
@@ -55,5 +57,10 @@ export class NavbarComponent implements OnInit {
     if (!clickedInside) {
       this.showDropDown = false;
     }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/AdminLogin']);
   }
 }

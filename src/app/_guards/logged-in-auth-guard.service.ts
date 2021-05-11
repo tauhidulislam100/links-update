@@ -6,7 +6,7 @@ import {ConfigService} from '../_services/config.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService {
+export class LoggedInAuthGuard {
   access_token;
 
   constructor(public auth: AuthenticationService, public router: Router, private configService: ConfigService) {
@@ -18,10 +18,10 @@ export class AuthGuardService {
   }
 
   canActivate(state: RouterStateSnapshot): boolean {
-    if (localStorage.getItem(this.access_token)) {
+    if (!localStorage.getItem(this.access_token)) {
       return true;
     } else {
-      this.router.navigate(['/AdminLogin']);
+      this.router.navigate(['/']);
       return false;
     }
   }

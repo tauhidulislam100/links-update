@@ -60,6 +60,20 @@ export class CertificateService {
     return this.http.get<Page<any>>(url, this.httpOptions);
   }
 
+  public getAllUnrealsedJobsPage(pageable: Pageable): Observable<any> {
+    let url = this.baseurl
+    + 'certificate/jobs/unreleased/page?page=' + pageable.pageNumber
+    + '&size=' + pageable.pageSize;
+    return this.http.get<Page<any>>(url, this.httpOptions);
+  }
+  
+  public getAllReleasedJobsPage(pageable: Pageable): Observable<any> {
+    let url = this.baseurl
+    + 'certificate/jobs/released/page?page=' + pageable.pageNumber
+    + '&size=' + pageable.pageSize;
+    return this.http.get<Page<any>>(url, this.httpOptions);
+  }
+
 
   setSelectedUsers(users: UserDetail[]) {
     this.selectedUsers = users;

@@ -173,7 +173,7 @@ export class TagsComponent implements OnInit {
 
 
   updateField(id) {
-    this.dialogService.setTitle("tag");
+    this.dialogService.setTitle("field");
     const dialogRef = this.dialog.open(DialogOverview, {
       width: '415px'
     });
