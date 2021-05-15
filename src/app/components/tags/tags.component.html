@@ -90,7 +90,10 @@
             </button>
             <form [formGroup]="tagsForm">
               <div class="table-container">
-                <table mat-table [dataSource]="dataSource" class="table hoverEffect table-header table-bordered table-rounded">
+                <table
+                matSort 
+                (matSortChange)="sortData($event, 'tags')"  
+                mat-table [dataSource]="dataSource" class="table hoverEffect table-header table-bordered table-rounded">
                   <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>
                       <h6>Tags</h6>
@@ -98,24 +101,26 @@
                     <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
                   </ng-container>
                   <ng-container matColumnDef="no_of_recipients">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="no_of_recipients">
                       <h6>Recipients </h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index">
                       {{element.no_of_recipients}} </td>
                   </ng-container>
                   <ng-container matColumnDef="last_used">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="last_used_on">
                       <h6>Last Used</h6>
                     </th>
-                    <td mat-cell *matCellDef="let element let rowIndex = index">Today</td>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">
+                      {{element.last_used_on|dateAgo}}
+                    </td>
                   </ng-container>
                   <ng-container matColumnDef="created_on">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="created_at">
                       <h6>Created On</h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index">
-                      {{element.created_at}} </td>
+                      {{element.created_at|dateAgo}} </td>
                   </ng-container>
 
                   <ng-container  matColumnDef="view_users">
@@ -128,7 +133,7 @@
                             <a [routerLink]="" (click)="updateTag(element.id)" class="btn-orange-outline-border">Update</a>
                           </li>
                           <li>
-                            <a (click)="loader = true" [routerLink]="'/Recipients/'+element.id" class="btn-orange-outline-border">View Recipients</a>
+                            <a (click)="loader = true" [routerLink]="'/Recipients/'+element.id" [queryParams]="{name:element.name}" class="btn-orange-outline-border">View Recipients</a>
                           </li>
                         </ul>
                     </td>
@@ -151,7 +156,12 @@
             </button>
             <form [formGroup]="fieldsForm">
               <div class="table-container">
-                <table mat-table [dataSource]="fieldsDataSource" class="table hoverEffect table-header table-bordered table-rounded">
+                <table
+                matSort 
+                (matSortChange)="sortData($event, 'fields')"  
+                mat-table 
+                [dataSource]="fieldsDataSource" 
+                class="table hoverEffect table-header table-bordered table-rounded">
                   <ng-container matColumnDef="fields">
                     <th mat-header-cell *matHeaderCellDef>
                       <h6>Fields</h6>
@@ -159,10 +169,10 @@
                     <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
                   </ng-container>
                   <ng-container matColumnDef="created_on">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="created_at">
                       <h6>Created On</h6>
                     </th>
-                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at}}</td>
+                    <td mat-cell *matCellDef="let element let rowIndex = index">{{element.created_at|dateAgo}}</td>
 
                   </ng-container>
                   <ng-container matColumnDef="recipients_filled">

@@ -23,12 +23,15 @@ export class FieldService {
     return this.http.get<any>(`${this.baseurl}fields/all`);
   }
 
-  getAllFieldsPage(pageable: Pageable): Observable<any> {
+  getAllFieldsPage(pageable: Pageable, reset=false): Observable<any> {
     let url = this.baseurl
       + 'fields/all/page?page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize;
-
-    return this.http.get<Page<any>>(url);
+      
+    return this.http.get<Page<any>>(url, {
+      headers: {
+      reset: reset ? 'reset' : ''
+    }});
   }
 
 

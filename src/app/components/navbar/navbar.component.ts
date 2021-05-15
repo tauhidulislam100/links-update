@@ -32,6 +32,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.adminService.getLoggedInAdmin().subscribe(data => {
+      console.log('data ', data);
       this.userName = data.name;
       this.userEmail = data.email;
     });

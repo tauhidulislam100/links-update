@@ -8,9 +8,11 @@ export class CacheMapService implements Cache  {
     cacheMap = new Map<string, CacheEntry>();
     get(req: HttpRequest<any>): HttpResponse<any> | null {
         const entry = this.cacheMap.get(req.urlWithParams);
+
         if (!entry) {
             return null;
         }
+
         const isExpired = (Date.now() - entry.entryTime) > MAX_CACHE_AGE;
         return isExpired ? null : entry.response;
     }

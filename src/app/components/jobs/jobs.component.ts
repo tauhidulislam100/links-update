@@ -2,11 +2,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, Sort } from '@angular/material';
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { Page } from 'src/app/pagination/page';
+import { compare } from 'src/app/utils/sortCompare';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { ConfigService } from 'src/app/_services/config.service';
 import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
@@ -371,18 +372,11 @@ export class JobsComponent implements OnInit {
       }
       // this.renderer.appendChild(this.message, div);
 
-
       this.errorService.setErrorVisibility(false, "");
-
-
-
     },
       error => {
         this.loader = false
       });
-
-
-
   }
 
   validateOnServer(row) {
@@ -502,6 +496,44 @@ export class JobsComponent implements OnInit {
     )
   }
 
+  sortData(sort: Sort, source) {
+    if(source === 'unreleased') {
+      const data = this.unReleasedJobsDataSource.slice();
+      if (!sort.active || sort.direction === '') {
+        this.unReleasedJobsDataSource = data;
+        return;
+      }
+
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'updatedAt': return compare(a.updatedAt, b.updatedAt, isAsc);
+          default: return 0;
+        }
+      });
+
+      this.unReleasedJobsDataSource = sortedData;
+    } else if (source === 'released'){
+        const data = this.allJobs.content.slice();
+      
+        if (!sort.active || sort.direction === '') {
+          this.allJobs.content = data;
+          return;
+        }
+        
+        let sortedData = data.sort((a, b) => {
+          const isAsc = sort.direction === 'asc';
+          switch (sort.active) {
+            case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+            case 'certificateTemplateName': return compare(a.certificateTemplateName, b.certificateTemplateName, isAsc);
+            case 'no_of_recipients': return compare(a.no_of_recipients, b.no_of_recipients, isAsc);
+            case 'seen': return compare(a.seen, b.seen, isAsc);
+            case 'share': return compare(a.share, b.share, isAsc);
+            default: return 0;
+          }
+        });
+        this.releasedJobsDataSource = new MatTableDataSource<JobData>(sortedData);
+    } 
+  }
+
 }
-
-

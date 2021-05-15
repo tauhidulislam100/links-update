@@ -8,22 +8,6 @@
 
   <div style="margin:20px 0px">
     <div #message></div>
-
-    <!--      <div class="alert alert-success" role="alert" *ngIf="tagged">-->
-    <!--        Recipients are Tagged Successfully, please search the recipients to preview <span style="float: right">  <a-->
-    <!--        [routerLink]="'/Tags'" routerLinkActive="active">View Tags</a></span>-->
-    <!--      </div>-->
-
-    <!--      <div class="alert alert-success" role="alert" *ngIf="searchResultSize">-->
-    <!--        Greetings, your search request has returned {{searchResultSize}} recipients. Please find the preview below.-->
-    <!--      </div>-->
-    <!--      <div class="alert alert-danger" role="alert" *ngIf="showNoRecipientFound">-->
-    <!--        None of the recipient is present on the server, please save the recipients first.-->
-    <!--      </div>-->
-
-    <!--      <div class="alert alert-success" role="alert" *ngIf="isSavedOrUpdated">-->
-    <!--        Recipients are Saved/Updated Successfully, please do search to preview.-->
-    <!--      </div>-->
   </div>
 
   <form [formGroup]="usersForm" class="usersForm">
@@ -36,7 +20,7 @@
               <div appearance="outline" class="textarea-wrapper">
                 <label>Email, Name, Gender, Mobile</label>
                 <textarea #myExpandedInput formControlName="userDetails" placeholder="{{textAreaLegend}}" #filterValue
-                  matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20 class="mb-2"></textarea> {{myExpandedInput.focus()}}
+                  matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20 class="mb-2"></textarea> 
               </div>
   
               <small class="userDetailsError" *ngIf="usersForm.controls.userDetails.errors"
@@ -196,14 +180,18 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="20.108" height="20.108" viewBox="0 0 20.108 20.108"><path id="Icon_material-error" data-name="Icon material-error" d="M13.054,3A10.054,10.054,0,1,0,23.108,13.054,10.058,10.058,0,0,0,13.054,3Zm1.005,15.081H12.049V16.07h2.011Zm0-4.022s-1.508,1.508-2.011,0,0-6.032,0-6.032h2.011Z" transform="translate(-3 -3)" fill="#fff"/>
               </svg>
             </span> 
-            {{ allUsers.length }} Recipients found with tag name 'Lorem'
+            {{ allUsers.length }} Recipients found with tag name '{{tagName}}'
             <span class="dismiss ml-auto" (click)="alert2.remove()">
               dismiss
             </span>
           </div>
 
           <div *ngIf="showNewRecipients" class="table-container">
-            <table mat-table formArrayName="allUsers" [dataSource]="dataSource"
+            <table
+            matSort 
+            (matSortChange)="sortData($event, 'allUsers')" 
+            mat-table 
+            formArrayName="allUsers" [dataSource]="dataSource"
               class="table table-bordered table-rounded">
 
               <!-- Checkbox Column -->
@@ -236,7 +224,7 @@
                   [formGroupName]="rowIndex">
                   {{element.id}}
               </ng-container> -->
-
+              
               <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef>
                   <h6> Email</h6>
@@ -247,7 +235,7 @@
               </ng-container>
 
               <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header="name">
                   <h6>Name</h6>
                 </th>
                 <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()"
@@ -263,14 +251,11 @@
                   [formGroupName]="rowIndex">
                   <mat-chip-list formArrayName="userTags" #chipList>
                     <mat-chip color="primary" style="margin-top: 10px; "
-                      *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id])">
+                      *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})">
                       {{tag.name}}
 
                     </mat-chip>
                   </mat-chip-list>
-                  <!-- <span *ngFor="let tag of element.user_tags; let i = index; let last = last">
-                    {{tag.name}}<ng-container *ngIf="!last">,</ng-container>
-                  </span> -->
                 </td>
               </ng-container>
 
@@ -285,7 +270,7 @@
                       <li  *ngFor="let field of fields; let i = index">
                           {{field.name}} : 
                           <div *ngIf="element.fields != null">
-                            {{element.fields[field.name]}}
+                            {{element.fields[field.name] ? element.fields[field.name] : 'NA'}}
                           </div>
                       </li>
                     </ul>
@@ -309,11 +294,13 @@
           </div>
 
           <div *ngIf="showPreview" class="table-container">
-            <table mat-table [dataSource]="previewDataSource" class="table table-bordered table-rounded">
-
-
+            <table 
+            matSort 
+           (matSortChange)="sortData($event, 'preview')" 
+            mat-table 
+            [dataSource]="previewDataSource" class="table table-bordered table-rounded">
               <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header="name">
                   <h6>Name</h6>
                 </th>
                 <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
@@ -332,19 +319,9 @@
 
               <ng-container matColumnDef="user_tags">
                 <th mat-header-cell *matHeaderCellDef>
-                  <h6>Tags</h6>
+                  <h6></h6>
                 </th>
                 <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                  <mat-chip-list #chipList>
-                    <mat-chip color="primary" style="margin-top: 10px; "
-                      *ngFor="let tag of element.userTags; let i = index">
-                      {{tag.name}}
-
-                    </mat-chip>
-                  </mat-chip-list>
-                  <!-- <span *ngFor="let tag of element.user_tags; let i = index; let last = last">
-                    {{tag.name}}<ng-container *ngIf="!last">,</ng-container>
-                  </span> -->
                 </td>
               </ng-container>
 
@@ -352,16 +329,19 @@
                 <th mat-header-cell *matHeaderCellDef>
                   <h6>Fields</h6>
                 </th>
-                <!--formGroupName="rowIndex"-->
-                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                  <mat-chip-list #chipList>
-                    <mat-chip color="primary" style="margin-top: 10px; height: 100%; "
-                      *ngFor="let field of fields; let i = index">
+                <td class="fields_area" min-width="250" mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                  <mat-chip-list  #chipList>
+                    <ul>
+                      <li  *ngFor="let field of fields; let i = index">
+                          {{field.name}} : 
+                          <div *ngIf="element.fields != null">
+                            {{element.fields[field.name] ? element.fields[field.name] : 'NA'}}
+                          </div>
+                      </li>
+                    </ul>
 
-                      {{field.name}}:
-                      <div *ngIf="element.fields != null">{{element.fields[field.name]}}</div>
+                    <a [routerLink]="'/Profile/'+element.id" class="view-link btn-orange-outline-border">View</a>
 
-                    </mat-chip>
                   </mat-chip-list>
                   <!-- <span *ngFor="let tag of element.user_tags; let i = index; let last = last">
                     {{tag.name}}<ng-container *ngIf="!last">,</ng-container>
@@ -376,7 +356,6 @@
                 <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
                   <a [routerLink]="'/Profile/'+element.id" class="view-link">View</a>
               </ng-container> -->
-
 
               <tr mat-header-row *matHeaderRowDef="previewDisplayColumns;sticky: true">
               </tr>

@@ -86,7 +86,7 @@ export function validateSaveAndUpdate(): ValidatorFn {
         let user: string[] = data.split(",");
         if (data !== "") {
           if (user.length < 2) {
-            msg += `Check Data – Email and Name are mandatory fields for adding a new Recipient <br>`;
+            msg += `Check Data – at row ${i + 1}. Email and Name are mandatory fields for adding a new Recipient <br>`;
           } else {
             if (user[1] !== "") {
               if (!validateName(user[1].trim())) {

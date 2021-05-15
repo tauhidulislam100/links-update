@@ -1,9 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, Sort } from '@angular/material';
 import { Router } from '@angular/router';
 import { Page } from 'src/app/pagination/page';
+import { compare } from 'src/app/utils/sortCompare';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { ConfigService } from 'src/app/_services/config.service';
 import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
@@ -17,7 +18,9 @@ import { DialogOverview } from '../dialog-overview/dialog-overview.component';
 export interface JobData {
   id,
   name,
-  created_at
+  created_at,
+  last_used_on,
+  no_of_recipients
 }
 
 @Component({
@@ -81,6 +84,7 @@ export class TagsComponent implements OnInit {
     this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(data => {
       this.allTags = data.content;
       this.tagsPage = data;
+      console.log('tags data ', data);
       this.dataSource = new MatTableDataSource<JobData>(this.allTags);
     });
 
@@ -184,7 +188,7 @@ export class TagsComponent implements OnInit {
         this.fieldService.updateField(id, result.data).subscribe(data => {
           this.loader = false;
 
-          this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(
+          this.fieldService.getAllFieldsPage(this.fieldsPage.pageable, true).subscribe(
             data => {
               this.allFields = data.content;
               this.fieldsDataSource = new MatTableDataSource<any>(this.allFields);
@@ -215,23 +219,23 @@ export class TagsComponent implements OnInit {
       if (result && result.event == 'AddTag') {
         this.loader = true;
         this.tagService.addTag(result.data).subscribe(data => {
-          this.loader = false;
-          if (data != null) {
-            this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(
-              data => {
-                this.allTags = data.content;
-                this.dataSource = new MatTableDataSource<JobData>(this.allTags);
-                this.tagsPage = data;
-                this.isFieldDeleted = false;
-                this.isTagAdded = true;
-                this.isFieldAdded = false;
-                this.isTagUpdated = false;
-                this.tagAlreadyExists = false;
-              }
-            )
-          } else {
-            this.tagAlreadyExists = true;
-          }
+            this.loader = false;
+            if (data != null) {
+              this.tagService.getAllTagsPage(this.tagsPage.pageable, true).subscribe(
+                data => {
+                  this.allTags = data.content;
+                  this.dataSource = new MatTableDataSource<JobData>(this.allTags);
+                  this.tagsPage = data;
+                  this.isFieldDeleted = false;
+                  this.isTagAdded = true;
+                  this.isFieldAdded = false;
+                  this.isTagUpdated = false;
+                  this.tagAlreadyExists = false;
+                }
+              )
+            } else {
+              this.tagAlreadyExists = true;
+            }
         }, error => {
           this.isFieldDeleted = false;
           this.isTagAdded = false;
@@ -255,7 +259,7 @@ export class TagsComponent implements OnInit {
         this.fieldService.addField(result.data).subscribe(data => {
           this.loader = false;
           if (data != null) {
-            this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(
+            this.fieldService.getAllFieldsPage(this.fieldsPage.pageable, true).subscribe(
               data => {
                 this.allFields = data.content;
                 this.fieldsPage = data;
@@ -292,6 +296,44 @@ export class TagsComponent implements OnInit {
   deleteField(id) {
     let title = "Ticket to delete a FIELD with id " + id;
     this.router.navigate(['/FAQ', title]);
+  }
+
+  sortData(sort: Sort, source) {
+    if(source === 'tags') {
+      const data = this.allTags.slice();
+      if (!sort.active || sort.direction === '') {
+        this.allTags = data;
+        return;
+      }
+
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'no_of_recipients': return compare(a.no_of_recipients, b.no_of_recipients, isAsc);
+          case 'last_used_on': return compare(a.last_used_on, b.last_used_on, isAsc);
+          case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+          default: return 0;
+        }
+      });
+
+      this.dataSource = new MatTableDataSource<JobData>(sortedData);
+    } else if (source === 'fields'){
+      const data = this.allFields.slice();
+      
+      if (!sort.active || sort.direction === '') {
+          this.allFields = data;
+          return;
+        }
+        
+        let sortedData = data.sort((a, b) => {
+          const isAsc = sort.direction === 'asc';
+          switch (sort.active) {
+            case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+            default: return 0;
+          }
+        });
+        this.fieldsDataSource = new MatTableDataSource<FieldType>(sortedData);
+    } 
   }
 }
 
