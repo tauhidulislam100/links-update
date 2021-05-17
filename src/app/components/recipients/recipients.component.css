@@ -71,17 +71,19 @@ a.view-link {
   padding: 0;
   margin: 0;
   line-height: 12px;
+  display: flex;
 }
 
 .table-bordered tr td.fields_area ul li{
   list-style: none;
   display: inline-flex;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 300;
   color: #28293D;
   border-right: 1px solid #28293D;
-  padding: 0 10px;
-  margin-right:5px;
+  padding: 0 5px;
+  margin-right: 5px;
+  line-height: 16px;
 }
 
 .table-bordered tr td.fields_area:hover ul{

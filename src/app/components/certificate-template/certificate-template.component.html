@@ -21,28 +21,107 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <form [formGroup]="certificateTemplateForm" class="profile-update-form">
           <div class="row">
-            <div class="col-6">
+            <div class="col-md-3">
               <div class="custom-group">
-                <mat-select formControlName="fontTheme" class="custom-form-control">
+                <label for="">Certificate Type</label>
+                <mat-select [formControl]="selected" class="custom-form-control">
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option3">Option 2</mat-option>
+                </mat-select>
+                <!-- <mat-select formControlName="fontTheme" class="custom-form-control">
                   <mat-option *ngFor="let temp of fontThemes" value={{temp.id}}>{{temp.name}}
                   </mat-option>
-                </mat-select>
+                </mat-select> -->
               </div>
             </div>
-            <div class="col-6">
-              <button class="btn-orange-rounded" (click)="updateTheme()"> Update Theme</button>
+            <div class="col-md-9">
+              <div class="custom-group">
+                <label>Certificate Name</label>
+                <input class="custom-form-control" type="text" formControlName="name" placeholder="Name">
+              </div>
+              <!-- <button class="btn-orange-rounded" (click)="updateTheme()"> Update Theme</button> -->
+            </div>
+            <div class="col-md-12">
+              <div class="custom-group">
+                <label>Certificate Title</label>
+                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 50">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="custom-group">
+                <label>About</label>
+                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 50">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="custom-group">
+                <label>Signatory</label>
+                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="custom-group">
+                <label>Designation</label>
+                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="custom-group">
+                <label>Body</label>
+                <textarea name=""  rows="8" class="custom-form-control" placeholder="Word limit 300"></textarea>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="custom-group">
+                <label>Website</label>
+                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="custom-group">
+                <label>Address</label>
+                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="upload-btn-container" *ngIf="field.type == 'logo'">
+                <input type="file" class="btn" id="file" (change)="handleLogoUpload($event)">
+                <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
+                  Logo</label>
+                <span>
+                  {{field.instruction}}
+                  <ng-template #elseTemplate>
+                    No file chosen
+                  </ng-template>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="upload-btn-container" *ngIf="field.type == 'signature'">
+                <input type="file" class="btn" id="file1" (change)="handleSignUpload($event)" maxlength="10">
+                <label for="file1" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
+                  Sign</label>
+                <span>
+                  {{field.instruction}}
+                  <ng-template #elseTemplate>
+                    No file chosen
+                  </ng-template>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-12 d-flex">
+              <button class="btn-orange-outline mr-2" (click)="update()"> Update & Preview</button>
+              <button [routerLink]="'/Certificates'" class="btn-orange-outline export">
+                Cancel
+              </button>
             </div>
           </div>
-          <div class="custom-group">
-            <input class="custom-form-control" type="text" formControlName="name" placeholder="Name">
-            <label>Name</label>
-          </div>
 
-
-          <div *ngFor="let field of editable_fields">
+          <!-- <div *ngFor="let field of editable_fields">
             <div class="custom-group" *ngIf="field.type != 'logo' && field.type != 'signature' && field.type != 'body'">
               <label>{{field.label}} , {{field.instruction}} </label>
               <input class="custom-form-control" type="text" [formControl]="certificateTemplateForm.get(field.label)"
@@ -53,132 +132,138 @@
               <textarea class="custom-form-control" rows="10"
                 [formControl]="certificateTemplateForm.get(field.label)"></textarea>
               <label>{{field.label}} , {{field.instruction}} </label>
-            </div>
-
-            <div class="upload-btn-container" *ngIf="field.type == 'logo'">
-              <input type="file" class="btn" id="file" (change)="handleLogoUpload($event)">
-              <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
-                Logo</label>
-              <span>
-                {{field.instruction}}
-                <ng-template #elseTemplate>
-                  No file chosen
-                </ng-template>
-              </span>
-            </div>
-
-            <div class="upload-btn-container" *ngIf="field.type == 'signature'">
-              <input type="file" class="btn" id="file1" (change)="handleSignUpload($event)" maxlength="10">
-              <label for="file1" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
-                Sign</label>
-              <span>
-                {{field.instruction}}
-                <ng-template #elseTemplate>
-                  No file chosen
-                </ng-template>
-              </span>
-            </div>
-
-
-          </div>
-
-          <button class="btn-orange-rounded" (click)="update()"> Update & Preview</button>
-          <button [routerLink]="'/Certificates'" class="btn-orange-rounded-outline">
-            Cancel
-          </button>
+            </div> -->
         </form>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-5">
         <img src="data:image/png;base64,{{imageData}}" alt="Certificate Preview" width="100%" />
+        <div class="box-area preview-area">
+            <div class="row">
+               <div class="col-3">
+                 <h3>Logo</h3>
+               </div>
+               <div class="col-9">
+                 <h2>ORGANIZATION TITLE</h2>
+                 <h4 class="mb-5">...INSPITING, INNOVATING, iNTEGRATING</h4>
+                 <h5 class="pb-5">DEAR (TITLE) Name </h5>
+                 <p>SOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME TEXT FOR SOMEONESOME </p>
+
+                 <h4>Siencerely.</h4>
+                 <h5>SIGNATOURY</h5>
+                 <h5>DESIGNATION</h5>
+               </div>
+            </div>
+        </div>
         <div class="help-area">
-          <h4>You can use the below fields</h4>
           <div class="table-container">
-            <table class="table table-bordered table-rounded">
-              <thead>
-                <tr>
-                  <th>Fields</th>
-                  <th>Usage</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Name</td>
-                  <td>{{'{' + 'Name' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>FirstName</td>
-                  <td>{{'{' + 'FirstName' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>Email</td>
-                  <td>{{'{' + 'Email' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>Gender</td>
-                  <td>{{'{' + 'Gender' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>Phone</td>
-                  <td>{{'{' + 'Phone' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>CertificateNumber</td>
-                  <td>{{'{' + 'CertificateNumber' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>Title</td>
-                  <td>{{'{' + 'Title' + '}'}}</td>
-                </tr>
-                <tr *ngFor="let field of fields">
-                  <td>{{field.name}}</td>
-                  <td>{{'{' + field.name + '}'}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <hr>
-            <table class="table table-bordered table-rounded">
-              <thead>
-                <tr>
-                  <th>Fields</th>
-                  <th>Values</th>
-                  <th>Usage</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>pronoun1U</td>
-                  <td>He/She</td>
-                  <td>{{'{' + 'pronoun1U' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>pronoun2U</td>
-                  <td>His/Her</td>
-                  <td>{{'{' + 'pronoun2U' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>pronoun3U</td>
-                  <td>Him/Her</td>
-                  <td>{{'{' + 'pronoun3U' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>pronoun1L</td>
-                  <td>he/she</td>
-                  <td>{{'{' + 'pronoun1L' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>pronoun2L</td>
-                  <td>his/her</td>
-                  <td>{{'{' + 'pronoun2L' + '}'}}</td>
-                </tr>
-                <tr>
-                  <td>pronoun3L</td>
-                  <td>him/her</td>
-                  <td>{{'{' + 'pronoun3L' + '}'}}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="border p-3 rounder mb-3">
+              <h4>You can use the below fields in the
+                email body or subject</h4>
+              <table class="table table-bordered table-rounded">
+                <thead>
+                  <tr>
+                    <th>Fields</th>
+                    <th>Usage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name</td>
+                    <td>{{'{' + 'Name' + '}'}}</td>
+                  </tr>
+                  <tr>
+                    <td>FirstName</td>
+                    <td>{{'{' + 'FirstName' + '}'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>{{'{' + 'Email' + '}'}}</td>
+                  </tr>
+                  <!-- <tr>
+                    <td>Gender</td>
+                    <td>{{'{' + 'Gender' + '}'}}</td>
+                  </tr> -->
+                  <tr>
+                    <td>Phone</td>
+                    <td>{{'{' + 'Phone' + '}'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Class</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>City</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Stream</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>CGPA</td>
+                    <td></td>
+                  </tr>
+
+                  <!-- <tr>
+                    <td>CertificateNumber</td>
+                    <td>{{'{' + 'CertificateNumber' + '}'}}</td>
+                  </tr> -->
+                  <!-- <tr>
+                    <td>Title</td>
+                    <td>{{'{' + 'Title' + '}'}}</td>
+                  </tr> -->
+                  <tr *ngFor="let field of fields">
+                    <td>{{field.name}}</td>
+                    <td>{{'{' + field.name + '}'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="border p-3 rounder mb-3">
+              <table class="table table-bordered table-rounded">
+                <thead>
+                  <tr>
+                    <th>Fields</th>
+                    <th>Values</th>
+                    <th>Usage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>pronoun1U</td>
+                    <td>He/She</td>
+                    <td>{{'{' + 'pronoun1U' + '}'}}</td>
+                  </tr>
+                  <tr>
+                    <td>pronoun2U</td>
+                    <td>His/Her</td>
+                    <td>{{'{' + 'pronoun2U' + '}'}}</td>
+                  </tr>
+                  <tr>
+                    <td>pronoun3U</td>
+                    <td>Him/Her</td>
+                    <td>{{'{' + 'pronoun3U' + '}'}}</td>
+                  </tr>
+                  <tr>
+                    <td>pronoun1L</td>
+                    <td>he/she</td>
+                    <td>{{'{' + 'pronoun1L' + '}'}}</td>
+                  </tr>
+                  <!-- <tr>
+                    <td>pronoun2L</td>
+                    <td>his/her</td>
+                    <td>{{'{' + 'pronoun2L' + '}'}}</td>
+                  </tr>
+                  <tr>
+                    <td>pronoun3L</td>
+                    <td>him/her</td>
+                    <td>{{'{' + 'pronoun3L' + '}'}}</td>
+                  </tr> -->
+                </tbody>
+              </table>
+            </div>
           </div>
-          <a href="#">Show me how ?</a>
+          <!-- <a href="#">Show me how ?</a> -->
         </div>
       </div>
 

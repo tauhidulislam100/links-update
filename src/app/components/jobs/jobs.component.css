@@ -119,3 +119,7 @@ a.disabled {
   background-color: #FF3A00 !important;
   opacity: 1;
 }
+
+::ng-deep .mat-tab-body-wrapper{
+    overflow: initial !important;
+}
