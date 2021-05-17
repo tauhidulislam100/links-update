@@ -13,7 +13,7 @@
               <button style="min-width: auto;" [routerLink]="'/Certificates'" class="btn-orange-outline export mr-2">
                 Cancel
               </button>
-              <button class="btn btn-orange-outline"> Request to Add
+              <button class="btn btn-orange-outline" (click)="updateTheme()"> Update Theme
               </button>
             </div>
           </div>
@@ -27,14 +27,10 @@
             <div class="col-md-3">
               <div class="custom-group">
                 <label for="">Certificate Type</label>
-                <mat-select [formControl]="selected" class="custom-form-control">
-                  <mat-option value="option1">Option 1</mat-option>
-                  <mat-option value="option3">Option 2</mat-option>
-                </mat-select>
-                <!-- <mat-select formControlName="fontTheme" class="custom-form-control">
+                <mat-select formControlName="fontTheme" class="custom-form-control">
                   <mat-option *ngFor="let temp of fontThemes" value={{temp.id}}>{{temp.name}}
                   </mat-option>
-                </mat-select> -->
+                </mat-select>
               </div>
             </div>
             <div class="col-md-9">
@@ -44,56 +40,97 @@
               </div>
               <!-- <button class="btn-orange-rounded" (click)="updateTheme()"> Update Theme</button> -->
             </div>
-            <div class="col-md-12">
+
+            <div class="col-md-12"  *ngFor="let field of editable_fields">
+
+              <div class="custom-group" *ngIf="field.type != 'logo' && field.type != 'signature' && field.type != 'body'">
+                <label>{{field.label}}</label>
+                <input class="custom-form-control" type="text" [formControl]="certificateTemplateForm.get(field.label)"
+                  placeholder={{field.type}}>
+              </div>
+    
+              <div class="custom-group" *ngIf="field.type == 'body'">
+                <label>{{field.label}}</label>
+                <textarea class="custom-form-control" rows="10"
+                  [formControl]="certificateTemplateForm.get(field.label)"></textarea>
+              </div>
+    
+              <div class="upload-btn-container align-items-center" *ngIf="field.type == 'logo'">
+                <input type="file" class="btn" id="file" (change)="handleLogoUpload($event)">
+                <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
+                  Logo</label>
+                <span class="ml-2">
+                  {{field.instruction}}
+                  <ng-template #elseTemplate>
+                    No file chosen
+                  </ng-template>
+                </span>
+              </div>
+              
+    
+              <div class="upload-btn-container align-items-center" *ngIf="field.type == 'signature'">
+                <input type="file" class="btn" id="file1" (change)="handleSignUpload($event)" maxlength="10">
+                <label for="file1" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
+                  Sign</label>
+                <span class="ml-2">
+                  {{field.instruction}}
+                  <ng-template #elseTemplate>
+                    No file chosen
+                  </ng-template>
+                </span>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-12">
               <div class="custom-group">
                 <label>Certificate Title</label>
-                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 50">
+                <input class="custom-form-control" type="text" formControlName="Title" placeholder="Word limit 50">
               </div>
             </div>
             <div class="col-md-12">
               <div class="custom-group">
                 <label>About</label>
-                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 50">
+                <input class="custom-form-control" type="text" formControlName="Adout" placeholder="Word limit 50">
               </div>
             </div>
             <div class="col-md-12">
               <div class="custom-group">
                 <label>Signatory</label>
-                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+                <input class="custom-form-control" type="text" formControlName="Signatory" placeholder="Word limit 30">
               </div>
             </div>
             <div class="col-md-12">
               <div class="custom-group">
                 <label>Designation</label>
-                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+                <input class="custom-form-control" type="text" formControlName="Designation" placeholder="Word limit 30">
               </div>
             </div>
             <div class="col-md-12">
               <div class="custom-group">
                 <label>Body</label>
-                <textarea name=""  rows="8" class="custom-form-control" placeholder="Word limit 300"></textarea>
+                <textarea name="Text1" formControlName="Text1"  rows="8" class="custom-form-control" placeholder="Word limit 300"></textarea>
               </div>
             </div>
             <div class="col-md-12">
               <div class="custom-group">
                 <label>Website</label>
-                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+                <input class="custom-form-control" type="text" formControlName="Website" placeholder="Word limit 30">
               </div>
             </div>
             <div class="col-md-12">
               <div class="custom-group">
                 <label>Address</label>
-                <input class="custom-form-control" type="text" formControlName="name" placeholder="Word limit 30">
+                <input class="custom-form-control" type="text" formControlName="Address" placeholder="Word limit 30">
               </div>
             </div>
 
             <div class="col-md-12">
-              <div class="upload-btn-container" *ngIf="field.type == 'logo'">
+              <div class="upload-btn-container" *ngIf="fields.type == 'logo'">
                 <input type="file" class="btn" id="file" (change)="handleLogoUpload($event)">
                 <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
                   Logo</label>
                 <span>
-                  {{field.instruction}}
+                  {{fields.instruction}}
                   <ng-template #elseTemplate>
                     No file chosen
                   </ng-template>
@@ -101,18 +138,18 @@
               </div>
             </div>
             <div class="col-md-12">
-              <div class="upload-btn-container" *ngIf="field.type == 'signature'">
+              <div class="upload-btn-container" *ngIf="fields.type == 'signature'">
                 <input type="file" class="btn" id="file1" (change)="handleSignUpload($event)" maxlength="10">
                 <label for="file1" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
                   Sign</label>
                 <span>
-                  {{field.instruction}}
+                  {{fields.instruction}}
                   <ng-template #elseTemplate>
                     No file chosen
                   </ng-template>
                 </span>
               </div>
-            </div>
+            </div> -->
             <div class="col-md-12 d-flex">
               <button class="btn-orange-outline mr-2" (click)="update()"> Update & Preview</button>
               <button [routerLink]="'/Certificates'" class="btn-orange-outline export">

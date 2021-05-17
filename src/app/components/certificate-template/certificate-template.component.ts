@@ -42,7 +42,7 @@ export class CertificateTemplateComponent implements OnInit {
     this.editable_fields_array = this.templateData.instructions.editable_fields;
     this.fields = this.route.snapshot.data.fields;
     this.fontThemes = this.templateData.instructions.themes;
-
+    console.log('fontThemes ', this.instructions);
     this.certificateTemplateForm = this.fb.group({
       name: [this.templateData.name, []],
       fontTheme: ['1']
@@ -79,6 +79,8 @@ export class CertificateTemplateComponent implements OnInit {
         })
       }
     });
+
+    console.log('certificateTemplateForm ', this.certificateTemplateForm);
   }
 
   update() {
