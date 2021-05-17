@@ -20,9 +20,12 @@
               </mat-menu>
             </div>   
             <div class="table-container mt-5">
-              <table  class="table table-header hoverEffect table-bordered table-rounded">
+              <table
+              matSort 
+              (matSortChange)="sortData($event, 'unreleased')" 
+               class="table table-header hoverEffect table-bordered table-rounded">
                 <tr>
-                  <th>
+                  <th mat-sort-header="updatedAt">
                     <h6>Last Acted On</h6>
                   </th>
                   <th>
@@ -72,11 +75,14 @@
             </div>  
             <form *ngIf="jobsForm" [formGroup]="jobsForm">
               <div class="table-container">
-                <table mat-table formArrayName="allJobs" [dataSource]="releasedJobsDataSource" matSort 
+                <table
+                matSort 
+               (matSortChange)="sortData($event, 'released')"  
+                mat-table formArrayName="allJobs" [dataSource]="releasedJobsDataSource" matSort 
                   class="table hoverEffect table-header table-bordered table-rounded">
 
                   <ng-container matColumnDef="release">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef  mat-sort-header="last_released_on">
                       <img src="{{assets_loc}}assets/release.svg" />
                     </th>
                     <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
@@ -86,15 +92,15 @@
                   </ng-container>
 
                   <ng-container matColumnDef="created_at">
-                    <th mat-header-cell *matHeaderCellDef>
-                      <h6>Release</h6>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="created_at">
+                      <h6>Released</h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                      {{element.created_at}} </td>
+                      {{element.created_at|dateAgo}} </td>
                   </ng-container>
 
                   <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="certificateTemplateName">
                       <h6>Name</h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
@@ -113,7 +119,7 @@
 
 
                   <ng-container matColumnDef="noOfRecipients">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="no_of_recipients">
                       <h6>Recipients</h6>
                     </th>
                     <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
@@ -121,16 +127,16 @@
                   </ng-container>
 
                   <ng-container matColumnDef="seen">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="seen">
                       <h6>Seen</h6>
                     </th>
                     <td mat-cell *matCellDef="let element">
-                      1
+                      {{ element.seen }}
                     </td>
                   </ng-container>
 
                   <ng-container matColumnDef="shared">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="share">
                       <h6>Shared</h6>
                     </th>
                     <td mat-cell *matCellDef="let element">
@@ -144,6 +150,9 @@
                     </th>
                     <td mat-cell class="hover_details" *matCellDef="let element">
                         <ul class="actiion_list">
+                          <li>
+                            <a (click)="regenerateCertificates(element)" class="btn-orange-outline-border">Regenerate</a>
+                          </li>
                           <li>
                             <a (click)="validateOnServer(element)" class="btn-orange-outline-border">Validate</a>
                           </li>

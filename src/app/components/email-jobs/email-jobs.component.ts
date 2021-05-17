@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource, Sort } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Page } from 'src/app/pagination/page';
+import { compare } from 'src/app/utils/sortCompare';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { ConfigService } from 'src/app/_services/config.service';
 import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
@@ -158,6 +159,67 @@ export class EmailJobsComponent implements OnInit {
         this.errorService.setErrorVisibility(false, "");
       }
     );
+  }
+
+  sortData(sort: Sort, source) {
+    if(source === 'sent') {
+      const data =  this.allJobs.content.slice();
+      if (!sort.active || sort.direction === '') {
+        return;
+      }
+
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+          case 'no_of_recipients': return compare(a.no_of_recipients, b.no_of_recipients, isAsc);
+          case 'seen': return compare(a.seen, b.seen, isAsc);
+          case 'unsubscribed': return compare(a.unsubscribed, b.unsubscribed, isAsc);
+          default: return 0;
+        }
+      });
+
+     this.sentEmailsDataSource = new MatTableDataSource<PageType>(sortedData);;
+
+    } else if (source === 'e-templates'){
+        const data: any = this.allTemplatesPage.content.slice();
+      
+        if (!sort.active || sort.direction === '') {
+          this.allJobs.content = data;
+          return;
+        }
+        
+        let sortedData = data.sort((a, b) => {
+          const isAsc = sort.direction === 'asc';
+          switch (sort.active) {
+            case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+            case 'no_of_times_used': return compare(a.no_of_times_used, b.no_of_times_used, isAsc);
+            case 'no_of_recipients': return compare(a.no_of_recipients, b.no_of_recipients, isAsc);
+            default: return 0;
+          }
+        });
+       
+        this.emailTemplatesDataSource = new MatTableDataSource<PageType>(sortedData);
+    } else if (source === 'm-templates'){
+      const data: any = this.allMappedTemplatesPage.content.slice();
+    
+      if (!sort.active || sort.direction === '') {
+        this.allJobs.content = data;
+        return;
+      }
+      
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+          case 'no_of_times_used': return compare(a.no_of_times_used, b.no_of_times_used, isAsc);
+          case 'no_of_recipients': return compare(a.no_of_recipients, b.no_of_recipients, isAsc);
+          default: return 0;
+        }
+      });
+     
+      this.emailTemplatesMappedToCertificatesDataSource = new MatTableDataSource<PageType>(sortedData);
+    } 
   }
 
 }

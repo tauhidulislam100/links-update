@@ -3,6 +3,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Sort } from '@angular/material';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DialogOverview } from 'src/app/components/dialog-overview/dialog-overview.component';
 import { preload } from 'src/app/utils/preload';
+import { compare } from 'src/app/utils/sortCompare';
 import { slideUpAnimation } from 'src/app/_animations/slideUp';
 import { ConfigService } from 'src/app/_services/config.service';
 import { FieldService } from 'src/app/_services/field.service';
@@ -62,6 +64,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   tagged: boolean;
   isSavedOrUpdated: boolean;
   fields: FieldType[];
+  tagName='';
   icons = [];
   subscription: Subscription[] = [];
   showNewRecipients = true;
@@ -142,14 +145,13 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showPreview = true;
       this.tagView = true;
       this.showNewRecipients = false;
+      this.tagName = this.route.snapshot.queryParamMap.get('name');
       this.subscription[1] = this.recipentService.getByTag(this.route.snapshot.paramMap.get('id')).subscribe(recipents => {
-        console.log("by tag ", recipents);
         this.allUsers = recipents.recipientList;
         this.allrecipientsToPreview = recipents.recipientsToPreview;
         this.searchResultSize = this.allUsers.length;
         this.previewDataSource = new MatTableDataSource<UserData>(this.allrecipientsToPreview);
         this.noOfRecipientsNotFound = recipents.totalRecipientsNotFound;
-
         let div = this.renderer.createElement('div');
         div.innerHTML = `
           <div class="alert alert-success" role="alert">
@@ -158,8 +160,8 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
         `;
         this.renderer.appendChild(this.message.nativeElement, div);
         this.removeMessage(div);
+        // this.addCheckboxes();
       });
-      // this.addCheckboxes();
     } else {
       this.tagView = false;
       this.subscription[2] = this.recipentService.getAllNewUsers().subscribe(data => {
@@ -232,7 +234,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.btnPressed = false;
       this.loader = true;
       let emails = [];
-      value.split("\n").map(data => emails.push(data.split(",")[0]));
+      value.split("\n").map(data => emails.push(data.split(",")[0].trim()));
 
       this.userService.getByEmails(emails).then(result => {
         if (result.totalRecipientsFound == 0) {
@@ -543,6 +545,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       reader.readAsBinaryString(target.files[0]);
     }
     this.selectedFileName = evt.target.files[0].name;
+    evt.target.value = null;
   }
 
   loadUserDetails(users: any[]) {
@@ -767,6 +770,42 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       if(element) {
         element.remove();
       }
-    }, 2000);
+    }, 10000);
+  }
+
+  sortData(sort: Sort, source) {
+    if(source === 'allUsers') {
+      const data = this.allUsers.slice();
+      if (!sort.active || sort.direction === '') {
+        this.allUsers = data;
+        return;
+      }
+
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'name': return compare(a.name, b.name, isAsc);
+          default: return 0;
+        }
+      });
+
+      this.dataSource = new MatTableDataSource<UserType>(sortedData);
+    } else if (source === 'preview'){
+      const data = this.allrecipientsToPreview.slice();
+
+      if (!sort.active || sort.direction === '') {
+        this.allUsers = data;
+        return;
+      }
+
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'name': return compare(a.name, b.name, isAsc);
+          default: return 0;
+        }
+      });
+      this.previewDataSource = new MatTableDataSource<UserData>(sortedData);
+    } 
   }
 }

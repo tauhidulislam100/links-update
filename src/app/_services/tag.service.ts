@@ -6,6 +6,7 @@ import {ConfigService} from './config.service';
 import {Observable} from 'rxjs';
 import {Pageable} from '../pagination/pageable';
 import {Page} from '../pagination/page';
+import {} from './cache/cache-map.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +38,15 @@ export class TagService {
     return this.http.post<any>(`${this.baseurl}tags`, {"name": tag});
   }
 
-  getAllTagsPage(pageable: Pageable): Observable<any> {
+  getAllTagsPage(pageable: Pageable, reset=false): Observable<any> {
     let url = this.baseurl
       + 'tags/all/page?page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize;
 
-    return this.http.get<Page<any>>(url);
+    return this.http.get<Page<any>>(url, {
+      headers: {
+      reset: reset ? 'reset' : ''
+    }});
   }
 
 }
