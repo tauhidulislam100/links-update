@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {first} from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   icons = [];
   step = 1;
   showLoader = true;
@@ -57,6 +57,7 @@ export class RegisterComponent implements OnInit {
       this.showLoader = false;
       clearTimeout(timerId);
     }, 1000);
+    document.body.classList.add('bg-white');
   }
 
   handleSubmit() {
@@ -111,6 +112,10 @@ export class RegisterComponent implements OnInit {
     if(this.step > 1 && this.registerForm.valid) {
       this.step -= 1;
     }
+  }
+
+  ngOnDestroy() {
+    document.body.classList.remove('bg-white');
   }
 
 }

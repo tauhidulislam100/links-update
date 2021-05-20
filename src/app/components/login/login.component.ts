@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {first} from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   step: 'login' | 'otp' = 'login';
   formInput = ['input1', 'input2', 'input3', 'input4', 'input5', 'input6'];
   returnUrl: string;
@@ -66,6 +66,8 @@ export class LoginComponent implements OnInit {
       this.showLoader = false;
       clearTimeout(timerId);
     }, 1000);
+
+    document.body.classList.add('bg-white');
   }
 
   handleChange() {
@@ -165,6 +167,10 @@ export class LoginComponent implements OnInit {
     ret += "" + String(mins).padStart(2, '0') + ":" + (secs < 10 ? "0" : "");
     ret += "" + secs;
     return ret;
+  }
+
+  ngOnDestroy() {
+    document.body.classList.remove('bg-white');
   }
 
 }
