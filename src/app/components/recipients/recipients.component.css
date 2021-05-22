@@ -133,3 +133,29 @@ a.view-link {
 .view-link{
   display: none;
 }
+
+@media (max-width: 912px) {
+  .filter-btn{
+    margin-top: 0.75rem;
+  }
+}
+
+@media (max-width: 677px) {
+  .button-group{
+    flex-wrap: wrap;
+  }
+  .button-group button {
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+  .filter-btn {
+    width: 100%;
+  }
+  .filter-btn button {
+    width: 100%;
+  }
+}
+.table-container table {
+  min-width: 1300px;
+  /* width: 100%; */
+}

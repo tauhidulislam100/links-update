@@ -307,6 +307,7 @@ profile
 
 .mat-group-content .mat-tab-body-content {
   overflow: hidden !important;
+  position: relative;
 }
 
 /* 
@@ -405,9 +406,10 @@ profile
 
   .action-btn button {
       margin: 0 !important;
+      width: 100%;
   }
 
-  .action-btn button:first-child {
+  .action-btn button {
       margin-bottom: 1rem !important;
   }
 
@@ -461,6 +463,14 @@ profile
     padding: 0 !important;
   }
 }
+
+@media (max-width: 741px) {
+  .action-btn button {
+    width: 100%;
+    margin-bottom: 1rem !important;
+    margin-left: 0px !important;
+  }
+} 
 
 @media screen and (min-width: 426px)  and (max-width: 1024px){
 
@@ -667,7 +677,7 @@ login register page realted style
 .mat-tab-body,
 .mat-tab-body.mat-tab-body-active,
 .mat-group-content .mat-tab-body-content{
-   overflow: unset !important;
+   /* overflow: unset !important; */
 }
 
 .btn.back{
@@ -783,4 +793,9 @@ th[mat-sort-header] .mat-sort-header-indicator [class^="mat-sort-header-pointer"
 th[mat-sort-header] .mat-sort-header-stem 
 {
   display: none !important;
+}
+
+
+.overflow-x-auto {
+  overflow-x: auto !important;
 }

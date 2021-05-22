@@ -44,40 +44,44 @@
               </span>
   
             </div>
-  
-            <div class="d-flex justify-content-between align-items-center flex-md-row flex-lg-row flex-column">
-  
-              <div class="action-btn mt-lg-0 mt-md-0 mt-4">
-                <button (click)="searchUsers1(filterValue.value)" class="btn-orange-rounded mr-4">
-                  <svg id="search-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path id="Path_53" data-name="Path 53" d="M0,0H24V24H0Z" fill="none"/>
-                    <path id="Path_54" data-name="Path 54" d="M15.5,14h-.79l-.28-.27a6.518,6.518,0,1,0-.7.7l.27.28v.79l4.25,4.25a1.054,1.054,0,0,0,1.49-1.49Zm-6,0A4.5,4.5,0,1,1,14,9.5,4.494,4.494,0,0,1,9.5,14Z" fill="#fff"/>
-                  </svg>
-                  Search</button>
-                <button (click)="saveAllAndSearch(filterValue.value)" class="btn-orange-rounded">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
-                    <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
-                  </svg>
-                  Save/Update</button>
+
+            <div class="row">
+              <div class="col">
+                <div class="action-btn w-100">
+                  <button class="btn-orange-rounded" (click)="searchUsers1(filterValue.value)">
+                    <svg id="search-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path id="Path_53" data-name="Path 53" d="M0,0H24V24H0Z" fill="none"/>
+                      <path id="Path_54" data-name="Path 54" d="M15.5,14h-.79l-.28-.27a6.518,6.518,0,1,0-.7.7l.27.28v.79l4.25,4.25a1.054,1.054,0,0,0,1.49-1.49Zm-6,0A4.5,4.5,0,1,1,14,9.5,4.494,4.494,0,0,1,9.5,14Z" fill="#fff"/>
+                    </svg>
+                    Search</button>
+                  <button class="btn-orange-rounded ml-4" (click)="saveAllAndSearch(filterValue.value)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22.415" height="12.594" viewBox="0 0 22.415 12.594">
+                      <path id="Path_58" data-name="Path 58" d="M17.3,6.3a1,1,0,0,0-1.41,0l-5.64,5.64,1.41,1.41L17.3,7.7a1,1,0,0,0,0-1.4Zm4.24-.01-9.88,9.88L8.18,12.7a1,1,0,0,0-1.41,1.41l4.18,4.18a1,1,0,0,0,1.41,0L22.95,7.71a1,1,0,0,0,0-1.41h-.01a.975.975,0,0,0-1.4-.01ZM1.12,14.12,5.3,18.3a1,1,0,0,0,1.41,0l.7-.7L2.53,12.7a1,1,0,0,0-1.41,0,1.008,1.008,0,0,0,0,1.42Z" transform="translate(-0.828 -5.999)" fill="#fff"/>
+                    </svg>
+                    Save/Update
+                  </button>
+                </div>
               </div>
-  
-              <div class="upload-btn-container" style="float: left;">
-                <input type="file" accept=".xlsx" class="btn" (change)="onFileChange($event)" id="file">
-                <label for="file" class="upload-label">
-                  <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
-                    <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
-                    <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
-                  </svg> Upload File
-                </label>
-                <span>
-                  <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}</ng-container>
-                  <ng-template #elseTemplate>
-                    No file chosen
-                  </ng-template>
-                </span>
+              <div class="col-auto">
+                <div class="upload-btn-container align-items-center">
+                  <input type="file" accept=".xlsx" class="btn" (change)="onFileChange($event)" id="file">
+                  <label for="file" class="upload-label"> 
+                    <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
+                      <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
+                      <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
+                    </svg>
+                    Upload File</label>
+                  <span>
+                    <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      No file chosen
+                    </ng-template>
+                  </span>
+                </div>
               </div>
-  
             </div>
+
           </div>
         </div>
       </div>
@@ -97,7 +101,7 @@
   
             <div class="row">
               <div class="col">
-                <div class="action-btn">
+                <div class="action-btn w-100">
                   <button class="btn-orange-rounded" (click)="searchUsers1(filterValue.value)">
                     <svg id="search-24px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                       <path id="Path_53" data-name="Path 53" d="M0,0H24V24H0Z" fill="none"/>
@@ -113,7 +117,7 @@
                 </div>
               </div>
               <div class="col-auto">
-                <div class="upload-btn-container">
+                <div class="upload-btn-container align-items-center">
                   <input type="file" accept=".xlsx" class="btn" (change)="onFileChange($event)" id="file">
                   <label for="file" class="upload-label"> 
                     <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
@@ -140,7 +144,7 @@
     <div class="box-area">
       <div class="row">
         <div class="col-md-12">
-          <div style="margin-bottom: 20px" class=" align-items-center d-flex justify-content-between">
+          <div style="margin-bottom: 20px" class="align-items-center d-flex justify-content-between flex-wrap">
             
             <div class="button-group">
               <button class="btn pt-2 pb-2 pl-3 pr-3 border" (click)="goBack()" *ngIf="tagView">
@@ -186,7 +190,7 @@
             </span>
           </div>
 
-          <div *ngIf="showNewRecipients" class="table-container">
+          <div *ngIf="showNewRecipients" class="table-container overflow-x-auto">
             <table
             matSort 
             (matSortChange)="sortData($event, 'allUsers')" 
@@ -278,9 +282,6 @@
                     <a [routerLink]="'/Profile/'+element.id" class="view-link btn-orange-outline-border">View</a>
 
                   </mat-chip-list>
-                  <!-- <span *ngFor="let tag of element.user_tags; let i = index; let last = last">
-                    {{tag.name}}<ng-container *ngIf="!last">,</ng-container>
-                  </span> -->
                 </td>
               </ng-container>
 
@@ -293,7 +294,7 @@
             <!-- <mat-paginator [pageSizeOptions]="[ 25, 100]"></mat-paginator> -->
           </div>
 
-          <div *ngIf="showPreview" class="table-container">
+          <div *ngIf="showPreview" class="table-container overflow-x-auto">
             <table 
             matSort 
            (matSortChange)="sortData($event, 'preview')" 
@@ -362,10 +363,8 @@
               <tr mat-row *matRowDef="let row; columns: previewDisplayColumns;" (click)="selection.toggle(row)">
               </tr>
             </table>
-            <!--          <mat-paginator [pageSizeOptions]="[ 25, 100]"></mat-paginator>-->
           </div>
         </div>
-        <!--      <mat-paginator [pageSize]="2" [pageSizeOptions]="[2, 4, 6, 10, 20]"></mat-paginator>-->
       </div>
     </div>
   </form>

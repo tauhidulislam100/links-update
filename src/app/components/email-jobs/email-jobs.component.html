@@ -19,22 +19,23 @@
           </div>
         </div>
         
-        <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
+        <div class="menu_dot_area">
+          <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_2">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <mat-menu #menu_2="matMenu">
+            <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
+              <mat-slide-toggle></mat-slide-toggle>
+            </a>
+            <a href="javascript:void(0)" mat-menu-item>
+              Unsubscribed Recipients
+            </a>
+          </mat-menu>
+        </div> 
+        <div class="overflow-x-auto">
+          <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
             <div class="email_gp">
               <mat-tab label="Sent Emails ({{jobsPage.totalElements}})">
-                <div class="menu_dot_area">
-                  <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_2">
-                    <i class="fas fa-ellipsis-v"></i>
-                  </button>
-                  <mat-menu #menu_2="matMenu">
-                    <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
-                      <mat-slide-toggle></mat-slide-toggle>
-                    </a>
-                    <a href="javascript:void(0)" mat-menu-item>
-                      Unsubscribed Recipients
-                    </a>
-                  </mat-menu>
-                </div> 
                 <div class="table-container">
                   <table
                   matSort 
@@ -133,19 +134,6 @@
       
               </mat-tab>
               <mat-tab label="Email Templates ({{allTemplatesPage.totalElements}})">
-                <div class="menu_dot_area">
-                  <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_2">
-                    <i class="fas fa-ellipsis-v"></i>
-                  </button>
-                  <mat-menu #menu_2="matMenu">
-                    <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
-                      <mat-slide-toggle></mat-slide-toggle>
-                    </a>
-                    <a href="javascript:void(0)" mat-menu-item>
-                      Unsubscribed Recipients
-                    </a>
-                  </mat-menu>
-                </div> 
                 <button class="btn-orange-outline add_new_email_template" (click)="generateEmailTemplate()">
                   <i class="fas fa-plus"></i> Add New Email Template
                 </button>
@@ -226,19 +214,6 @@
               </mat-tab>
 
               <mat-tab label="Mapped Email Templates ({{allMappedTemplatesPage.totalElements}})">
-                <div class="menu_dot_area">
-                  <button  class="border btn pr-3 pt-2 pb-2 pl-3" [matMenuTriggerFor]="menu_3">
-                    <i class="fas fa-ellipsis-v"></i>
-                  </button>
-                  <mat-menu #menu_3="matMenu">
-                    <a href="javascript:void(0)" mat-menu-item>Show/Hide Archive  &nbsp;
-                      <mat-slide-toggle></mat-slide-toggle>
-                    </a>
-                    <a href="javascript:void(0)" mat-menu-item>
-                      Unsubscribed Recipients
-                    </a>
-                  </mat-menu>
-                </div> 
                 <div class="table-container">
                   <table
                   matSort 
@@ -312,11 +287,11 @@
                 </div>
               </mat-tab>
             </div>
-          
-        </mat-tab-group>
-        <div class="loading-indicator">
-          <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+           </mat-tab-group>
         </div>
+          <div class="loading-indicator">
+            <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+          </div>
       </div>
     </div>
   </div>

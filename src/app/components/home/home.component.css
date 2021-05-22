@@ -6,6 +6,7 @@ mat-card {
   -moz-box-shadow: 10px 10px 15px #00000020 !important;
   -webkit-box-shadow: 10px 10px 15px #00000020 !important;
   font-family: 'Signika', sans-serif !important;
+  height: 233px;
 }
 
 .card-text {

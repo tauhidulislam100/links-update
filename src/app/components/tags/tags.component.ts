@@ -72,7 +72,6 @@ export class TagsComponent implements OnInit {
     })
 
     this.selectedTab = this.selectedTabService.getTab(this.compName);
-    console.log("selected Tab ", this.selectedTab);
   }
 
   ngOnInit() {
@@ -100,6 +99,7 @@ export class TagsComponent implements OnInit {
   }
 
   handleTabChange(e) {
+    this.selectedTab = e.index;
     this.selectedTabService.setTab(this.compName, e.index);
   }
 
