@@ -1,3 +1,12 @@
+.navbar{
+  padding: .5rem 0;
+}
+
+.navbar-expand-lg .navbar-collapse{
+   margin-top: 10px;
+}
+
+
 .link_header {
   /* background: #01288F; */
   /* min-height: 20px; */
@@ -38,12 +47,6 @@
   background-color: #01288F;
 }
 
-/* @media (max-width: 990px) {
-  .link_header {
-    height: auto;
-  }
-} */
-
 .link_header .navbar-nav li a {
   color:#CACACA;
   font-size: 15px;
@@ -54,10 +57,12 @@
   margin: 0 1em;
 }
 
-.link_header .navbar-nav li a:hover, .link_header .navbar-nav li a.active {
+.link_header .navbar-nav li a:hover, 
+.link_header .navbar-nav li a.active {
   border-bottom: 2px solid #FF3A00;
   color: white;
 }
+
 
 @media (max-width: 990px) {
   .link_header .navbar-nav li {
@@ -85,7 +90,6 @@
   border: 1px solid white;
   display: inline-block;
   object-fit: cover;
-  
 }
 
 .link_header .navbar-nav.user_account li a.nav-link .text h5 {
@@ -138,9 +142,6 @@
   padding: 8px;
 }
 
-
-
-
 .link_header .navbar-nav.user_account li .dropdown-menu i,
 .link_header .navbar-nav.user_account li .dropdown-menu svg {
     display: inline-block;
@@ -163,6 +164,33 @@
   .link_header .navbar-nav.user_account li .dropdown-menu:after {
     display: none;
   }
+
+  .navbar-expand-lg >.container{
+    padding: 10px 1rem;
+  }
+
+ .link_header .navbar-brand .logo {
+  top: 0;
+ }
+
+ .navbar{
+   padding: 0;
+  }
+
+  .navbar-expand-lg .navbar-collapse{
+    margin-top: 0;
+    padding: 10px 0;
+    border-top: 1px solid #ff3a00;
+ }
+
+  .link_header .navbar-nav li a:hover, 
+  .link_header .navbar-nav li a.active {
+    border-bottom: 2px solid #b3a6a2;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
 }
 
 .link_header .navbar-nav.user_account li .dropdown-menu li a {
@@ -208,6 +236,10 @@
   left: 40%;
 }
 
+.link_header .navbar-brand .logo img{
+  width: 10rem;
+}
+
 @media (max-width: 990px) {
   .link_header .navbar-brand .logo {
     top: 0;
@@ -216,13 +248,19 @@
 
 @media (min-width: 1093px) {
   .link_header .navbar-brand .logo {
-    left: 6em;
+    left: 0;
   }
 }
 
 @media (max-width: 1092px) {
   .link_header .navbar-brand .logo {
     left: 0;
+  }
+}
+
+@media (max-width: 1370px) {
+  .link_header .navbar-brand .logo {
+    left: 5%;
   }
 }
 
@@ -261,8 +299,3 @@
   }
 }
 
-@media (min-width: 920px) and (max-width: 1100px) {
-  .link_header .navbar-brand .logo {
-    top: 8px;
-  }
-}

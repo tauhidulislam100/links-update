@@ -1,7 +1,7 @@
 .container-wrapper {
     width: 100%;
     position: relative;
-    min-height: 463px;
+    /* min-height: 463px; */
 }
 
 .container-wrapper::after {
@@ -18,17 +18,18 @@
 }
 
 .auth-card {
-    padding: 2.5rem;
+    padding:40px 50px;
     font-family: 'Saira', sans-serif;
     overflow: hidden;
     font-weight: 400;
 }
 
 .auth-card .title {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
     color: #28293D;
     position: relative;
+    font-family: Bahnschrift;
 }
 
 .auth-card .title::before {
@@ -86,8 +87,10 @@
 .terms {
     color: #28293D;
     font-size: 13px;
-    font-weight: 100;
+    font-weight: 400;
+    font-family: Bahnschrift;
 }
+
 .terms a {
     color: inherit;
     text-decoration: underline;

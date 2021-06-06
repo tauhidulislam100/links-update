@@ -132,7 +132,11 @@
 
 @media (min-width: 1093px) {
     .link_header .navbar-brand .logo {
-        left: 6em;
+        left: 2em;
+    }
+
+    .link_header .navbar-brand .logo img{
+        width: 10rem;
     }
 }
 

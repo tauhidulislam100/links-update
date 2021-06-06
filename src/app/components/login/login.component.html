@@ -12,13 +12,13 @@
 
 <div class="container-wrapper">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-8">
+        <div class="row d-flex align-items-center">
+            <div class="col">
                 <img class="info_art" src="../../../assets/info-art.png" alt="info">
             </div>
-            <div class="col-xl-4">
-                <div class="card shadow border-0 auth-card">
-                    <h2 class="title">
+            <div class="col-lg-auto">
+                <div class="card shadow text-center border-0 auth-card">
+                    <h2 class="title mt-0">
                         {{step === 'login' ? 'Welcome Back!' : 'Enter OTP'}}
                     </h2>
 
@@ -29,7 +29,7 @@
 
                     <form class="auth-form" [formGroup]="loginForm">
                         <div class="form-step" [ngClass]="{active: step == 'login'}">
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <input type="email" name="email" formControlName="email" class="form-control"
                                     placeholder="Your registered email address" />
                             </div>
@@ -53,21 +53,21 @@
                         </div>
 
                         <div class="form-group">
-                            <p class="terms">By continuing you accept our <a href="#">Terms of Use</a> & <a
+                            <p class="terms mt-0 mb-4">By continuing you accept our <a href="#">Terms of Use</a> & <a
                                     href="#">Privacy Policy.</a></p>
                         </div>
 
-                        <div class="form-group mb-5">
+                        <div class="form-group mb-0">
                             <button class="btn btn-block btn-orange-light btn-md" (click)="handleSubmit()">
                                 {{step === 'login' ? 'Receive OTP' : 'Login'}}
                             </button>
                         </div>
 
                         
-                        <div class="form-group" *ngIf="step === 'login'">
-                            <p class="text-center my-5">Don't have an account?</p>
+                        <!-- <div class="form-group mb-0" *ngIf="step === 'login'">
+                            <p class="text-center mb-3 mt-5">Don't have an account?</p>
                             <a [routerLink]="'/register'" class="btn btn-block btn-orange-outline-border btn-md">Register</a>
-                        </div>
+                        </div> -->
                         <div class="form-group" *ngIf="step === 'otp'">
                             <p class="text-center my-5"><span class="resend" (click)="resendOTP()">Resend OTP</span> available {{format(countDownTime)}}</p>
                         </div>

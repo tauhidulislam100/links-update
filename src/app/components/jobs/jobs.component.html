@@ -16,7 +16,7 @@
             </a>
           </mat-menu>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto certificate_templates_wrap">
           <mat-tab-group class="mat-group-content" [selectedIndex]="selectedTab" (selectedTabChange)="handleTabChange($event)">
   
             <mat-tab label="Unreleased Certificates ({{unReleasedPage.totalElements}})">
@@ -188,7 +188,7 @@
   
                           <img *ngIf="element.certificate_image_thumbnail; else noImage" src="data:image/png;base64,{{element.certificate_image_thumbnail.data}}" alt="">
                           <ng-template #noImage>
-                            <img src="/assets/certificate.png" alt="">
+                            <img src="../assets/certificate.png" alt="">
                           </ng-template>
                           <h4>{{element.name}}</h4>
                           <div class="meta row">

@@ -123,13 +123,30 @@ a.disabled {
 ::ng-deep .mat-tab-body-wrapper{
     overflow: initial !important;
 }
+
+::ng-deep .mat-tab-body{
+    overflow: unset !important;
+}
+
+::ng-deep .mat-tab-body,
+::ng-deep .mat-tab-body .mat-tab-body-active,
+::ng-deep .mat-group-content .mat-tab-body-content{
+   overflow: unset !important;
+   overflow-x: unset !important;
+}
+
+::ng-deep  .mat-tab-body-wrapper{
+  overflow: unset !important;
+}
+
+
 .mat-group-content {
-  min-width: 1300px;
+  /* min-width: 1300px; */
 }
 .table-container table{
   min-width: 100%;
 }
 
 .col-small:hover {
-  min-height: 600px;
+  /* min-height: 600px; */
 }

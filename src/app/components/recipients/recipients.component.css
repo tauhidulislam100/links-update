@@ -76,14 +76,15 @@ a.view-link {
 
 .table-bordered tr td.fields_area ul li{
   list-style: none;
-  display: inline-flex;
+  display: inline-grid;
   font-size: 14px;
   font-weight: 300;
   color: #28293D;
-  border-right: 1px solid #28293D;
+  border-left: 1px solid #28293D;
   padding: 0 5px;
-  margin-right: 5px;
+  margin-right: 2px;
   line-height: 16px;
+  border-right: 1px solid #28293D;
 }
 
 .table-bordered tr td.fields_area:hover ul{
@@ -134,10 +135,18 @@ a.view-link {
   display: none;
 }
 
+@media (max-width: 1170px) {
+
+  .table-container table {
+    min-width: 1300px;
+  }
+}
+
 @media (max-width: 912px) {
   .filter-btn{
     margin-top: 0.75rem;
   }
+
 }
 
 @media (max-width: 677px) {
@@ -154,8 +163,4 @@ a.view-link {
   .filter-btn button {
     width: 100%;
   }
-}
-.table-container table {
-  min-width: 1300px;
-  /* width: 100%; */
 }
