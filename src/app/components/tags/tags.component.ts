@@ -37,6 +37,7 @@ export class TagsComponent implements OnInit {
   tagsForm: FormGroup;
   displayedColumnsTags: string[];
   displayedColumnsFields: string[];
+  displayedColumnsUnsbiscrib: string[];
   dataSource;
   fieldsDataSource;
   fieldsForm;
@@ -96,6 +97,10 @@ export class TagsComponent implements OnInit {
     this.displayedColumnsTags = ['name', 'no_of_recipients', 'last_used', 'created_on', 'view_users'];
 
     this.displayedColumnsFields = ['fields', 'created_on', 'recipients_filled', 'recipients_empty', 'view_users'];
+
+    this.displayedColumnsUnsbiscrib = ['name', 'recipients_email', 'subject', 'email_template', 'unsubscribed'];
+
+
   }
 
   handleTabChange(e) {

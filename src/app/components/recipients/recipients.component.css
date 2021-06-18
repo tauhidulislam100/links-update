@@ -49,7 +49,6 @@ a.view-link {
   color: green;
 }
 
-
 .mat-input-element {
   width: 100%;
   padding: 0.8rem 1rem;
@@ -72,6 +71,8 @@ a.view-link {
   margin: 0;
   line-height: 12px;
   display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .table-bordered tr td.fields_area ul li{
@@ -81,10 +82,10 @@ a.view-link {
   font-weight: 300;
   color: #28293D;
   border-left: 1px solid #28293D;
-  padding: 0 5px;
+  padding: 0 .5rem;
   margin-right: 2px;
   line-height: 16px;
-  border-right: 1px solid #28293D;
+  /* border-right: 1px solid #28293D; */
 }
 
 .table-bordered tr td.fields_area:hover ul{
@@ -133,6 +134,10 @@ a.view-link {
 
 .view-link{
   display: none;
+}
+
+.tags_header{
+  width: 250px;
 }
 
 @media (max-width: 1170px) {

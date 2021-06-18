@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1290" height="113" viewBox="0 0 1290 113"><defs><mask id="m5ypb" width="2" height="2" x="-1" y="-1"><path fill="#fff" d="M5 2h1280v76H5z"/><path d="M5 78V2h1280v76z"/></mask><filter id="m5ypa" width="1312" height="111" x="-11" y="-14" filterUnits="userSpaceOnUse"><feOffset dy="3" in="SourceGraphic" result="FeOffset1041Out"/><feGaussianBlur in="FeOffset1041Out" result="FeGaussianBlur1042Out" stdDeviation="2.4 2.4"/></filter></defs><g><g><g filter="url(#m5ypa)"><path fill="none" d="M5 78V2h1280v76z" mask="url(&quot;#m5ypb&quot;)"/><path fill-opacity=".16" d="M5 78V2h1280v76z"/></g><path fill="#ff3a00" d="M5 78V2h1280v76z"/></g><g><path fill="#01288f" d="M5 2h1280v69l-974.449-.116s-21.608-.498-28.65 1.343c-7.042 1.841-11.01 3.135-21.125 9.052s-19.402 14.574-19.402 14.574-13.672 10.334-23.617 13.657c-9.946 3.324-35.173 3.006-35.173 3.006H5z"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920.513" height="133.958" viewBox="0 0 1920.513 133.958">
+  <g id="Group_4195" data-name="Group 4195" transform="translate(0.419 0)">
+    <g id="Group_322" data-name="Group 322" transform="translate(0 0.157)">
+      <g id="Component_9_21" data-name="Component 9 – 21" transform="translate(-0.419 -0.157)">
+        <g id="Group_174" data-name="Group 174" transform="translate(0.419 0.157)">
+          <rect id="Rectangle_33" data-name="Rectangle 33" width="1920" height="92" fill="#ff3a00"/>
+          <path id="Path_18" data-name="Path 18" d="M-308.419-.157,1612.093,0V83.541L275.551,83.4s-21.608-.6-28.65,1.625-11.01,3.795-21.125,10.958a152.472,152.472,0,0,0-19.35,16.9S191.8,124.926,181.856,128.95s-34.272,4.851-34.272,4.851h-456Z" transform="translate(308)" fill="#01288f"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -229,6 +229,12 @@ svg {
   border: 0;
 }
 
+.table tbody tr,
+.table thead tr
+{
+  position: relative;
+}
+
 tr.mat-footer-row, 
 tr.mat-row {
   border-top: 1px solid #CACACA;
@@ -263,6 +269,7 @@ tr.mat-row {
   font-weight: 400;
   justify-content: space-between;
   margin-bottom: 0;
+  margin-right: 10px;
 }
 
 .upload-btn-container .upload-label:hover,
@@ -819,10 +826,34 @@ th[mat-sort-header] .mat-sort-header-stem
   overflow-x: unset !important;
 }
 
+.table_overflow {
+  overflow-x: auto !important;
+}
+
 .overflow-x-auto.certificate_templates_wrap {
   overflow-x: unset !important;
 }
 
 ::ng-deep .mat-tab-header{
   z-index: 10;
+}
+
+ .icon_area{
+  display: none;
+}
+
+ .table .not_read{
+ padding-left: 45px !important;
+}
+
+.not_read .icon_area{
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: #f8f9fab3;
+  z-index: 1;
+  padding: 10px 15px;
 }

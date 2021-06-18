@@ -22,8 +22,6 @@ a {
   margin-left: 0 !important;
 }
 
-
-
 @media (max-width: 1250px) {
   .mat-group-content {
     width: 1300px;

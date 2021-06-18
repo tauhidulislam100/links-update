@@ -57,8 +57,10 @@
     
               <div class="upload-btn-container align-items-center" *ngIf="field.type == 'logo'">
                 <input type="file" class="btn" id="file" (change)="handleLogoUpload($event)">
-                <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
-                  Logo</label>
+                <label for="file" class="upload-label">
+                  <svg _ngcontent-oko-c3="" class="ng-tns-c3-0" data-name="Group 105" height="17.33" id="Group_105" viewBox="0 0 14 17.33" width="14" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-oko-c3="" class="ng-tns-c3-0" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" data-name="Path 60" fill="#052885" id="Path_60" transform="translate(0 -4.407)"></path><path _ngcontent-oko-c3="" class="ng-tns-c3-0" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" data-name="Path 62" fill="#052885" id="Path_62" transform="translate(14 17.33) rotate(180)"></path></svg>
+
+                  Upload Logo</label>
                 <span class="ml-2">
                   {{field.instruction}}
                   <ng-template #elseTemplate>
@@ -66,12 +68,13 @@
                   </ng-template>
                 </span>
               </div>
-              
-    
+
               <div class="upload-btn-container align-items-center" *ngIf="field.type == 'signature'">
                 <input type="file" class="btn" id="file1" (change)="handleSignUpload($event)" maxlength="10">
-                <label for="file1" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
-                  Sign</label>
+                <label for="file1" class="upload-label">
+                  <svg _ngcontent-oko-c3="" class="ng-tns-c3-0" data-name="Group 105" height="17.33" id="Group_105" viewBox="0 0 14 17.33" width="14" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-oko-c3="" class="ng-tns-c3-0" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" data-name="Path 60" fill="#052885" id="Path_60" transform="translate(0 -4.407)"></path><path _ngcontent-oko-c3="" class="ng-tns-c3-0" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" data-name="Path 62" fill="#052885" id="Path_62" transform="translate(14 17.33) rotate(180)"></path></svg>
+
+                  Upload Sign</label>
                 <span class="ml-2">
                   {{field.instruction}}
                   <ng-template #elseTemplate>
@@ -150,12 +153,12 @@
                 </span>
               </div>
             </div> -->
-            <div class="col-md-12 d-flex">
+            <!-- <div class="col-md-12 d-flex">
               <button class="btn-orange-outline mr-2" (click)="update()"> Update & Preview</button>
               <button [routerLink]="'/Certificates'" class="btn-orange-outline export">
                 Cancel
               </button>
-            </div>
+            </div> -->
           </div>
 
           <!-- <div *ngFor="let field of editable_fields">

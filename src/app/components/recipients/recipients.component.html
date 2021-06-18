@@ -6,12 +6,8 @@
   </div>
   <app-errors></app-errors>
 
-  <div style="margin:20px 0px">
-    <div #message></div>
-  </div>
 
   <form [formGroup]="usersForm" class="usersForm">
-
     <ng-container *ngIf="!tagView">
       <div *ngIf="expandedView" class="box-area">
         <div class="row">
@@ -21,6 +17,10 @@
                 <label>Email, Name, Gender, Mobile</label>
                 <textarea #myExpandedInput formControlName="userDetails" placeholder="{{textAreaLegend}}" #filterValue
                   matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20 class="mb-2"></textarea> 
+              </div>
+
+              <div style="margin:20px 0px">
+                <div #message></div>
               </div>
   
               <small class="userDetailsError" *ngIf="usersForm.controls.userDetails.errors"
@@ -74,7 +74,7 @@
                   <span>
                     <ng-container *ngIf="selectedFileName; else elseTemplate">{{selectedFileName}}
                     </ng-container>
-                    <ng-template #elseTemplate>
+                    <ng-template  #elseTemplate>
                       No file chosen
                     </ng-template>
                   </span>
@@ -96,6 +96,10 @@
                 rows="1" placeholder="Search and save" formControlName="userDetails" #filterValue></textarea>
               <small class="userDetailsError" *ngIf="usersForm.controls.userDetails.errors"
                 [innerHtml]=usersForm.controls.userDetails.errors.value></small>
+
+                <div style="margin:20px 0px">
+                  <div #message></div>
+                </div>
             </div>
             <!-- <input type="text" class="custom-form-control" > -->
   
@@ -190,7 +194,7 @@
             </span>
           </div>
 
-          <div *ngIf="showNewRecipients" class="table-container overflow-x-auto">
+          <div *ngIf="showNewRecipients" class="table-container table_overflow">
             <table
             matSort 
             (matSortChange)="sortData($event, 'allUsers')" 
@@ -248,7 +252,7 @@
               </ng-container>
 
               <ng-container matColumnDef="user_tags">
-                <th mat-header-cell *matHeaderCellDef>
+                <th class="tags_header" mat-header-cell *matHeaderCellDef>
                   <h6>Tags</h6>
                 </th>
                 <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
@@ -274,7 +278,7 @@
                       <li  *ngFor="let field of fields; let i = index">
                           {{field.name}} : 
                           <div *ngIf="element.fields != null">
-                            {{element.fields[field.name] ? element.fields[field.name] : 'NA'}}
+                            <strong style="font-weight: 600;">{{element.fields[field.name] ? element.fields[field.name] : 'NA'}}</strong>
                           </div>
                       </li>
                     </ul>
@@ -320,10 +324,20 @@
 
               <ng-container matColumnDef="user_tags">
                 <th mat-header-cell *matHeaderCellDef>
-                  <h6></h6>
+                  <h6>Tags</h6>
                 </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+
+                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
+                  [formGroupName]="rowIndex">
+                  <mat-chip-list formArrayName="userTags" #chipList>
+                    <mat-chip color="primary" style="margin-top: 10px; "
+                      *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})">
+                      {{tag.name}}
+
+                    </mat-chip>
+                  </mat-chip-list>
                 </td>
+
               </ng-container>
 
               <ng-container matColumnDef="fields">
@@ -336,7 +350,7 @@
                       <li  *ngFor="let field of fields; let i = index">
                           {{field.name}} : 
                           <div *ngIf="element.fields != null">
-                            {{element.fields[field.name] ? element.fields[field.name] : 'NA'}}
+                            <strong style="font-weight: 600;">{{element.fields[field.name] ? element.fields[field.name] : 'NA'}}</strong>
                           </div>
                       </li>
                     </ul>
