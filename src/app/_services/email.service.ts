@@ -78,13 +78,6 @@ export class EmailService {
     return this.http.get<any>(`${this.baseurl}template/adminEmail/all`);
   }
 
-  getTemplatesCreatedByAdminPage(pageable: Pageable): Observable<any> {
-    let url = this.baseurl
-      + 'template/adminEmail/all/page?page=' + pageable.pageNumber
-      + '&size=' + pageable.pageSize;
-    return this.http.get<Page<any>>(url);
-  }
-
   deleteEmailTemplate(id) {
     return this.http.delete<any>(`${this.baseurl}template/adminEmail/${id}`);
   }

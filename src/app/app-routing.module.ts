@@ -11,6 +11,7 @@ import { EmailJobDetailComponent } from './components/email-job-detail/email-job
 import { EmailComponent } from './components/email/email.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { UnsubscribedComponent } from './components/unsubscribed/unsubscribed.component';
 import { EmailJobDetailResolver } from './emailJobDetailResolver';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
@@ -140,7 +141,8 @@ const routes: Routes = [
         path: 'Emails/AddTemplate',
         loadChildren: () => import('./components/email-template/email-template.module').then(m => m.EmailTemplateModule),
         canActivate: [AuthGuard],
-      }
+      },
+      { path: 'Emails/unsubscribed',component: UnsubscribedComponent, canActivate: [AuthGuard] } ,
     ]
   }
   // { path: 'Recipients',component: RecipientsComponent, canActivate: [AuthGuard], resolve: {newUsers : RecipientsResolver, fields:RecipientFieldsResolver} } ,

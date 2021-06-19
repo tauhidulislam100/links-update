@@ -18,6 +18,7 @@ export class CertificateService {
   selectedUsers: UserDetail[] = [];
   selectedIds: number[] = [];
   baseurl = environment.baseurl;
+  showArchived = false;
 
   constructor(private http: HttpClient, private configService: ConfigService) {
     this.configService.loadConfigurations().subscribe(data => {
@@ -30,8 +31,9 @@ export class CertificateService {
   }
 
   getCertificateTemplatesPage(pageable: Pageable): Observable<any> {
-    let url = this.baseurl
-      + 'template/certificate/all/page?page=' + pageable.pageNumber
+    let urlPrefix = `${this.baseurl}template/certificate/all/${this.showArchived ? '' : 'unarchived/'}`;
+    let url = urlPrefix 
+      + 'page?page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize;
     return this.http.get<Page<any>>(url, this.httpOptions);
   }
@@ -61,15 +63,17 @@ export class CertificateService {
   }
 
   public getAllUnrealsedJobsPage(pageable: Pageable): Observable<any> {
-    let url = this.baseurl
-    + 'certificate/jobs/unreleased/page?page=' + pageable.pageNumber
+    let urlPrefix = `${this.baseurl}certificate/jobs/unreleased/${this.showArchived ? '' : 'unarchived/'}`;
+    let url = urlPrefix
+    + 'page?page=' + pageable.pageNumber
     + '&size=' + pageable.pageSize;
     return this.http.get<Page<any>>(url, this.httpOptions);
   }
   
   public getAllReleasedJobsPage(pageable: Pageable): Observable<any> {
-    let url = this.baseurl
-    + 'certificate/jobs/released/page?page=' + pageable.pageNumber
+    let urlPrefix = `${this.baseurl}certificate/jobs/released/${this.showArchived ? '' : 'unarchived/'}`;
+    let url = urlPrefix
+    + 'page?page=' + pageable.pageNumber
     + '&size=' + pageable.pageSize;
     return this.http.get<Page<any>>(url, this.httpOptions);
   }

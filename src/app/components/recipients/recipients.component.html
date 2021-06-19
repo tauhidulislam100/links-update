@@ -14,7 +14,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <div appearance="outline" class="textarea-wrapper">
-                <label>Email, Name, Gender, Mobile</label>
+                <label>{{textAreaLegend}}</label>
                 <textarea #myExpandedInput formControlName="userDetails" placeholder="{{textAreaLegend}}" #filterValue
                   matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20 class="mb-2"></textarea> 
               </div>
@@ -89,7 +89,7 @@
       <div *ngIf="!expandedView" class="search-area box-area">
         <div class="row">
           <div class="col-md-12">
-            <label for="">Email, Name, Gender, Mobile</label>
+            <label for="">{{textAreaLegend}}</label>
             <div class="form-group">
              
               <textarea #myInput (keyup.enter)="changeArea()" class="custom-form-control mb-2" [ngClass]="{'is-invalid': !myInput.value && btnPressed}"
@@ -326,10 +326,9 @@
                 <th mat-header-cell *matHeaderCellDef>
                   <h6>Tags</h6>
                 </th>
-
-                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
-                  [formGroupName]="rowIndex">
-                  <mat-chip-list formArrayName="userTags" #chipList>
+                <!-- [formGroupName]="rowIndex" -->
+                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                  <mat-chip-list  #chipList>
                     <mat-chip color="primary" style="margin-top: 10px; "
                       *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})">
                       {{tag.name}}

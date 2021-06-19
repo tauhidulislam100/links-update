@@ -9,7 +9,7 @@ import {Page} from '../pagination/page';
   providedIn: 'root'
 })
 export class EmailJobService {
-
+  showArchived = true;
   baseurl;
 
   constructor(private http: HttpClient, private configService: ConfigService) {
@@ -23,8 +23,9 @@ export class EmailJobService {
   }
 
   getAllJobsPage(pageable: Pageable): Observable<any> {
-    let url = this.baseurl
-      + 'email/jobs/unarchived/page?page=' + pageable.pageNumber
+    let urlPrefix = `${this.baseurl}email/jobs/${this.showArchived ? '' : 'unarchived/'}`;
+    let url = urlPrefix
+      + 'page?page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize;
     return this.http.get<Page<any>>(url);
   }
@@ -39,10 +40,28 @@ export class EmailJobService {
   }
 
   getEmailTemplatesPage(pageable: Pageable): Observable<any> {
-    let url = this.baseurl
-      + 'template/email/all/page?page=' + pageable.pageNumber
+    let urlPrefix = `${this.baseurl}template/email/all/${this.showArchived ? '' : 'unarchived/'}`;
+    let url = urlPrefix
+      + 'page?page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize;
     return this.http.get<Page<any>>(url);
+  }
+
+  getTemplatesCreatedByAdminPage(pageable: Pageable): Observable<any> {
+    let urlPrefix = `${this.baseurl}template/adminEmail/all/${this.showArchived ? '' : 'unarchived/'}`;
+    let url = urlPrefix
+      + 'page?page=' + pageable.pageNumber
+      + '&size=' + pageable.pageSize;
+    return this.http.get<Page<any>>(url);
+  }
+
+  getUNSubscribedJobs(): Observable<any> {
+    let url = `${this.baseurl}email/jobs`;
+    return this.http.get<any>(url);
+  }
+
+  subscribeAllJobs() {
+    return this.http.post(`${this.baseurl}subscribeAll`, null);
   }
 
   deleteEmailJob(id) {

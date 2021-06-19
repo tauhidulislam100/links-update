@@ -90,6 +90,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   handleSubmit() {
     let email = this.loginForm.get('email').value;
 
+    if(!email) return;
+    
     if(this.step === 'login' && this.loginForm.get('email').invalid) {
       return this.errorService.setErrorVisibility(true, "invalid email address");
     } else if(this.step === 'login' && this.loginForm.get('email').valid) {

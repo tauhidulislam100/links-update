@@ -81,7 +81,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   tagView = false;
   noOfRecipientsNotFound = 0;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  @ViewChild('message', { static: true }) message: ElementRef;
+  @ViewChild('message', { static: false }) message: ElementRef;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild('myExpandedInput', { static: false }) input: ElementRef;
   @ViewChild('myInput', { static: false }) myInput: ElementRef;
@@ -104,8 +104,6 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     });
-
-
   }
 
   goBack() {
@@ -463,43 +461,44 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       let splitValue = ",";
       users.forEach(
         data => {
-          if (data != "") {
-            let data1 = data.split(splitValue);
-            let user = {
-              "email": (data1[0]).trim(),
-              "name": (data1[1]).trim()
-            };
-            if (data1.length >= 3) {
-
-
-              if (data1[2] != "") {
-                user["gender"] = (data1[2]).trim();
-              }
-
-              if (data1.length == 4) {
-                if (data1[3] != "") {
-                  user["mobile_number"] = (data1[3]).trim();
-                }
-              }
-
-              if (data1.length > 4) {
-                let fields = {};
-                let i = 4;
-                this.fields.forEach(field => {
-
-                  if (data1[i] != "") {
-
-                    fields[field.name] = (data1[i]).trim();
+          try {
+              if (data != "") {
+                let userData = data.split(splitValue);
+                let user = {
+                  "email": (userData[0]).trim(),
+                  "name": (userData[1]).trim()
+                };
+    
+                if (userData.length >= 3) {
+                  if (userData[2]) {
+                    user["gender"] = (userData[2]).trim();
                   }
-                  i++
-                });
-                user["fields"] = fields;
+    
+                  if (userData.length == 4) {
+                    if (userData[3]) {
+                      user["mobile_number"] = (userData[3]).trim();
+                    }
+                  }
+    
+                  if (userData.length > 4) {
+                    let fields = {};
+                    let i = 4;
+                    this.fields.forEach(field => {
+                      if (userData.length > i && userData[i]) {
+                        fields[field.name] = (userData[i]).trim();
+                      }
+                      i++
+                    });
+                    user["fields"] = fields;
+                  }
+                }
+                userArray.push(user);
               }
-            }
-
-
-            userArray.push(user);
+          } catch (error) {
+            console.log(error)
           }
+
+
         });
       this.userService.saveUsers(userArray).subscribe((data) => {
         this.loader = false;
@@ -520,7 +519,6 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loader = false
       });
     }
-    console.log('calling save on empty field');
   }
 
   onFileChange(evt: any) {

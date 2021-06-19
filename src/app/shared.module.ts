@@ -11,6 +11,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { NoAuthComponent } from './components/noauth-nav/noauth-nav.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { UnsubscribedComponent } from './components/unsubscribed/unsubscribed.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
         NoAuthComponent,
         LoaderComponent,
         DateAgoPipe, 
+        UnsubscribedComponent
     ],
     exports:[ 
         ReactiveFormsModule,

@@ -1,8 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { MatSort, MatTableDataSource, Sort } from '@angular/material';
+import { MatSort, Sort } from '@angular/material';
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -17,27 +16,53 @@ import { PageType } from 'src/app/_types';
 import { CertificateService } from '../../_services/certificate.service';
 import { ConfirmationDialogueComponent } from "../confirmation-dialogue/confirmation-dialogue.component";
 
-export interface JobData {
-  id,
-  created_at
+export interface JobDataType {
+  id: number,
+  created_at: string,
+  certificateTemplate: Record<string, any>,
+  certificateTemplateName: string,
+  deletedAt: string,
+  deletedBy: Record<string, any>,
+  last_action: string | null,
+  last_action_date: string | null,
+  last_downloaded_on: string | null,
+  last_published_on: string | null,
+  last_released_on: string | null,
+  no_of_recipients: number | null,
+  published: boolean,
+  recipients: any[],
+  share: number,
+  status: string,
+  updatedAt: string,
+  seen: number,
 }
 
-export interface CertificateData {
-  certificate_templates,
-  no_of_recipients,
-  update,
-  archive
+export interface TemplateType {
+  certificate_image: string | null,
+  certificate_image_thumbnail: Record<string, any> | null,
+  created_at: string | null,
+  created_by: Record<string, any> | null,
+  deleted_at: string | null,
+  deleted_by: Record<string, any> | null,
+  id: number,
+  instructions: string | null,
+  last_edited_on: string | null,
+  last_used_on: string | null,
+  name: string | null,
+  no_of_recipient: number | null,
+  updated_at: string | null,
 }
+
 
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.css'],
   animations: [slideUpAnimation],
-  host: {'[@slideUpAnimation]': ''},
+  host: { '[@slideUpAnimation]': '' },
 })
 export class JobsComponent implements OnInit {
-  isChecked = true;
+  showArchive = true;
   popoverIsVisible = false;
   popoverData = '';
   popperTop: '100px';
@@ -46,22 +71,17 @@ export class JobsComponent implements OnInit {
   releasedPage: Page<PageType> = new Page();
   templatePage: Page<PageType> = new Page();
   assets_loc;
-  allJobs;
   loader = false;
-  certificateForm: FormGroup;
   displayedColumnsCertificates: string[];
-  certificateDataSource;
   isReleased: boolean;
   isPublished: boolean;
   isSubmitted: boolean;
-  jobsForm: FormGroup;
   displayedColumnsJobs: string[];
-  releasedJobsDataSource;
-  unReleasedJobsDataSource;
-  templatesData=[];
-  templates;
+  releasedJobsDataSource: JobDataType[];
+  unReleasedJobsDataSource: JobDataType[];
+  templatesData:TemplateType[] = [];
   isArchived;
-  selection = new SelectionModel<JobData>(true, []);
+  selection = new SelectionModel<JobDataType[]>(true, []);
   downloadPopoverTitle = "Download";
   downloadPopoverMessage = "Please confirm to download";
   releasePopoverTitle = "Release";
@@ -83,15 +103,14 @@ export class JobsComponent implements OnInit {
 
   constructor(
     private certificateService: CertificateService,
-    private fb: FormBuilder,
     private errorService: ErrorService,
     private paginationService: CustomPaginationService,
-    private renderer: Renderer2, 
-    private configService: ConfigService, 
+    private renderer: Renderer2,
+    private configService: ConfigService,
     private dialog: MatDialog,
     private selectedTabService: SelectedTabService,
-    private router: Router, 
-    ) {
+    private router: Router,
+  ) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     });
@@ -106,76 +125,67 @@ export class JobsComponent implements OnInit {
     this.isReleased = false;
     this.isArchived = false;
     this.isSubmitted = false;
+    this.certificateService.showArchived = this.showArchive;
 
     this.certificateService.getAllReleasedJobsPage(this.releasedPage.pageable).subscribe(data => {
-      this.allJobs = data;
-      this.buildJobsForm();
-      this.releasedJobsDataSource = new MatTableDataSource<JobData>(this.allJobs.content);
-      this.releasedPage = this.allJobs;
-      this.releasedJobsDataSource.sort = this.sort;
-      //console.log(this.allJobs.content);
-      //  this.addCheckboxesToJobs();
+      this.releasedJobsDataSource = data.content;
+      this.releasedPage = data;
     });
+
     this.certificateService.getAllUnrealsedJobsPage(this.unReleasedPage.pageable).subscribe(data => {
-      // this.unReleasedJobsDataSource = new MatTableDataSource<JobData>(data.content);
       this.unReleasedJobsDataSource = data.content;
       this.unReleasedPage = data;
-      // this.unReleasedJobsDataSource.sort = this.sort;
-      //console.log(this.allJobs.content);
-      //  this.addCheckboxesToJobs();
     });
 
     this.certificateService.getCertificateTemplatesPage(this.templatePage.pageable).subscribe(data => {
-      this.templates = data;
-      this.certificateDataSource = new MatTableDataSource<JobData>(this.templates.content);
-      this.templatePage = this.templates;
+      this.templatePage = data;
       this.templatesData = data.content;
     })
 
     this.displayedColumnsCertificates = ['id', 'certificate_templates', 'no_of_recipients', 'update'];
-
     this.displayedColumnsJobs = ['created_at', 'name', 'noOfRecipients', 'seen', 'shared', 'hovereffect'];
-
-    this.certificateForm = this.fb.group({
-      allCerts: new FormArray([])
-    });
   }
 
   handleTabChange(e) {
     this.selectedTabService.setTab(this.compName, e.index);
   }
-  
-  //Jobs
-  buildJobsForm() {
-    this.jobsForm = this.fb.group({
-      allJobs: new FormArray([])
+
+  archiveToggle() {
+    this.certificateService.showArchived = this.showArchive;
+    this.getAllReleasedJobs();
+    this.getAllUNReleasedJobs();
+    this.getAllTemplates();
+  }
+
+  private getAllUNReleasedJobs(): void {
+    this.certificateService.getAllUnrealsedJobsPage(this.unReleasedPage.pageable).subscribe(data => {
+      this.unReleasedJobsDataSource = data.content;
+      this.unReleasedPage = data;
     });
   }
 
-  private getAllJobs(): void {
-    this.certificateService.getAllJobsPage(this.releasedPage.pageable).subscribe(page => {
-      this.releasedPage = page;
-      this.releasedJobsDataSource = new MatTableDataSource<{}>(this.releasedPage.content);
-
+  private getAllReleasedJobs(): void {
+    this.certificateService.getAllReleasedJobsPage(this.releasedPage.pageable).subscribe(data => {
+      this.releasedJobsDataSource = data.content;
+      this.releasedPage = data;
     });
   }
 
   private getAllTemplates(): void {
     this.certificateService.getCertificateTemplatesPage(this.templatePage.pageable).subscribe(page => {
       this.templatePage = page;
-      this.certificateDataSource = new MatTableDataSource<{}>(this.templatePage.content);
-
+      this.templatesData = page.content;
     });
   }
 
   public getNextPage(): void {
     this.releasedPage.pageable = this.paginationService.getNextPage(this.releasedPage);
-    this.getAllJobs();
+    this.getAllReleasedJobs();
   }
 
   public getPreviousPage(): void {
     this.releasedPage.pageable = this.paginationService.getPreviousPage(this.releasedPage);
-    this.getAllJobs();
+    this.getAllReleasedJobs();
   }
 
   public getNextTemplatePage(): void {
@@ -221,7 +231,7 @@ export class JobsComponent implements OnInit {
             "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
           this.renderer.appendChild(this.message.nativeElement, div);
           const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-          if(closeBtns) {
+          if (closeBtns) {
             closeBtns.forEach(element => {
               this.renderer.listen(element, 'click', (e) => {
                 element.parentNode.parentNode.parentNode.remove();
@@ -234,20 +244,20 @@ export class JobsComponent implements OnInit {
 
           let div = this.renderer.createElement('div');
           div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
-        
-          "Great! The publish task is submitted. You can track it with task# " + row.id +
-          "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
 
-        this.renderer.appendChild(this.message.nativeElement, div);
-        const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-        if(closeBtns) {
-          closeBtns.forEach(element => {
-            this.renderer.listen(element, 'click', (e) => {
-              element.parentNode.parentNode.parentNode.remove();
-            })
-          });
-        }
-        // this.renderer.appendChild(this.message, div);
+            "Great! The publish task is submitted. You can track it with task# " + row.id +
+            "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+
+          this.renderer.appendChild(this.message.nativeElement, div);
+          const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+          if (closeBtns) {
+            closeBtns.forEach(element => {
+              this.renderer.listen(element, 'click', (e) => {
+                element.parentNode.parentNode.parentNode.remove();
+              })
+            });
+          }
+          // this.renderer.appendChild(this.message, div);
           this.isSubmitted = true;
           this.publishLimitIsReached = false;
         }
@@ -255,10 +265,8 @@ export class JobsComponent implements OnInit {
         this.loader = false;
         this.isReleased = false;
         this.isPublished = true;
-
         this.errorService.setErrorVisibility(false, "");
-      },error => {
-
+      }, error => {
         this.loader = false
       });
   }
@@ -288,7 +296,7 @@ export class JobsComponent implements OnInit {
           "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
         this.renderer.appendChild(this.message.nativeElement, div);
         const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-        if(closeBtns) {
+        if (closeBtns) {
           closeBtns.forEach(element => {
             this.renderer.listen(element, 'click', (e) => {
               element.parentNode.parentNode.parentNode.remove();
@@ -313,13 +321,13 @@ export class JobsComponent implements OnInit {
           let div = this.renderer.createElement('div');
 
           div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
-    
-          "Great! The release task is submitted. You can track it with task# " + row.id +
-          "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
-  
+
+            "Great! The release task is submitted. You can track it with task# " + row.id +
+            "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+
           this.renderer.appendChild(this.message.nativeElement, div);
           const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-          if(closeBtns) {
+          if (closeBtns) {
             closeBtns.forEach(element => {
               this.renderer.listen(element, 'click', (e) => {
                 element.parentNode.parentNode.parentNode.remove();
@@ -337,7 +345,6 @@ export class JobsComponent implements OnInit {
 
     },
       error => {
-
         this.loader = false
       });
 
@@ -357,21 +364,19 @@ export class JobsComponent implements OnInit {
       let div = this.renderer.createElement('div');
 
       div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
-    
+
         "Great! The regenerate task is submitted. You can track it with task# " + row.id +
         "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
 
       this.renderer.appendChild(this.message.nativeElement, div);
       const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-      if(closeBtns) {
+      if (closeBtns) {
         closeBtns.forEach(element => {
           this.renderer.listen(element, 'click', (e) => {
             element.parentNode.parentNode.parentNode.remove();
           })
         });
       }
-      // this.renderer.appendChild(this.message, div);
-
       this.errorService.setErrorVisibility(false, "");
     },
       error => {
@@ -390,28 +395,23 @@ export class JobsComponent implements OnInit {
       let div = this.renderer.createElement('div');
 
       div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
-    
-      "Great! The validate task is submitted. You can track it with task# " + row.id +
-      "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
-      
-    this.renderer.appendChild(this.message.nativeElement, div);
-    const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-    if(closeBtns) {
-      closeBtns.forEach(element => {
-        this.renderer.listen(element, 'click', (e) => {
-          element.parentNode.parentNode.parentNode.remove();
-        })
-      });
-    }
-    // this.renderer.appendChild(this.message, div);
 
+        "Great! The validate task is submitted. You can track it with task# " + row.id +
+        "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
 
+      this.renderer.appendChild(this.message.nativeElement, div);
+      const closeBtns = this.message.nativeElement.querySelectorAll('.close');
+      if (closeBtns) {
+        closeBtns.forEach(element => {
+          this.renderer.listen(element, 'click', (e) => {
+            element.parentNode.parentNode.parentNode.remove();
+          })
+        });
+      }
       this.errorService.setErrorVisibility(false, "");
-    },
-      error => {
-
-        this.loader = false
-      });
+    }, error => {
+      this.loader = false
+    });
 
   }
 
@@ -433,7 +433,6 @@ export class JobsComponent implements OnInit {
     this.certificateService.deleteCertificateTemplate(row.id).subscribe(data => {
       this.isArchived = true;
       this.errorService.setErrorVisibility(false, "");
-
     }
     );
   }
@@ -475,20 +474,19 @@ export class JobsComponent implements OnInit {
       let div = this.renderer.createElement('div');
 
       div.innerHTML = "<div class=\"alert alert-success\" role=\"alert\" ><div class=\"row align-items-center\"><div class=\"col\"><i class=\"fas fa-check-circle mr-2\"></i>" +
-    
-      "Job is archived successfully " + row.id +
-      "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
+
+        "Job is archived successfully " + row.id +
+        "</div><div class=\"col-auto\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><i class=\"fas fa-times-circle\"></i></button></div></div></div>"
 
       this.renderer.appendChild(this.message.nativeElement, div);
       const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-      if(closeBtns) {
+      if (closeBtns) {
         closeBtns.forEach(element => {
           this.renderer.listen(element, 'click', (e) => {
             element.parentNode.parentNode.parentNode.remove();
           })
         });
       }
-
 
       this.errorService.setErrorVisibility(false, "");
 
@@ -497,7 +495,7 @@ export class JobsComponent implements OnInit {
   }
 
   sortData(sort: Sort, source) {
-    if(source === 'unreleased') {
+    if (source === 'unreleased') {
       const data = this.unReleasedJobsDataSource.slice();
       if (!sort.active || sort.direction === '') {
         this.unReleasedJobsDataSource = data;
@@ -513,27 +511,26 @@ export class JobsComponent implements OnInit {
       });
 
       this.unReleasedJobsDataSource = sortedData;
-    } else if (source === 'released'){
-        const data = this.allJobs.content.slice();
-      
-        if (!sort.active || sort.direction === '') {
-          this.allJobs.content = data;
-          return;
+    } else if (source === 'released') {
+      const data = this.releasedPage.content.slice() as unknown as JobDataType[];
+
+      if (!sort.active || sort.direction === '') {
+        return;
+      }
+
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+          case 'certificateTemplateName': return compare(a.certificateTemplateName, b.certificateTemplateName, isAsc);
+          case 'no_of_recipients': return compare(a.no_of_recipients, b.no_of_recipients, isAsc);
+          case 'seen': return compare(a.seen, b.seen, isAsc);
+          case 'share': return compare(a.share, b.share, isAsc);
+          default: return 0;
         }
-        
-        let sortedData = data.sort((a, b) => {
-          const isAsc = sort.direction === 'asc';
-          switch (sort.active) {
-            case 'created_at': return compare(a.created_at, b.created_at, isAsc);
-            case 'certificateTemplateName': return compare(a.certificateTemplateName, b.certificateTemplateName, isAsc);
-            case 'no_of_recipients': return compare(a.no_of_recipients, b.no_of_recipients, isAsc);
-            case 'seen': return compare(a.seen, b.seen, isAsc);
-            case 'share': return compare(a.share, b.share, isAsc);
-            default: return 0;
-          }
-        });
-        this.releasedJobsDataSource = new MatTableDataSource<JobData>(sortedData);
-    } 
+      });
+      this.releasedJobsDataSource = sortedData;
+    }
   }
 
 }

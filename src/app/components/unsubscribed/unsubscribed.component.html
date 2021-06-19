@@ -1,0 +1,53 @@
+<!-- Unsubscrib area -->
+<app-loader *ngIf="loader"></app-loader>
+
+<div class="container mt-5">
+    <div class="box-area">
+      <div class="row">
+        <div class="col-md-12">
+          <app-errors></app-errors>
+          <div class="row mb-5">
+            <div class="col">
+              <h3 class="d-flex align-items-center"> 
+                  <a style="position: relative;" href="javascript:void(0)" (click)="goBack()"  class="back p-2 px-3 d-inline-block border rounder mr-3 btn btn-default"><i class="fas fa-arrow-left"></i></a> 
+                  Unsubscribed Recipients 
+            </h3>
+            </div>
+            <div class="col-auto">
+              <div class="btn-group">
+                <button class="btn btn-orange-outline" (click)="subscribeAll()"> Subscribed all again
+                </button>
+              </div>
+            </div>
+         </div>
+            <div class="overflow-x-auto">
+              <table
+              matSort 
+              (matSortChange)="sortData($event)"  
+               class="table hoverEffect table-header table-bordered table-rounded">
+               <thead>
+                   <th><h6>Recipient Name</h6></th>
+                   <th><h6>Recipient Email</h6></th>
+                   <th><h6>Subject</h6></th>
+                   <th><h6>Email Template</h6></th>
+                   <th><h6>Unsubscribed</h6></th>
+               </thead>
+               <tbody>
+                   <tr *ngFor="let element of unsubscribedData">
+                       <td>{{element.emailJobRecipientList[0].name}} </td>
+                       <td>{{element.emailJobRecipientList[0].email}}</td>
+                       <td>{{element.subject}}</td>
+                       <td>{{element.subject}}</td>
+                       <td>{{element.created_at|dateAgo}}</td>
+                   </tr>
+               </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="loading-indicator">
+    <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+  </div>
