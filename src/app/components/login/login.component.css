@@ -45,3 +45,7 @@
    font-weight: 400;
    text-decoration: underline;
 }
+.resend.time-up {
+    cursor: pointer;
+    font-weight: 500;
+}

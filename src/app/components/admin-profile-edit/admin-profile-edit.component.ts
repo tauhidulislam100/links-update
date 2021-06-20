@@ -4,6 +4,7 @@ import {AdminDetailService} from 'src/app/_services/admin-detail.service';
 import {ActivatedRoute} from '@angular/router';
 import {ErrorService} from 'src/app/_services/error.service';
 import {ConfigService} from 'src/app/_services/config.service';
+import { AdminType } from 'src/app/_types/adminType';
 
 
 @Component({
@@ -14,7 +15,7 @@ import {ConfigService} from 'src/app/_services/config.service';
 export class AdminProfileEditComponent implements OnInit {
   assets_loc;
   updateForm: FormGroup;
-  admin;
+  admin: AdminType;
   updated: boolean;
 
   constructor(private fb: FormBuilder, private adminService: AdminDetailService, private route: ActivatedRoute, private errorService: ErrorService, private configService: ConfigService) {
@@ -25,18 +26,19 @@ export class AdminProfileEditComponent implements OnInit {
 
   ngOnInit() {
     this.updated = false;
-    this.admin = this.route.snapshot.data.details;
-    this.updateForm = this.fb.group({
-      name: [this.admin.name],
-      email: [this.admin.email],
-      designation: [this.admin.designation],
-      phone: [this.admin.phone],
-      organization_name: [this.admin.organization_name],
-      official_email: [this.admin.official_email],
-      website: [this.admin.website],
-      city: [this.admin.city]
-
-    });
+    this.adminService.getAdminProfileDetail().subscribe(data => {
+      this.admin = data;
+      this.updateForm = this.fb.group({
+        name: [this.admin.name],
+        email: [this.admin.email],
+        designation: [this.admin.designation],
+        phone: [this.admin.phone],
+        organization_name: [this.admin.organization_name],
+        official_email: [this.admin.official_email],
+        website: [this.admin.website],
+        city: [this.admin.city]
+      });
+    })
 
 
   }

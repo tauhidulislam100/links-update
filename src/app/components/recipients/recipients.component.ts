@@ -17,7 +17,7 @@ import { ConfigService } from 'src/app/_services/config.service';
 import { FieldService } from 'src/app/_services/field.service';
 import { FieldType, UserType } from 'src/app/_types';
 import * as XLSX from 'xlsx';
-import { UserDetail } from '../../userDetail';
+import { UserDetail } from 'src/app/_models/userDetail';
 import {
   validateCheckBox,
   validateSaveAndUpdate
@@ -156,8 +156,10 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
             All  ${this.searchResultSize} recipients exist. 
           </div>
         `;
-        this.renderer.appendChild(this.message.nativeElement, div);
-        this.removeMessage(div);
+        if(this.message) {
+          this.renderer.appendChild(this.message.nativeElement, div);
+          this.removeMessage(div);
+        }
         // this.addCheckboxes();
       });
     } else {

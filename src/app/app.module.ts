@@ -7,10 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { AdminProfileResolver } from './AdminProfileResolver';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
 import { AddCertificateComponent } from './components/add-certificate/add-certificate.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
@@ -22,14 +20,9 @@ import { EmailJobDetailComponent } from './components/email-job-detail/email-job
 import { EmailComponent } from './components/email/email.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { EmailJobDetailResolver } from './emailJobDetailResolver';
 import { MaterialModule } from './material/material.module';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
-import { SendEmailGetTemplatesCreatedByAdmin } from './SendEmailGetTemplates';
-import { SharedModule } from './shared.module';
-import { UnsubscribeListResolver } from './UnsubscribeListResolver';
-import { UpdateCertificateTemplateResolver } from './UpdateCertificateTemplateResolver';
+import { SharedModule } from './shared/shared.module';
 import { AuthGuardService } from './_guards/auth-guard.service';
 import { CachingInterceptor } from './_helpers/caching.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
@@ -48,7 +41,6 @@ import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
     AppComponent,
     NavbarComponent,
     EmailComponent,
-    // ProfileComponent,
     EmailJobDetailComponent,
     CertificateJobDetailComponent,
     AdminLoginComponent,
@@ -84,26 +76,19 @@ import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
     AuthenticationService,
     AuthGuardService,
     LoggedInAuthGuard,
-    {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     LoaderService,
-    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     CacheMapService,
-    {provide: Cache, useClass: CacheMapService},
-    {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
+    { provide: Cache, useClass: CacheMapService },
+    { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
     SelectedTabService,
-    EmailJobDetailResolver,
-    RecipientFieldsResolver,
-    CertificateJobDetailResolver,
-    AdminProfileResolver,
-    SendEmailGetTemplatesCreatedByAdmin,
-    UpdateCertificateTemplateResolver,
-    UnsubscribeListResolver,
     DatePipe,
-    {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js'},
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     {
       provide: APP_INITIALIZER,
       useFactory: (envConfigService: ConfigService) => function () {

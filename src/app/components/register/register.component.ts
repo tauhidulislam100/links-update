@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   step = 1;
   showLoader = true;
   showError = false;
+  message='';
   registerForm = new FormGroup({
     name: new FormControl('', [
       Validators.required,
@@ -61,6 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit() {
+    this.message='';
     if(this.step === 1 &&(
       this.registerForm.get('name').invalid ||
       this.registerForm.get('designation').invalid ||
@@ -87,8 +89,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.authService.register(this.registerForm.value)
         .subscribe(resp => {
           console.log("resp ", resp);
-          this.router.navigate(['/AdminLogin']);
+          // this.router.navigate(['/AdminLogin']);
+          this.message='Request for registration is sent, please check your email for receipt confirmation';
         }, (err) => {
+          this.message='';
           if(err.status === 403) {
             this.errorService.setErrorVisibility(true, hasErrorMessage(err) ? hasErrorMessage(err) : "Unautorized access forbiden, please ensure you have an active account");
           } else {
@@ -109,7 +113,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   goPrevStep() {
-    if(this.step > 1 && this.registerForm.valid) {
+    if(this.step > 1) {
       this.step -= 1;
     }
   }

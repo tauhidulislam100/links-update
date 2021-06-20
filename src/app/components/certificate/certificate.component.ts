@@ -3,7 +3,7 @@ import { AdminDetailService } from '../../_services/admin-detail.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { CertificateService } from '../../_services/certificate.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserDetail } from '../../userDetail';
+import { UserDetail } from 'src/app/_models/userDetail';
 import { validateUserDetail } from '../../_custome-validators/certificateForm.validator';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';

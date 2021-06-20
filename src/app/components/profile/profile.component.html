@@ -143,13 +143,12 @@
                 </mat-menu>
               </div>
 
-
               <div>
                 <div class="table-container mt-5">
-                  <div class="row certificate_templates_wrap">
+                  <div class="row certificate_templates_wrap" *ngIf="certificateDataSource">
                     <div class="col-small" *ngFor="let element of certificateDataSource">
                         <div class="certificateSingle">
-                          <img src="{{element.certificateTemplateDetail.certificate_image_thumbnail || '../../../assets/certificate.png'}}" alt="">
+                          <img src="data:image/jpg;base64,{{element.certificateTemplateDetail.certificate_image.data || '/assets/certificate.png'}}" alt="">
                           <h4> </h4>
                           <div class="meta row">
                             <div class="col-auto">
@@ -157,7 +156,7 @@
                               {{element.certificateTemplateDetail.no_of_recipient}}
                             </div>
                             <div class="col">
-                              <i class="fas mr-2 fa-pencil-alt"></i> {{ element.created_at | dateAgo }}
+                              <i class="fas mr-2 fa-pencil-alt"></i> {{ element.created_at|dateAgo }}
                             </div>
                           </div>
                           <div class="hoverSection">
@@ -175,41 +174,6 @@
                   
                 </div>
               </div>
-
-              <!-- <table mat-table [dataSource]="certificateDataSource" class="table table-bordered table-rounded">
-                <ng-container matColumnDef="job Id">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Job Id</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">
-                    <a mat-button color="primary" [routerLink]="'/Certificates/View/'+element.certificateJob.id">
-                      {{element.certificateJob.id}}</a>
-                  </td>
-                </ng-container>
-  
-  
-                <ng-container matColumnDef="Name of Certificate">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Name of Certificate</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.certificateTemplateDetail.name}}
-                  </td>
-  
-                </ng-container>
-  
-  
-                <ng-container matColumnDef="createdAt">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>CreatedAt</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">
-                    {{element.created_at}} </td>
-                </ng-container>
-  
-                <tr mat-header-row *matHeaderRowDef="certificateDisplayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: certificateDisplayedColumns;">
-                </tr>
-              </table> -->
             </div>
 
             <!-- <div>
@@ -230,54 +194,38 @@
             </div> -->
   
           </mat-tab>
-  
-  
           <mat-tab label="Emails ({{emailDataSource.length}})">
-  
             <div class="table-container">
-              <table mat-table [dataSource]="emailDataSource" class="table table-bordered table-rounded">
-  
-                <ng-container matColumnDef="job Id">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Job Id</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">
-                    <a mat-button color="primary" [routerLink]="'/Emails/View/'+element.email_job.id">
-                      {{element.email_job.id}}</a>
-  
-                  </td>
-  
-                </ng-container>
-  
-  
-                <ng-container matColumnDef="subject">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Subject</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">{{element.subject}}</td>
-  
-                </ng-container>
-  
-  
-                <ng-container matColumnDef="from">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>From</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">
-                    {{element.sentFrom}} </td>
-                </ng-container>
-  
-                <ng-container matColumnDef="sent on">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <h6>Sent on</h6>
-                  </th>
-                  <td mat-cell *matCellDef="let element let rowIndex = index">
-                    {{element.sent_at}} </td>
-                </ng-container>
-  
-                <tr mat-header-row *matHeaderRowDef="emailDisplayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: emailDisplayedColumns;">
-                </tr>
+              <table class="table table-bordered table-rounded">
+                <thead>
+                  <tr>
+                    <th><h6>Job Id</h6></th>
+                    <th><h6>Subject</h6></th>
+                    <th><h6>From</h6></th>
+                    <th><h6>Sent on</h6></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let element of emailDataSource">
+                    <td>
+                      <a mat-button color="primary" [routerLink]="'/Emails/View/'+element.email_job.id">
+                        {{element.email_job.id}}</a>
+                    </td>
+                    <td>
+                      <a mat-button color="primary" [routerLink]="'/Emails/View/'+element.email_job.id">
+                        {{element.email_job.id}}</a>
+                    </td>
+                    <td>
+                      {{element.subject}}
+                    </td>
+                    <td>
+                      {{element.sentFrom}}
+                    </td>
+                    <td>
+                      {{element.sent_at}}
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </mat-tab>

@@ -114,6 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   getOtp(email) {
     this.authenticationService.getOtp(email).subscribe(data => {
+      console.log(data);
       this.startTimer();
       this.step = 'otp';
       }, err => {
