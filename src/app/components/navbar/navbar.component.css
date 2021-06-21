@@ -241,6 +241,7 @@
 @media (max-width: 990px) {
   .link_header{
     height: auto;
+    margin-bottom: 15px !important;
   }
   .link_header .navbar-brand .logo {
     top: 0;

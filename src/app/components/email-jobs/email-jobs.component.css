@@ -26,7 +26,7 @@ a {
 .add_new_email_template{
   position: absolute;
   right: 56px;
-  margin-top: -75px;
+  margin-top: -65px;
   z-index: 10;
   border: 0;
   outline: none;
@@ -68,6 +68,38 @@ a {
 .mat-group-content {
   /* min-width: 1300px; */
 }
+
 .mat-group-content table{
   width: 100%;
+}
+
+::ng-deep .mat-tab-body,
+::ng-deep .mat-tab-body .mat-tab-body-active,
+::ng-deep .mat-group-content .mat-tab-body-content{
+   overflow: unset !important;
+   overflow-x: unset !important;
+   width: 100% !important;
+}
+
+@media (max-width:990px){
+  .add_new_email_template {
+    position: relative;
+    right: 56px;
+    margin-top: 0;
+    z-index: 10;
+    border: 0;
+    outline: none;
+    top: 6px;
+    right: 0;
+    left: 0;
+    width: 100%;
+}
+  
+}
+@media (max-width:766px){
+  .mat-group-content table {
+    width: 1300px;
+  }
+
+
 }

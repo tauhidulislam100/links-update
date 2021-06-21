@@ -38,7 +38,7 @@
             <div class="col">
               <h3 class="d-flex align-items-center"> <a style="position: relative;" href="javascript:void(0)" (click)="goBack()"  class="back p-2 px-3 d-inline-block border rounder mr-3 btn btn-default"><i class="fas fa-arrow-left"></i></a>  Add/Update Email Template</h3>
             </div>
-            <div class="col-auto">
+            <div class="col-md-auto">
               <div class="btn-group">
                 <button style="min-width: auto;" [routerLink]="'/Emails'" class="btn-orange-outline export mr-2">
                   Cancel
@@ -57,7 +57,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-lg-8 col-md-7">
           <form [formGroup]="emailTemplateForm" class="profile-update-form">
             <div class="custom-group">
               <label>Name of Email Template</label>
@@ -105,7 +105,7 @@
 
           </form>
         </div>
-        <div class="col-md-4 col-12 right-content">
+        <div class="col-lg-4 col-md-5 col-12 right-content">
           <div class="help-area border rounded p-3">
             <h4>You can use the below fields in the email body or subject</h4>
             <div class="table-container">

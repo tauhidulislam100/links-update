@@ -1,10 +1,10 @@
 <div class="pagination-area">
-  <div class="row" *ngIf="page">
+  <div class="row align-items-center" *ngIf="page">
     <div class="col" style="float: right;">Showing {{ (page.number * page.size) + 1   }}
     - {{ (page.number * page.size) + page.numberOfElements }} of {{page.totalElements}}</div>
 
     <nav class="col-auto" aria-label="Page navigation example">
-      <ul class="pagination">
+      <ul class="pagination mb-0">
 
         <li class="page-item" [ngClass]="{'disabled': page.last }">
           <a class="page-link" [routerLink]="" (click)="nextPage()"> <i class="fas fa-chevron-left"></i>

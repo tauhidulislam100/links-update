@@ -36,7 +36,8 @@
             <div class="email_gp">
               <mat-tab label="Sent Emails ({{sentEmailsPage.totalElements}})">
                 <div class="table-container">
-                  <table matSort (matSortChange)="sortData($event, 'sent')"
+                  <div class="table_overflow">
+                    <table matSort (matSortChange)="sortData($event, 'sent')"
                     class="table hoverEffect table-header table-bordered table-rounded">
                     <thead>
                       <th mat-sort-header="created_at">
@@ -94,6 +95,7 @@
                       </tr>
                     </tbody>
                   </table>
+                  </div>
 
                   <app-custom-pagination [page]="sentEmailsPage" (nextPageEvent)="getJobsNextPage()"
                     (previousPageEvent)="getJobsPreviousPage()">
@@ -105,58 +107,60 @@
                   <i class="fas fa-plus"></i> Add New Email Template
                 </button>
                 <div class="table-container">
-                  <table matSort (matSortChange)="sortData($event, 'e-templates')"
-                    class="table hoverEffect table-header table-bordered table-rounded">
-                    <thead>
-                      <th mat-sort-header="created_at">
-                        <h6>Created On</h6>
-                      </th>
-                      <th>
-                        <h6>Subject</h6>
-                      </th>
-                      <th>
-                        <h6>Email Templates</h6>
-                      </th>
-                      <th mat-sort-header="no_of_recipients">
-                        <h6>Recipients</h6>
-                      </th>
-                      <th mat-sort-header="no_of_times_used">
-                        <h6>Times Used</h6>
-                      </th>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let element of emailTemplatesData">
-                        <td>
-                          {{element.created_at|dateAgo}}
-                        </td>
-                        <td>
-                          {{element.subject}}
-                        </td>
-                        <td>
-                          {{element.name}}
-                        </td>
-                        <td>
-                          {{element.no_of_recipients}}
-                        </td>
-                        <td>
-                          {{element.no_of_times_used}}
-                        </td>
-                        <td class="hover_details">
-                          <ul class="actiion_list">
-                            <li>
-                              <a (click)="loader=true" [routerLink]="'/Emails/UpdateTemplate/'+element.id"
-                                class="btn-orange-outline-border" style="cursor: pointer;">Update</a>
-                            </li>
-                            <li>
-                              <a class="btn-orange-outline-border" mwlConfirmationPopover
-                                [popoverTitle]="deletePopoverTitle" [popoverMessage]="deletePopoverMessage"
-                                placement="left" (confirm)="archive(element)">Archive</a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <div class="table_overflow">
+                      <table matSort (matSortChange)="sortData($event, 'e-templates')"
+                        class="table hoverEffect table-header table-bordered table-rounded">
+                        <thead>
+                          <th mat-sort-header="created_at">
+                            <h6>Created On</h6>
+                          </th>
+                          <th>
+                            <h6>Subject</h6>
+                          </th>
+                          <th>
+                            <h6>Email Templates</h6>
+                          </th>
+                          <th mat-sort-header="no_of_recipients">
+                            <h6>Recipients</h6>
+                          </th>
+                          <th mat-sort-header="no_of_times_used">
+                            <h6>Times Used</h6>
+                          </th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let element of emailTemplatesData">
+                            <td>
+                              {{element.created_at|dateAgo}}
+                            </td>
+                            <td>
+                              {{element.subject}}
+                            </td>
+                            <td>
+                              {{element.name}}
+                            </td>
+                            <td>
+                              {{element.no_of_recipients}}
+                            </td>
+                            <td>
+                              {{element.no_of_times_used}}
+                            </td>
+                            <td class="hover_details">
+                              <ul class="actiion_list">
+                                <li>
+                                  <a (click)="loader=true" [routerLink]="'/Emails/UpdateTemplate/'+element.id"
+                                    class="btn-orange-outline-border" style="cursor: pointer;">Update</a>
+                                </li>
+                                <li>
+                                  <a class="btn-orange-outline-border" mwlConfirmationPopover
+                                    [popoverTitle]="deletePopoverTitle" [popoverMessage]="deletePopoverMessage"
+                                    placement="left" (confirm)="archive(element)">Archive</a>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
                   <app-custom-pagination [page]="allTemplatesPage" (nextPageEvent)="getTemplatesNextPage()"
                     (previousPageEvent)="getTemplatesPreviousPage()">
                   </app-custom-pagination>
@@ -165,57 +169,59 @@
 
               <mat-tab label="Mapped Email Templates ({{allMappedTemplatesPage.totalElements}})">
                 <div class="table-container">
-                  <table matSort (matSortChange)="sortData($event, 'm-templates')"
-                    class="table hoverEffect table-header table-bordered table-rounded">
-                    <thead>
-                      <th mat-sort-header="created_at">
-                        <h6>Created</h6>
-                      </th>
-                      <th>
-                        <h6>Subject</h6>
-                      </th>
-                      <th>
-                        <h6>Email Templates</h6>
-                      </th>
-                      <th mat-sort-header="no_of_recipients">
-                        <h6>Recipients</h6>
-                      </th>
-                      <th mat-sort-header="no_of_times_used">
-                        <h6>Times Used</h6>
-                      </th>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let element of allMapedTemplatesData">
-                        <td>
-                          {{element.created_at|dateAgo}}
-                        </td>
-                        <td>
-                          {{element.subject}}
-                        </td>
-                        <td>
-                          {{element.name}}
-                        </td>
-                        <td>
-                          {{element.no_of_recipients}}
-                        </td>
-                        <td>
-                          {{element.no_of_times_used}}
-                        </td>
-                        <td class="hover_details">
-                          <ul class="actiion_list">
-                            <li>
-                              <a [routerLink]="'/Emails/AddTemplate/'+element.id+'/mapped'"
-                                class="btn-orange-outline-border">Update</a>
-                            </li>
-                            <li>
-                              <a [routerLink]="" class="btn-orange-outline-border" (click)="archive(element)">
-                                Archive</a>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <div class="table_overflow">
+                      <table matSort (matSortChange)="sortData($event, 'm-templates')"
+                        class="table hoverEffect table-header table-bordered table-rounded">
+                        <thead>
+                          <th mat-sort-header="created_at">
+                            <h6>Created</h6>
+                          </th>
+                          <th>
+                            <h6>Subject</h6>
+                          </th>
+                          <th>
+                            <h6>Email Templates</h6>
+                          </th>
+                          <th mat-sort-header="no_of_recipients">
+                            <h6>Recipients</h6>
+                          </th>
+                          <th mat-sort-header="no_of_times_used">
+                            <h6>Times Used</h6>
+                          </th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let element of allMapedTemplatesData">
+                            <td>
+                              {{element.created_at|dateAgo}}
+                            </td>
+                            <td>
+                              {{element.subject}}
+                            </td>
+                            <td>
+                              {{element.name}}
+                            </td>
+                            <td>
+                              {{element.no_of_recipients}}
+                            </td>
+                            <td>
+                              {{element.no_of_times_used}}
+                            </td>
+                            <td class="hover_details">
+                              <ul class="actiion_list">
+                                <li>
+                                  <a [routerLink]="'/Emails/AddTemplate/'+element.id+'/mapped'"
+                                    class="btn-orange-outline-border">Update</a>
+                                </li>
+                                <li>
+                                  <a [routerLink]="" class="btn-orange-outline-border" (click)="archive(element)">
+                                    Archive</a>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
                   <app-custom-pagination [page]="allMappedTemplatesPage" (nextPageEvent)="getMappedTemplatesNextPage()"
                     (previousPageEvent)="getMappedTemplatesPreviousPage()">
                   </app-custom-pagination>

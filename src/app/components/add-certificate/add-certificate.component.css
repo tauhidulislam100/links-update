@@ -1,0 +1,19 @@
+@media(max-width:766px){
+    .btn-group{
+        display: block;
+    }
+    .btn-group button{
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .btn.back{
+        width: auto;
+    }
+
+    .custom-group {
+        width: 100% !important;
+        text-align: left;
+    }
+}

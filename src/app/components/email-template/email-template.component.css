@@ -26,3 +26,22 @@ body {
 .editor {
   margin-bottom: 1rem;
 }
+
+.table{
+  width: 100%;
+}
+
+@media (max-width: 766px){
+  .btn-group{
+    display: block;
+  }
+  .btn-group button {
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+  }
+
+  .back.btn{
+    width: auto;
+  }
+}

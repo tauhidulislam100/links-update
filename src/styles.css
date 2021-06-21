@@ -732,6 +732,7 @@ login register page realted style
 .hoverEffect tr{
     border: 0;
     height: 46px !important;
+    position: relative;
 }
 
 .hoverEffect .hover_details{
@@ -852,6 +853,14 @@ th[mat-sort-header] .mat-sort-header-stem
   padding: 10px 15px;
 }
 
+@media(max-width: 1240px){
+  .col-small{
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+
 @media (max-width: 990px) {
   .table{
     width: 1300px;
@@ -864,6 +873,10 @@ th[mat-sort-header] .mat-sort-header-stem
     flex: 0 0 33.333%;
     max-width: 33.33%;
   }
+
+  .container.mt-5{
+    margin-top: 15px !important;
+}
 
 } 
 
@@ -901,12 +914,21 @@ th[mat-sort-header] .mat-sort-header-stem
     justify-content: space-between;
   }
 
+  .custom-group{
+     width: 100% !important;
+     text-align: left;
+  }
 } 
 
 @media (max-width: 762px) {
   .col-small{
     flex: 0 0 100%;
     max-width: 100%;
+  }
+
+  .upload-btn-container .upload-label,
+  .btn-orange-outline.export {
+    justify-content: center;
   }
 
 } 
