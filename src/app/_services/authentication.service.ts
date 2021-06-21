@@ -53,7 +53,11 @@ export class AuthenticationService {
   }
 
   getOtp(email) {
-    return this.http.get<any>(`${this.baseurl}sendOtp?email=${email}`);
+    //no caching
+    return this.http.get<any>(`${this.baseurl}sendOtp?email=${email}`, {
+      headers: {
+      reset: 'reset'
+    }});
   }
 
   register(userData: {}) {

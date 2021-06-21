@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <form [formGroup]="updateForm" class="profile-update-form">
+  <form *ngIf="updateForm" [formGroup]="updateForm" class="profile-update-form">
 
     <div class="row">
       <div class="col-md-6">

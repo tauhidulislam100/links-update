@@ -5,7 +5,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MaterialModule } from 'src/app/material/material.module';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { EmailJobsRoutingModule } from './email-jobs-routing.module';
 import { EmailJobsComponent } from './email-jobs.component';
 

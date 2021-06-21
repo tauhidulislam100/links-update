@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AdminDetailService} from 'src/app/_services/admin-detail.service';
 import {ErrorService} from 'src/app/_services/error.service';
 import {ConfigService} from 'src/app/_services/config.service';
+import { AdminType } from 'src/app/_types/adminType';
 
 
 @Component({
@@ -13,7 +14,7 @@ import {ConfigService} from 'src/app/_services/config.service';
 export class AdminProfileComponent implements OnInit {
   assets_loc;
 
-  admin;
+  admin: AdminType | {} = {};
 
   constructor(private route: ActivatedRoute, private router: Router, private adminService: AdminDetailService, private errorService: ErrorService, private configService: ConfigService) {
     this.configService.loadConfigurations().subscribe(data => {
@@ -22,7 +23,9 @@ export class AdminProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.admin = this.route.snapshot.data.details;
+    this.adminService.getAdminProfileDetail().subscribe(data => {
+      this.admin = data;
+    })
   }
 
   edit() {

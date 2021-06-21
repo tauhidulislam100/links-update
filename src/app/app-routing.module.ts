@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Router, RouterModule, Routes } from '@angular/router';
-import { AdminProfileResolver } from './AdminProfileResolver';
-import { CertificateJobDetailResolver } from './certificateJobDetailResolver';
 import { AddCertificateComponent } from './components/add-certificate/add-certificate.component';
 import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
@@ -12,11 +10,7 @@ import { EmailComponent } from './components/email/email.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UnsubscribedComponent } from './components/unsubscribed/unsubscribed.component';
-import { EmailJobDetailResolver } from './emailJobDetailResolver';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { RecipientFieldsResolver } from './RecipientsFieldsResolver';
-import { SendEmailGetTemplatesCreatedByAdmin } from './SendEmailGetTemplates';
-import { UpdateCertificateTemplateResolver } from './UpdateCertificateTemplateResolver';
 import { AuthGuardService as AuthGuard } from './_guards/auth-guard.service';
 import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
 
@@ -62,7 +56,6 @@ const routes: Routes = [
         path: 'SendEmail',
         component: EmailComponent,
         canActivate: [AuthGuard],
-        resolve: { fields: RecipientFieldsResolver, templates: SendEmailGetTemplatesCreatedByAdmin }
       },
       {
         path: 'Profile/:id',
@@ -93,23 +86,21 @@ const routes: Routes = [
         path: 'Emails/View/:id',
         component: EmailJobDetailComponent,
         canActivate: [AuthGuard],
-        resolve: { detail: EmailJobDetailResolver }
       },
       {
         path: 'Certificates/View/:id',
         component: CertificateJobDetailComponent,
         canActivate: [AuthGuard],
-        resolve: { detail: CertificateJobDetailResolver }
       },
       {
         path: 'AdminProfile',
         component: AdminProfileComponent,
-        resolve: { details: AdminProfileResolver }
+         canActivate: [AuthGuard],
       },
       {
         path: 'AdminProfile/Edit',
-        component: AdminProfileEditComponent, resolve:
-          { details: AdminProfileResolver }
+        component: AdminProfileEditComponent,
+         canActivate: [AuthGuard],
       },
       {
         path: 'FAQ', component: FaqComponent
@@ -119,12 +110,13 @@ const routes: Routes = [
       },
       {
         path: 'Certificates/AddTemplate',
-        component: CertificateTemplateComponent
+        component: CertificateTemplateComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'Certificates/AddTemplate/:id',
         component: CertificateTemplateComponent,
-        resolve: { templateData: UpdateCertificateTemplateResolver, fields: RecipientFieldsResolver }
+        canActivate: [AuthGuard],
       },
       {
         path: 'Emails/AddTemplate/:id/:type',

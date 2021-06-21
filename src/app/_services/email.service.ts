@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {UserDetail} from '../userDetail';
+import {UserDetail} from '../_models/userDetail';
 import {ConfigService} from './config.service';
 import {environment} from '../../environments/environment';
 import {Page} from '../pagination/page';

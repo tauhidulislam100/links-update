@@ -41,7 +41,7 @@
   <div class="row">
     <div class="col-md-7 col-12 left-content">
 
-      <form [formGroup]="emailForm" class="emailform">
+      <form [formGroup]="emailForm" class="emailform" *ngIf="emailTemplates">
         <div class="custom-group">
           <mat-select (ngModelChange)="onChange($event)" formControlName="templateSelect" class="custom-form-control">
             <mat-option value="0">Select Template</mat-option>

@@ -5,7 +5,7 @@
     Job is submitted successfully, email will be sent after the completion of job.
   </div>
   <div class="row">
-    <div class="email-subject col-12" style="padding: 0%;">
+    <div class="email-subject col-12" style="padding: 0%;" *ngIf="details">
       <h4>Name of Certificate :
         {{details.certificateTemplateName}}</h4>
       <div style="margin-bottom: 20px;">
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="details">
       <div class="col-md-12">
         <div class="email-details ">
 

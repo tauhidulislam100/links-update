@@ -11,7 +11,7 @@ import { EmailJobService } from '../../_services/email-job.service';
 })
 export class EmailJobDetailComponent implements OnInit {
   assets_loc;
-  details;
+  details: Record<string, any>;
   id;
 
   constructor(private emailJobService: EmailJobService, private route: ActivatedRoute, private router: Router, private location: Location,  private configService: ConfigService) {
@@ -21,9 +21,11 @@ export class EmailJobDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.details = this.route.snapshot.data.detail;
-
+    this.route.params.subscribe(params => {
+      this.emailJobService.getEmailsByJobId(params.id).subscribe(data => {
+        this.details = data;
+      })
+    })
   }
 
   goBack() {

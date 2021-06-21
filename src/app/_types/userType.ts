@@ -14,3 +14,4 @@ export type UserType = {
     userTags: {}[],
     year_of_birth: string | null,
 };
+

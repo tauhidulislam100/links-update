@@ -6,6 +6,7 @@ import { validateField } from 'src/app/_custome-validators/certificateForm.valid
 import { CertificateService } from 'src/app/_services/certificate.service';
 import { ConfigService } from 'src/app/_services/config.service';
 import { ErrorService } from 'src/app/_services/error.service';
+import { FieldService } from 'src/app/_services/field.service';
 
 @Component({
   selector: 'app-certificate-template',
@@ -23,7 +24,7 @@ export class CertificateTemplateComponent implements OnInit {
   editable_fields: any[] = [];
   certificateTemplateForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private location: Location, private certificateService: CertificateService, private errorService: ErrorService, private configService: ConfigService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private location: Location, private certificateService: CertificateService, private errorService: ErrorService, private configService: ConfigService, private fieldService: FieldService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
@@ -35,52 +36,56 @@ export class CertificateTemplateComponent implements OnInit {
 
   ngOnInit() {
 
-    this.templateData = this.route.snapshot.data.templateData;
-
-    this.imageData = this.templateData.certificate_image.data;
-    this.instructions = this.templateData.instructions;
-    this.editable_fields_array = this.templateData.instructions.editable_fields;
-    this.fields = this.route.snapshot.data.fields;
-    this.fontThemes = this.templateData.instructions.themes;
-    console.log('fontThemes ', this.instructions);
-    this.certificateTemplateForm = this.fb.group({
-      name: [this.templateData.name, []],
-      fontTheme: ['1']
-    });
-    this.editable_fields_array.forEach(element => {
-      if (element.type != "logo" && element.type != "signature") {
-        let type: string = element.type;
-        let label = element.label;
-        let valueString: string = element.value;
-        let path: any[] = valueString.split(".");
-        let value = this.instructions[path[0]][path[1]];
-        let formControl: FormControl = new FormControl(value, []);
-        if (type == "body") {
-          value = this.instructions[path[0]][path[1]][path[2]][path[3]];
-          formControl = new FormControl(value, [validateField(this.fields)]);
-        }
-
-
-        this.editable_fields.push({
-          "type": element.type,
-          "value": value,
-          "label": label,
-          "instruction": element.instruction
-        })
-
-        this.certificateTemplateForm.addControl(label, formControl);
-
-      } else {
-        let formControl: FormControl = new FormControl('', []);
-        this.certificateTemplateForm.addControl(element.label, formControl);
-        this.editable_fields.push({
-          "type": element.type,
-          "instruction": element.instruction
-        })
-      }
+    this.fieldService.getAllFields().subscribe(data => {
+      this.fields = data;
     });
 
-    console.log('certificateTemplateForm ', this.certificateTemplateForm);
+    this.route.params.subscribe(params => {
+      this.certificateService.getTemplateById(params.id).subscribe(data => {
+        this.templateData = data;
+        this.imageData = this.templateData.certificate_image.data;
+        this.instructions = this.templateData.instructions;
+        this.editable_fields_array = this.templateData.instructions.editable_fields;
+        this.fontThemes = this.templateData.instructions.themes;
+        console.log('fontThemes ', this.instructions);
+        this.certificateTemplateForm = this.fb.group({
+          name: [this.templateData.name, []],
+          fontTheme: ['1']
+        });
+        this.editable_fields_array.forEach(element => {
+          if (element.type != "logo" && element.type != "signature") {
+            let type: string = element.type;
+            let label = element.label;
+            let valueString: string = element.value;
+            let path: any[] = valueString.split(".");
+            let value = this.instructions[path[0]][path[1]];
+            let formControl: FormControl = new FormControl(value, []);
+            if (type == "body") {
+              value = this.instructions[path[0]][path[1]][path[2]][path[3]];
+              formControl = new FormControl(value, [validateField(this.fields)]);
+            }
+
+
+            this.editable_fields.push({
+              "type": element.type,
+              "value": value,
+              "label": label,
+              "instruction": element.instruction
+            })
+
+            this.certificateTemplateForm.addControl(label, formControl);
+
+          } else {
+            let formControl: FormControl = new FormControl('', []);
+            this.certificateTemplateForm.addControl(element.label, formControl);
+            this.editable_fields.push({
+              "type": element.type,
+              "instruction": element.instruction
+            })
+          }
+        });
+      })
+    })
   }
 
   update() {

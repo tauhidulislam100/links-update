@@ -11,6 +11,7 @@ import {ConfigService} from 'src/app/_services/config.service';
 import {ThemePalette} from "@angular/material/core";
 import {ConfirmationDialogueComponent} from "../confirmation-dialogue/confirmation-dialogue.component";
 import {MatDialog} from "@angular/material/dialog";
+import { FieldService } from 'src/app/_services/field.service';
 
 export interface JobData {
   id,
@@ -55,15 +56,15 @@ export class EmailComponent implements OnInit, AfterViewInit {
   @ViewChild('emailBody', {static: true}) emailBody: ElementRef;
   @ViewChild('message', {static: false}) message: ElementRef;
 
-  constructor(private route: ActivatedRoute,
-              private adminDetailService: AdminDetailService,
-              private certificateService: CertificateService,
+  constructor(
+              private fieldService: FieldService,
+              private route: ActivatedRoute,
               private fb: FormBuilder,
               private emailService: EmailService,
               private errorService: ErrorService,
               private configService: ConfigService,
-              private renderer:Renderer2
-    , private dialog: MatDialog) {
+              private renderer:Renderer2, 
+              private dialog: MatDialog) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })
@@ -75,9 +76,15 @@ export class EmailComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.emailSent = false;
-    this.fields = this.route.snapshot.data.fields;
 
-    this.emailTemplates = this.route.snapshot.data.templates;
+    this.fieldService.getAllFields().subscribe(data => {
+      this.fields = data;
+    });
+
+    this.emailService.getTemplatesCreatedByAdmin().subscribe(data => {
+      this.emailTemplates = data;
+    });
+
     this.emailForm = this.fb.group({
       subject: ['', Validators.required],
       listOfRecepients: ['', Validators.required],

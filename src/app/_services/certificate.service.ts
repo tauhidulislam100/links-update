@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders,} from '@angular/common/http';
-import {UserDetail} from '../userDetail';
+import {UserDetail} from 'src/app/_models/userDetail';
 
 import {environment} from '../../environments/environment';
 import {ConfigService} from './config.service';
@@ -140,7 +140,7 @@ export class CertificateService {
   }
 
   uploadCertificate(id, data): Observable<any> {
-    return this.http.post<any>(`${this.baseurl}certificate/uploadCertificate/${id}`, data, {responseType: 'text' as 'json'});
+    return this.http.post<any>(`${this.baseurl}certificate/uploadCertificate/${id}`, data);
   }
 
   validateCertificatesOnServer(id) {

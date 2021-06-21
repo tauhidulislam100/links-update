@@ -69,7 +69,9 @@
                             <a [routerLink]="'/register'" class="btn btn-block btn-orange-outline-border btn-md">Register</a>
                         </div>
                         <div class="form-group" *ngIf="step === 'otp'">
-                            <p class="text-center my-5"><span class="resend" (click)="resendOTP()">Resend OTP</span> available {{format(countDownTime)}}</p>
+                            <p class="text-center my-5">
+                                <span class="resend" [ngClass]="{'time-up': countDownTime == 0 }" (click)="resendOTP()">Resend OTP</span> available {{format(countDownTime)}}
+                            </p>
                         </div>
                     </form>
                 </div>

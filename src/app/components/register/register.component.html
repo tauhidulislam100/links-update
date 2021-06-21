@@ -18,9 +18,13 @@
             <div class="col-xl-4">
                 <div class="card shadow border-0 auth-card">
                     <h2 class="title mb-5 mt-0" *ngIf="step === 1">Welcome Aboard!</h2>
+                    <h5 class="text-success">{{message}}</h5>
                     <h4 *ngIf="step === 2" class="subtitle mb-3 mt-0"> 
-                        <button  class="btn pt-2 pb-2 pl-3 pr-3 border ng-tns-c3-2 ng-star-inserted"><i class="fas fa-arrow-left"></i></button>
-                        New User Registration</h4>
+                        <button  class="btn pt-2 pb-2 pl-3 pr-3 border ng-tns-c3-2 ng-star-inserted" (click)="goPrevStep()">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        New User Registration
+                    </h4>
                     
                     <form class="auth-form" [formGroup]="registerForm">
                         <div class="form-step" [ngClass]="{active: step == 1}">
@@ -92,6 +96,10 @@
                             <button class="btn btn-block btn-orange-light btn-md" (click)="handleSubmit()">
                                 {{step === 1 ? 'Next' : 'Register'}}
                             </button>
+                        </div>
+                        <div class="form-group">
+                            <p class="text-center mb-3">Already have an account?</p>
+                            <a [routerLink]="'/AdminLogin'" class="btn btn-block btn-orange-outline-border btn-md">Login</a>
                         </div>
                         <div class="steps">
                             <div class="step" [ngClass]="{active: step === 1}" (click)="goPrevStep()"></div>

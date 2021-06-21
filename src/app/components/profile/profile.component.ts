@@ -40,19 +40,15 @@ export class ProfileComponent implements OnInit {
   updateForm: FormGroup;
   loader = false;
   Object = Object;
-  // certificateDisplayedColumns: string[] = ['job Id', 'Name of Certificate', 'createdAt'];
   certificateDataSource=[];
+  emailDataSource = [];
   newCertificate = null;
-  emailDisplayedColumns: string[] = ['job Id', 'subject', 'from', 'sent on'];
-  emailDataSource;
   isUpdated: boolean;
   fields: any[] = [];
   recipientFields: any[] = [];
   recipientFieldsToUpdate;
   selectedTab = 0;
   compName = 'profile';
-
-  //certificateSelection = new SelectionModel<CertificateData>(true, []);
 
   constructor(
     private userService: RecipientService,
@@ -81,17 +77,15 @@ export class ProfileComponent implements OnInit {
 
     forkJoin([this.userService.getById(this.id), this.fieldService.getAllFields()]).subscribe(results => {
       this.user = results[0];
-      console.log('user data ', this.user);
       this.fields = results[1];
       this.buildForm();
     });
 
     this.userService.getCertificates(this.id).subscribe(data => {
-      // this.certificateDataSource = new MatTableDataSource<CertificateData>(data);
-      this.certificateDataSource = data;
+      this.certificateDataSource = data || [];
     });
     this.userService.getEmails(this.id).subscribe(data => {
-      this.emailDataSource = new MatTableDataSource<EmailData>(data);
+      this.emailDataSource = data || [];
     });
   }
 

@@ -11,7 +11,6 @@ import {formatDate} from '@angular/common';
   styleUrls: ['./certificate-job-detail.component.css']
 })
 export class CertificateJobDetailComponent implements OnInit {
-
   assets_loc;
   jobId;
   id;
@@ -27,9 +26,14 @@ export class CertificateJobDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.details = this.route.snapshot.data.detail;
-    this.route.params.subscribe(params => this.jobId = params.id);
-
+    // this.details = this.route.snapshot.data.detail;
+    this.route.params.subscribe(params => {
+      this.jobId = params.id;
+      this.certificateService.getJobDetails(params.id).subscribe(data => {
+        this.details = data;
+      })
+    });
+  
   }
 
   downloadCertificates() {
