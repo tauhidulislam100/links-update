@@ -66,7 +66,7 @@ a {
 }
 
 .mat-group-content {
-  min-width: 1300px;
+  /* min-width: 1300px; */
 }
 .mat-group-content table{
   width: 100%;

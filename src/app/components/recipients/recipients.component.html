@@ -6,7 +6,6 @@
   </div>
   <app-errors></app-errors>
 
-
   <form [formGroup]="usersForm" class="usersForm">
     <ng-container *ngIf="!tagView">
       <div *ngIf="expandedView" class="box-area">
@@ -14,7 +13,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <div appearance="outline" class="textarea-wrapper">
-                <label>{{textAreaLegend}}</label>
+                <label>Email, Name, Gender, Mobile</label>
                 <textarea #myExpandedInput formControlName="userDetails" placeholder="{{textAreaLegend}}" #filterValue
                   matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20 class="mb-2"></textarea> 
               </div>
@@ -89,7 +88,7 @@
       <div *ngIf="!expandedView" class="search-area box-area">
         <div class="row">
           <div class="col-md-12">
-            <label for="">{{textAreaLegend}}</label>
+            <label for="">Email, Name, Gender, Mobile</label>
             <div class="form-group">
              
               <textarea #myInput (keyup.enter)="changeArea()" class="custom-form-control mb-2" [ngClass]="{'is-invalid': !myInput.value && btnPressed}"
@@ -194,188 +193,193 @@
             </span>
           </div>
 
-          <div *ngIf="showNewRecipients" class="table-container table_overflow">
-            <table
-            matSort 
-            (matSortChange)="sortData($event, 'allUsers')" 
-            mat-table 
-            formArrayName="allUsers" [dataSource]="dataSource"
-              class="table table-bordered table-rounded">
-
-              <!-- Checkbox Column -->
-              <!-- <ng-container matColumnDef="select">
-
-                <th mat-header-cell *matHeaderCellDef>
-                  <mat-checkbox (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                  </mat-checkbox>
-                </th>
-
-                <td mat-cell *matCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex"
-                  (click)="$event.stopPropagation()">
-                  <mat-checkbox formControlName="checkBox" (click)="$event.stopPropagation()"
-                    (change)="$event? selection.toggle(row): null" [checked]="selection.isSelected(row)">
-                  </mat-checkbox>
-                </td>
-
-              </ng-container> -->
-
-
-              <!-- <ng-container matColumnDef="id">
-
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Id</h6>
-                </th>
-
-                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
-                  [formGroupName]="rowIndex">
-                  {{element.id}}
-              </ng-container> -->
-              
-              <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6> Email</h6>
-                </th>
-                <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()"
-                  [formGroupName]="rowIndex">
-                  {{element.email}}
-              </ng-container>
-
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="name">
-                  <h6>Name</h6>
-                </th>
-                <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()"
-                  [formGroupName]="rowIndex">
-                  {{element.name}}
-              </ng-container>
-
-              <ng-container matColumnDef="user_tags">
-                <th class="tags_header" mat-header-cell *matHeaderCellDef>
-                  <h6>Tags</h6>
-                </th>
-                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
-                  [formGroupName]="rowIndex">
-                  <mat-chip-list formArrayName="userTags" #chipList>
-                    <mat-chip color="primary" style="margin-top: 10px; "
-                      *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})">
-                      {{tag.name}}
-
-                    </mat-chip>
-                  </mat-chip-list>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="fields">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Fields</h6>
-                </th>
-                <td class="fields_area" min-width="250" mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
-                  [formGroupName]="rowIndex">
-                  <mat-chip-list formArrayName="userTags" #chipList>
-                    <ul>
-                      <li  *ngFor="let field of fields; let i = index">
-                          {{field.name}} : 
-                          <div *ngIf="element.fields != null">
-                            <strong style="font-weight: 600;">{{element.fields[field.name] ? element.fields[field.name] : 'NA'}}</strong>
-                          </div>
-                      </li>
-                    </ul>
-
-                    <a [routerLink]="'/Profile/'+element.id" class="view-link btn-orange-outline-border">View</a>
-
-                  </mat-chip-list>
-                </td>
-              </ng-container>
-
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
-              </tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
-              </tr>
-            </table>
+          <div *ngIf="showNewRecipients" class="table-container">
+            <div class="table_overflow">
+              <table
+              matSort 
+              (matSortChange)="sortData($event, 'allUsers')" 
+              mat-table 
+              formArrayName="allUsers" [dataSource]="dataSource"
+                class="table table-bordered table-rounded">
+  
+                <!-- Checkbox Column -->
+                <!-- <ng-container matColumnDef="select">
+  
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                    </mat-checkbox>
+                  </th>
+  
+                  <td mat-cell *matCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex"
+                    (click)="$event.stopPropagation()">
+                    <mat-checkbox formControlName="checkBox" (click)="$event.stopPropagation()"
+                      (change)="$event? selection.toggle(row): null" [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                  </td>
+  
+                </ng-container> -->
+  
+  
+                <!-- <ng-container matColumnDef="id">
+  
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Id</h6>
+                  </th>
+  
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
+                    [formGroupName]="rowIndex">
+                    {{element.id}}
+                </ng-container> -->
+                
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6> Email</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()"
+                    [formGroupName]="rowIndex">
+                    {{element.email}}
+                </ng-container>
+  
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="name">
+                    <h6>Name</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()"
+                    [formGroupName]="rowIndex">
+                    {{element.name}}
+                </ng-container>
+  
+                <ng-container matColumnDef="user_tags">
+                  <th class="tags_header" mat-header-cell *matHeaderCellDef>
+                    <h6>Tags</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
+                    [formGroupName]="rowIndex">
+                    <mat-chip-list formArrayName="userTags" #chipList>
+                      <mat-chip color="primary" style="margin-top: 10px; "
+                        *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})">
+                        {{tag.name}}
+  
+                      </mat-chip>
+                    </mat-chip-list>
+                  </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="fields">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Fields</h6>
+                  </th>
+                  <td class="fields_area" min-width="250" mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
+                    [formGroupName]="rowIndex">
+                    <mat-chip-list formArrayName="userTags" #chipList>
+                      <ul>
+                        <li  *ngFor="let field of fields; let i = index">
+                            {{field.name}} : 
+                            <div *ngIf="element.fields != null">
+                              <strong style="font-weight: 600;">{{element.fields[field.name] ? element.fields[field.name] : 'NA'}}</strong>
+                            </div>
+                        </li>
+                      </ul>
+  
+                      <a [routerLink]="'/Profile/'+element.id" class="view-link btn-orange-outline-border">View</a>
+  
+                    </mat-chip-list>
+                  </td>
+                </ng-container>
+  
+  
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                </tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                </tr>
+              </table>
+            </div>
             <!-- <mat-paginator [pageSizeOptions]="[ 25, 100]"></mat-paginator> -->
           </div>
 
           <div *ngIf="showPreview" class="table-container overflow-x-auto">
-            <table 
-            matSort 
-           (matSortChange)="sortData($event, 'preview')" 
-            mat-table 
-            [dataSource]="previewDataSource" class="table table-bordered table-rounded">
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="name">
-                  <h6>Name</h6>
-                </th>
-                <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                  {{element.name}}
-              </ng-container>
+            <div class="table_overflow">
+              <table 
+              matSort 
+            (matSortChange)="sortData($event, 'preview')" 
+              mat-table 
+              [dataSource]="previewDataSource" class="table table-bordered table-rounded">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="name">
+                    <h6>Name</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    {{element.name}}
+                </ng-container>
 
 
-              <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6> Email</h6>
-                </th>
-                <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                  {{element.email}}
-              </ng-container>
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6> Email</h6>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    {{element.email}}
+                </ng-container>
 
 
-              <ng-container matColumnDef="user_tags">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Tags</h6>
-                </th>
-                <!-- [formGroupName]="rowIndex" -->
-                <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                  <mat-chip-list  #chipList>
-                    <mat-chip color="primary" style="margin-top: 10px; "
-                      *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})">
-                      {{tag.name}}
+                <ng-container matColumnDef="user_tags">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Tags</h6>
+                  </th>
 
-                    </mat-chip>
-                  </mat-chip-list>
-                </td>
+                  <td mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()"
+                    [formGroupName]="rowIndex">
+                    <mat-chip-list formArrayName="userTags" #chipList>
+                      <mat-chip color="primary" style="margin-top: 10px; "
+                        *ngFor="let tag of element.userTags; let i = index" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})">
+                        {{tag.name}}
 
-              </ng-container>
+                      </mat-chip>
+                    </mat-chip-list>
+                  </td>
 
-              <ng-container matColumnDef="fields">
-                <th mat-header-cell *matHeaderCellDef>
-                  <h6>Fields</h6>
-                </th>
-                <td class="fields_area" min-width="250" mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
-                  <mat-chip-list  #chipList>
-                    <ul>
-                      <li  *ngFor="let field of fields; let i = index">
-                          {{field.name}} : 
-                          <div *ngIf="element.fields != null">
-                            <strong style="font-weight: 600;">{{element.fields[field.name] ? element.fields[field.name] : 'NA'}}</strong>
-                          </div>
-                      </li>
-                    </ul>
+                </ng-container>
 
-                    <a [routerLink]="'/Profile/'+element.id" class="view-link btn-orange-outline-border">View</a>
+                <ng-container matColumnDef="fields">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <h6>Fields</h6>
+                  </th>
+                  <td class="fields_area" min-width="250" mat-cell *matCellDef="let element let rowIndex = index" (click)="$event.stopPropagation()">
+                    <mat-chip-list  #chipList>
+                      <ul>
+                        <li  *ngFor="let field of fields; let i = index">
+                            {{field.name}} : 
+                            <div *ngIf="element.fields != null">
+                              <strong style="font-weight: 600;">{{element.fields[field.name] ? element.fields[field.name] : 'NA'}}</strong>
+                            </div>
+                        </li>
+                      </ul>
 
-                  </mat-chip-list>
-                  <!-- <span *ngFor="let tag of element.user_tags; let i = index; let last = last">
-                    {{tag.name}}<ng-container *ngIf="!last">,</ng-container>
-                  </span> -->
-                </td>
-              </ng-container>
+                      <a [routerLink]="'/Profile/'+element.id" class="view-link btn-orange-outline-border">View</a>
 
-              <!-- <ng-container matColumnDef="profileLink">
-                <th mat-header-cell *matHeaderCellDef>
+                    </mat-chip-list>
+                    <!-- <span *ngFor="let tag of element.user_tags; let i = index; let last = last">
+                      {{tag.name}}<ng-container *ngIf="!last">,</ng-container>
+                    </span> -->
+                  </td>
+                </ng-container>
 
-                </th>
-                <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
-                  <a [routerLink]="'/Profile/'+element.id" class="view-link">View</a>
-              </ng-container> -->
+                <!-- <ng-container matColumnDef="profileLink">
+                  <th mat-header-cell *matHeaderCellDef>
 
-              <tr mat-header-row *matHeaderRowDef="previewDisplayColumns;sticky: true">
-              </tr>
-              <tr mat-row *matRowDef="let row; columns: previewDisplayColumns;" (click)="selection.toggle(row)">
-              </tr>
-            </table>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" (click)="$event.stopPropagation()">
+                    <a [routerLink]="'/Profile/'+element.id" class="view-link">View</a>
+                </ng-container> -->
+
+                <tr mat-header-row *matHeaderRowDef="previewDisplayColumns;sticky: true">
+                </tr>
+                <tr mat-row *matRowDef="let row; columns: previewDisplayColumns;" (click)="selection.toggle(row)">
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>

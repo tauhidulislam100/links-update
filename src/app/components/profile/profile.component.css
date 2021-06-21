@@ -226,5 +226,10 @@ body {
  opacity: 1;
 }
 
+@media(max-width:766px){
+  ::ng-deep .mat-tab-label-container{
+    margin-left: 0 !important;
+  }
+}
 
 

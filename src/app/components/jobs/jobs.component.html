@@ -21,7 +21,7 @@
             (selectedTabChange)="handleTabChange($event)">
 
             <mat-tab label="Unreleased Certificates ({{unReleasedPage.totalElements}})">
-              <div class="table-container mt-5">
+              <div class="table-container table_overflow mt-5">
                 <table matSort (matSortChange)="sortData($event, 'unreleased')"
                   class="table table-header hoverEffect table-bordered table-rounded">
                   <tr>
@@ -76,7 +76,8 @@
 
             <mat-tab label="Released Certificates ({{releasedPage.totalElements}})">
                 <div class="table-container">
-                  <table matSort (matSortChange)="sortData($event, 'released')"
+                  <div class="table_overflow">
+                    <table matSort (matSortChange)="sortData($event, 'released')"
                     class="table hoverEffect table-header table-bordered table-rounded">
                     <thead>
                       <th mat-sort-header="created_at">
@@ -143,6 +144,7 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsJobs"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsJobs;"></tr>
                   </table>
+                  </div>
                   <app-custom-pagination [page]="releasedPage" (nextPageEvent)="getNextPage()"
                     (previousPageEvent)="getPreviousPage()">
                   </app-custom-pagination>

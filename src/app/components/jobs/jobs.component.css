@@ -79,8 +79,8 @@ a.disabled {
 
 .add_certificate{
   position: absolute;
-  right: 56px;
-  top: -60px;
+  right: 35px;
+  top: -115px;
   z-index: 10;
   border: 0;
   outline: none;
@@ -133,6 +133,7 @@ a.disabled {
 ::ng-deep .mat-group-content .mat-tab-body-content{
    overflow: unset !important;
    overflow-x: unset !important;
+   width: 100% !important;
 }
 
 ::ng-deep  .mat-tab-body-wrapper{
@@ -149,4 +150,19 @@ a.disabled {
 
 .col-small:hover {
   /* min-height: 600px; */
+}
+
+
+@media(max-width:766px){
+  ::ng-deep .mat-tab-label-container{
+    margin-top: 60px;
+  }
+
+  .add_certificate {
+    right: 0;
+    top: -265px;
+    left: 0;
+    width: 95%;
+    z-index: 100;
+  }
 }

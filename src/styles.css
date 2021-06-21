@@ -9,6 +9,7 @@ body{
   background: #F0F0F7;
   font-family: 'Signika', sans-serif;
   padding-bottom: 25px;
+  overflow-x: hidden;
 }
 
 .container{
@@ -471,13 +472,6 @@ profile
   }
 }
 
-@media (max-width: 741px) {
-  .action-btn button {
-    width: 100%;
-    margin-bottom: 1rem !important;
-    margin-left: 0px !important;
-  }
-} 
 
 @media screen and (min-width: 426px)  and (max-width: 1024px){
 
@@ -857,3 +851,62 @@ th[mat-sort-header] .mat-sort-header-stem
   z-index: 1;
   padding: 10px 15px;
 }
+
+@media (max-width: 990px) {
+  .table{
+    width: 1300px;
+  }
+  .box-area{
+    padding: 20px;
+  }
+
+  .col-small{
+    flex: 0 0 33.333%;
+    max-width: 33.33%;
+  }
+
+} 
+
+@media (max-width: 766px) {
+  .action-btn button {
+    width: 100%;
+    margin-bottom: 1rem !important;
+    margin-left: 0px !important;
+  }
+
+  .col-small{
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+ .mat-tab-labels{
+    display: block !important;
+}
+
+.mat-tab-label{
+    width: 100% !important;
+  }
+  .btn.back{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .mat-tab-label-container{
+    display: block !important;
+  }
+
+  .upload-btn-container .upload-label,
+  .btn-orange-outline.export {
+    justify-content: space-between;
+  }
+
+} 
+
+@media (max-width: 762px) {
+  .col-small{
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+} 

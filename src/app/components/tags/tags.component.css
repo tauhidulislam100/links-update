@@ -22,9 +22,15 @@ a {
   margin-left: 0 !important;
 }
 
-@media (max-width: 1250px) {
-  .mat-group-content {
-    width: 1300px;
+@media (max-width: 766px) {
+  .add_button{
+    position: relative;
+    right: 0;
+    z-index: 10;
+    border: 0;
+    outline: none;
+    width: 100%;
+    margin-bottom: 10px;
   }
 } 
 
