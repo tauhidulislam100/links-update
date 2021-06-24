@@ -13,7 +13,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <div appearance="outline" class="textarea-wrapper">
-                <label>Email, Name, Gender, Mobile</label>
+                <label>{{textAreaLegend}}</label>
                 <textarea #myExpandedInput formControlName="userDetails" placeholder="{{textAreaLegend}}" #filterValue
                   matInput matTextareaAutosize matAutosizeMinRows=6 matAutosizeMaxRows=20 class="mb-2"></textarea> 
               </div>
@@ -88,7 +88,7 @@
       <div *ngIf="!expandedView" class="search-area box-area">
         <div class="row">
           <div class="col-md-12">
-            <label for="">Email, Name, Gender, Mobile</label>
+            <label>{{textAreaLegend}}</label>
             <div class="form-group">
              
               <textarea #myInput (keyup.enter)="changeArea()" class="custom-form-control mb-2" [ngClass]="{'is-invalid': !myInput.value && btnPressed}"
