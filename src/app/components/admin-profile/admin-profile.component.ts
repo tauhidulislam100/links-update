@@ -14,7 +14,7 @@ import { AdminType } from 'src/app/_types/adminType';
 export class AdminProfileComponent implements OnInit {
   assets_loc;
 
-  admin: AdminType | {} = {};
+  admin: AdminType;
 
   constructor(private route: ActivatedRoute, private router: Router, private adminService: AdminDetailService, private errorService: ErrorService, private configService: ConfigService) {
     this.configService.loadConfigurations().subscribe(data => {

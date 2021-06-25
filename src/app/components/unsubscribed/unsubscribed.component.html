@@ -1,5 +1,5 @@
 <!-- Unsubscrib area -->
-<app-loader *ngIf="loader"></app-loader>
+<app-loader *ngIf="loading"></app-loader>
 
 <div class="container mt-5">
     <div class="box-area">
@@ -22,8 +22,6 @@
          </div>
             <div class="overflow-x-auto">
               <table
-              matSort 
-              (matSortChange)="sortData($event)"  
                class="table hoverEffect table-header table-bordered table-rounded">
                <thead>
                    <th><h6>Recipient Name</h6></th>
@@ -49,5 +47,5 @@
   </div>
   
   <div class="loading-indicator">
-    <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+    <mat-spinner *ngIf="loading" mode="indeterminate"></mat-spinner>
   </div>
