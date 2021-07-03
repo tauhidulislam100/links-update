@@ -17,8 +17,8 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let access_token = localStorage.getItem(this.access_token);
-    if (access_token) {
-
+    const publicPaths = ['login', 'registerRequest', 'sendOtp'];
+    if (access_token && !publicPaths.some(path => request.url.includes(path))) {
       request = request.clone({
         setHeaders: {
           Authorization: `AdminBearer ${access_token}`

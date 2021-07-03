@@ -1,0 +1,101 @@
+a.view-link {
+  color: #01288F;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.table-container {
+  margin-bottom: 20px;
+}
+a {
+  cursor: pointer;
+}
+
+
+.email_inwrap .mat-group-content .mat-tab-label-container{
+  padding-left: 50px !important;
+  background: red;
+  padding: 100px;
+}
+
+
+.add_new_email_template{
+  position: absolute;
+  right: 56px;
+  margin-top: -65px;
+  z-index: 10;
+  border: 0;
+  outline: none;
+}
+
+.menu_dot_area{
+  position: absolute;
+  right: 0;
+  z-index: 10;
+  border: 0;
+  outline: none;
+}
+
+.menu_dot_area .btn:focus .mat-menu-item,
+.menu_dot_area .btn:focus .mat-menu-item{
+   border: 0;
+   outline: none;
+}
+
+::ng-deep .mat-menu-item{
+   color: black;
+   text-decoration: none;
+}
+
+::ng-deep .mat-menu-item:hover{
+   text-decoration: none;
+   color: black;
+}
+
+::ng-deep mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: white !important;
+}
+
+::ng-deep mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: #FF3A00 !important;
+  opacity: 1;
+}
+
+.mat-group-content {
+  /* min-width: 1300px; */
+}
+
+.mat-group-content table{
+  width: 100%;
+}
+
+::ng-deep .mat-tab-body,
+::ng-deep .mat-tab-body .mat-tab-body-active,
+::ng-deep .mat-group-content .mat-tab-body-content{
+   overflow: unset !important;
+   overflow-x: unset !important;
+   width: 100% !important;
+}
+
+@media (max-width:990px){
+  .add_new_email_template {
+    position: relative;
+    right: 56px;
+    margin-top: 0;
+    z-index: 10;
+    border: 0;
+    outline: none;
+    top: 6px;
+    right: 0;
+    left: 0;
+    width: 100%;
+}
+  
+}
+@media (max-width:766px){
+  .mat-group-content table {
+    width: 1300px;
+  }
+
+
+}

@@ -6,7 +6,11 @@ const routes: Routes = [
     {
         path: '',
         component: RecipientsComponent
-    }
+    },
+    {
+        path: ':id',
+        component: RecipientsComponent,
+    },
 ];
 
 @NgModule({

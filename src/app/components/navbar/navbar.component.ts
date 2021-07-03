@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-
 import { AdminDetailService } from '../../_services/admin-detail.service';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { NavbarService } from 'src/app/_services/navbar.service';
@@ -23,7 +22,6 @@ export class NavbarComponent implements OnInit {
   icons = [];
 
   constructor(private adminService: AdminDetailService, public nav: NavbarService, private configService: ConfigService, private router: Router, private authService: AuthenticationService) {
-    // document.getElementsByClassName('links-header')
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
 
@@ -32,7 +30,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.adminService.getLoggedInAdmin().subscribe(data => {
-      console.log('data ', data);
       this.userName = data.name;
       this.userEmail = data.email;
     });

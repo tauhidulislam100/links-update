@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm = new FormGroup({
     email: new FormControl('', [
-      Validators.required,
+      Validators.required, 
       Validators.email
     ]),
     otp: new FormGroup({
@@ -89,9 +89,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   handleSubmit() {
     let email = this.loginForm.get('email').value;
-
     if(!email) return;
-    
     if(this.step === 'login' && this.loginForm.get('email').invalid) {
       return this.errorService.setErrorVisibility(true, "invalid email address");
     } else if(this.step === 'login' && this.loginForm.get('email').valid) {
@@ -151,7 +149,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   startTimer() {
     this.countDownTime = 120;
-
     var interval = setInterval(() => {
       if(this.countDownTime <= 0) {
         clearInterval(interval);

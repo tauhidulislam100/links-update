@@ -73,7 +73,7 @@ export class RecipientService {
   }
 
   getAllNewUsers(): any {
-    return this.http.get<any>(`${this.baseurl}user/getNewUsers`)
+    return this.http.get<any>(`${this.baseurl}user/getNewUsers`);
   }
 
 }

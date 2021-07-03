@@ -2,23 +2,20 @@ import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-
-import {AuthenticationService} from '../_services/authentication.service';
 import {Router} from '@angular/router';
 import {ErrorService} from '../_services/error.service';
 import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService, public router: Router, public errorService: ErrorService) {
+  constructor(public router: Router, public errorService: ErrorService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
-      console.log("err ", err);
       if (err.status === 403) {
-        // this.router.navigate(['/login']);
-        this.errorService.setErrorVisibility(true, "Unautorized access forbiden, please login");
+        this.errorService.setErrorVisibility(true, "Unauthorized access forbidden, please login");
+        this.router.navigate(['/AdminLogin']);
         return throwError(err);
       } else if (err.status === 404 && hasErrorMessage(err)) {
         this.errorService.setErrorVisibility(true, hasErrorMessage(err));

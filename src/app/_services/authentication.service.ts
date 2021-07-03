@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {ConfigService} from './config.service';
+import { CacheMapService } from './cache/cache-map.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AuthenticationService {
   user;
   access_token_prefix;
 
-  constructor(private http: HttpClient, public jwtHelper: JwtHelperService, private configService: ConfigService) {
+  constructor(private http: HttpClient, public jwtHelper: JwtHelperService, private configService: ConfigService, private cacheService: CacheMapService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.baseurl = data.baseurl;
       this.access_token = data.access_token;
@@ -42,6 +43,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.cacheService.deleteCache();
     localStorage.removeItem(this.access_token);
     localStorage.removeItem(this.access_token_prefix);
     localStorage.removeItem(this.user);

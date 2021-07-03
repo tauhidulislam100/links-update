@@ -4,14 +4,11 @@ import { RegisterComponent } from './register.component';
 import { RegisterRoutingModule } from './register-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-// import { MaterialModule } from 'src/app/material/material.module';
-
 @NgModule({
   imports: [
     CommonModule,
     RegisterRoutingModule,
     SharedModule,
-    // MaterialModule
   ],
   declarations: [ RegisterComponent ],
   exports: [ RegisterComponent ]

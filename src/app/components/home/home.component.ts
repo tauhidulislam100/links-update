@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfigService } from 'src/app/_services/config.service';
 import { HomeService } from 'src/app/_services/home.service';
-import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { slideAnimation } from 'src/app/_animations/slideAnimation';
 import { preload } from 'src/app/utils/preload';
 import { Subscription } from 'rxjs';
 
@@ -9,8 +9,8 @@ import { Subscription } from 'rxjs';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  animations: [slideUpAnimation],
-  host: {'[@slideUpAnimation]': ''},
+  animations: [slideAnimation],
+  host: {'[@slideAnimation]': ''},
 })
 export class HomeComponent implements OnInit, OnDestroy {
   assets_loc;

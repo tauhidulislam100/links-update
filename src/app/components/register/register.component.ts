@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import {first} from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { ErrorService } from 'src/app/_services/error.service';
 import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
@@ -89,7 +88,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.authService.register(this.registerForm.value)
         .subscribe(resp => {
           console.log("resp ", resp);
-          // this.router.navigate(['/AdminLogin']);
           this.message='Request for registration is sent, please check your email for receipt confirmation';
         }, (err) => {
           this.message='';

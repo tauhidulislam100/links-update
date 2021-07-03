@@ -1,0 +1,62 @@
+<div class="container mt-5">
+    <div class="box-area">
+      <div class="row">
+        <div class="col-md-12">
+          <app-errors></app-errors>
+          <div class="row mb-5">
+            <div class="col">
+              <h3 class="d-flex align-items-center"> <a style="position: relative;" href="javascript:void(0)" (click)="goBack()"  class="back p-2 px-3 d-inline-block border rounder mr-3 btn btn-default"><i class="fas fa-arrow-left"></i></a>  Add New Certificate Template</h3>
+            </div>
+            <div class="col-md-auto">
+              <div class="btn-group">
+                <button style="min-width: auto;" (click)="goBack()" class="btn-orange-outline export mr-2">
+                  Cancel
+                </button>
+                <button class="btn btn-orange-outline"> Request to Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <form  class="profile-update-form">
+
+            <div class="custom-group">
+              <label>Name of Certificate </label>
+              <input class="custom-form-control" type="text" name="name" placeholder="Certificate template name">
+            </div>
+
+            <div class="custom-group">
+                <label>Description </label>
+                <textarea class="custom-form-control" rows="10"></textarea>
+            </div>
+
+            <div class="custom-group">
+                <label>Email Template Name </label>
+                <input class="custom-form-control" type="text" name="email_template_name" placeholder="Email Template Name">
+            </div>
+  
+            <div class="upload-btn-container">
+                <input type="file" class="btn" >
+                <label for="file" class="upload-label">
+                    <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
+                        <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
+                        <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
+                      </svg>
+                    Upload File
+                    <span>
+                        <ng-template #elseTemplate>
+                            No file chosen
+                        </ng-template>
+                    </span>
+                </label>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+</div>

@@ -7,8 +7,6 @@ export function compareDates(control: AbstractControl): { [key: string]: string 
   if (startDate !== null && endDate !== null) {
     const s = formatDate(startDate, 'MM/dd/yyyy', 'en-US');
     const e = formatDate(endDate, 'MM/dd/yyyy', 'en-US');
-
-
     return (s >= e) ? { "value": "End date must be less then Release Date" } : null
   }
   return null;
@@ -23,7 +21,6 @@ export function validateUserDetail(template): ValidatorFn {
     detailList.map(
       (data, i) => {
         let user: string[] = data.split(",");
-        // if (template == 100003 || template >= 100008) {
         if (data !== "") {
           if (user.length !== 3) {
             msg += `Check data at ${i + 1} <br>`;
@@ -39,37 +36,8 @@ export function validateUserDetail(template): ValidatorFn {
 
             msg += `Name required at row No. ${i + 1} <br>`
           }
-          // if (user[2] !== "") {
-          //     if (user[2] == "Male" || user[2] == "male" || user[2] == "female" || user[2] == "Female") {
-          //
-          //     }
-          //     else {
-          //         msg += `Gender should be Male/Female at row No. ${i + 1} <br>`;
-          //     }
-          // }
 
         }
-        // }
-        // else {
-        //     if (data !== "") {
-        //         if (user.length < 2) {
-        //             msg += `Check data at row No. ${i + 1} <br>`;
-        //         }
-        //         else {
-        //             if (user[1] == "") {
-        //                 msg += `Name required at row No. ${i + 1} <br>`
-        //             }
-        //             if (user[0] !== "") {
-        //                 if (!validateEmail(user[0])) {
-        //                     msg += `Check Email at row No. ${i + 1} <br>`;
-        //                 }
-        //             }
-        //             else {
-        //                 msg += `Email required at ${i + 1} <br>`
-        //             }
-        //         }
-        //     }
-        // }
       });
     return (msg == "") ? null : { "value": msg };
   }
@@ -80,7 +48,7 @@ export function validateSaveAndUpdate(): ValidatorFn {
     let msg = "";
     let details = control.value;
     let detailList: string[] = details.split("\n");
-    
+
     detailList.map(
       (data, i) => {
         let user: string[] = data.split(",");
@@ -109,8 +77,6 @@ export function validateSaveAndUpdate(): ValidatorFn {
                 } else {
                   msg += `Invalid Gender at row ${i + 1}. You can use either Male or Female. <br>`;
                 }
-              } else {
-                // msg += `Gender required at row No. ${i + 1} <br>`
               }
             }
 
@@ -120,8 +86,6 @@ export function validateSaveAndUpdate(): ValidatorFn {
                   msg += `Looks like you have an invalid value at row ${i + 1}. Mobile numbers should be of 10 digits. <br>`
                 }
 
-              } else {
-                //  msg += `Mobile Number required at row No. ${i + 1} <br>`
               }
             }
           }

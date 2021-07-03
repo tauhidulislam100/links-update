@@ -1,5 +1,3 @@
-<!--<app-navbar></app-navbar>-->
-
 <div class="container mt-6">
   <div class="row">
     <div class="col-lg-8">
@@ -23,19 +21,15 @@
               <input class="custom-form-control" type="text" formControlName="title" placeholder="Title of the issue">
               <label>Title of the issue</label>
             </div>
-
-
             <div class="form-group">
               <textarea class="custom-form-control" rows="3" formControlName="detail" placeholder="Details of the issue"
                 #filterValue></textarea>
-
             </div>
             <div class="upload-btn-container">
               <input type="file" accept=".xlsx" class="btn" id="file">
               <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
                 File</label>
               <span>
-
                 <ng-template #elseTemplate>
                   No file chosen
                 </ng-template>
@@ -44,7 +38,6 @@
             <button (click)="send()" class="btn-orange-rounded"> Raise a support ticket</button>
           </form>
         </div>
-
       </mat-card>
     </div>
   </div>

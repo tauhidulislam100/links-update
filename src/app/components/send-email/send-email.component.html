@@ -1,0 +1,152 @@
+<div class="loading-indicator">
+  <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
+</div>
+<div class="container mt-4">
+
+  <div class="row">
+    <div class="col-md-8">
+      <app-errors></app-errors>
+      <div #message></div>
+
+      <div class="send-mail-heading">
+        <mat-error *ngIf="!usersSelected">Please select recipients to send email!</mat-error>
+        <mat-error *ngIf="noOfRecipientsMoreThen1000">Recipients count cannot be above 1000.</mat-error>
+        <h2>Send Email</h2>
+      </div>
+    </div>
+    <div class="col-md-4">
+
+      <div class="form-group mt-5">
+        <button class="btn-orange-rounded mr-4" (click)="submit()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16.002" height="16" viewBox="0 0 16.002 16"
+            class="fillCurrent">
+            <path
+              d="M20,4.539,4.7,11.207a.351.351,0,0,0,.013.638l4.138,2.338a.667.667,0,0,0,.763-.075l8.16-7.035c.054-.046.183-.133.233-.083s-.029.179-.075.233l-7.06,7.952a.665.665,0,0,0-.067.8l2.7,4.338a.352.352,0,0,0,.633-.008L20.471,5A.351.351,0,0,0,20,4.539Z"
+              transform="translate(-4.503 -4.503)" />
+          </svg>
+          Send
+        </button>
+        <button class="btn-orange-rounded-outline" (click)="goBack()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-7 col-12 left-content">
+      <form [formGroup]="emailForm" class="emailform" *ngIf="emailTemplates">
+        <div class="custom-group">
+          <mat-select (ngModelChange)="onChange($event)" formControlName="templateSelect" class="custom-form-control">
+            <mat-option value="0">Select Template</mat-option>
+            <mat-option *ngFor="let temp of emailTemplates" value={{temp.id}}>{{temp.name}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <div class="card border-0 shadow-sm relase-alert">
+          <mat-form-field>
+            <input matInput #emailSubject placeholder="Subject" formControlName="subject">
+          </mat-form-field>
+        </div>
+        <div class="form-group shadow-sm editor">
+        </div>
+
+        <editor #emailBody formControlName="body"
+          [init]="{
+          base_url: '/tinymce',
+          suffix: '.min',
+          height: 500,
+          relative_urls : false,
+            remove_script_host : false,
+            convert_urls : true,
+            images_upload_url: 'EmailTemplatePictures/EmailTemplateImageUpload.php',
+          automatic_uploads: true,
+          menubar: true,
+        plugins: [
+          'advlist autolink lists link image  charmap print preview anchor',
+          'searchreplace visualblocks code fullscreen',
+          'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar:
+       'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'}">
+        </editor>
+        <div class="form-group details">
+
+
+          <mat-slide-toggle style="margin: 20px" [color]="color" [checked]="checked" [disabled]="disabled"
+            (change)="unsubscribeToggle()">
+            Add a unsubscribe link
+          </mat-slide-toggle>
+          <h6>Details</h6>
+          <h4>Number of Recipients: {{listOfRecipients.length}}</h4>
+          <div class="table-wrap">
+            <div class="table-container">
+              <table class="table table-bordered table-rounded">
+                <thead>
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let index of listOfRecipients">
+
+                    <td>{{index.id}}</td>
+                    <td>{{index.name}}</td>
+                    <td>{{index.email}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+    <div class="col-md-5 col-12 right-content">
+      <div class="help-area">
+        <h4>You can use the below fields in the email body or subject</h4>
+        <div class="table-container">
+          <table class="table table-bordered table-rounded">
+            <thead>
+              <tr>
+                <th>Fields</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>{{'{' + 'Name' + '}'}}</td>
+              </tr>
+              <tr>
+                <td>FirstName</td>
+                <td>{{'{' + 'FirstName' + '}'}}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>{{'{' + 'Email' + '}'}}</td>
+              </tr>
+              <tr>
+                <td>Gender</td>
+                <td>{{'{' + 'Gender' + '}'}}</td>
+              </tr>
+              <tr>
+                <td>Phone</td>
+                <td>{{'{' + 'Phone' + '}'}}</td>
+              </tr>
+              <tr *ngFor="let field of fields">
+                <td>{{field.name}}</td>
+                <td>{{'{' + field.name + '}'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <a href="#">Show me how ?</a>
+      </div>
+    </div>
+  </div>
+</div>

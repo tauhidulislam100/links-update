@@ -5,19 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddCertificateComponent } from './components/add-certificate/add-certificate.component';
-import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
-import { CertificateJobDetailComponent } from './components/certificate-job-detail/certificate-job-detail.component';
-import { CertificateTemplateComponent } from './components/certificate-template/certificate-template.component';
 import { ConfirmationDialogueComponent } from './components/confirmation-dialogue/confirmation-dialogue.component';
-import { EmailJobDetailComponent } from './components/email-job-detail/email-job-detail.component';
-import { EmailComponent } from './components/email/email.component';
+import { SendEmailComponent } from './components/send-email/send-email.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MaterialModule } from './material/material.module';
@@ -40,28 +34,22 @@ import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
   declarations: [
     AppComponent,
     NavbarComponent,
-    EmailComponent,
-    EmailJobDetailComponent,
-    CertificateJobDetailComponent,
-    AdminLoginComponent,
+    SendEmailComponent,
     AdminProfileComponent,
     AdminProfileEditComponent,
     FaqComponent,
-    CertificateTemplateComponent,
     ConfirmationDialogueComponent,
     NotFoundComponent,
-    AddCertificateComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
     MaterialModule,
     BrowserAnimationsModule,
-    CKEditorModule,
     EditorModule,
     SharedModule,
+    AppRoutingModule,
   ],
   exports: [
     BrowserModule,
@@ -70,7 +58,6 @@ import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
     ReactiveFormsModule,
     MaterialModule,
     BrowserAnimationsModule,
-    CKEditorModule,
   ],
   providers: [
     AuthenticationService,

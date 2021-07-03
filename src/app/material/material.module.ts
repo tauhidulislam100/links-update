@@ -18,9 +18,8 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatProgressBarModule
+  MatProgressBarModule,
 } from '@angular/material';
-// import {DialogOverviewExampleDialog} from '../components/recipients/recipients.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 
@@ -52,7 +51,6 @@ const MaterialComponents = [
   declarations: [],
   imports: [MaterialComponents],
   exports: [MaterialComponents],
-  // entryComponents: [DialogOverviewExampleDialog]
 })
 export class MaterialModule {
 }

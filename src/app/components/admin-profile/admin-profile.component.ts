@@ -16,7 +16,7 @@ export class AdminProfileComponent implements OnInit {
 
   admin: AdminType;
 
-  constructor(private route: ActivatedRoute, private router: Router, private adminService: AdminDetailService, private errorService: ErrorService, private configService: ConfigService) {
+  constructor(private route: ActivatedRoute, private router: Router, private adminService: AdminDetailService, private configService: ConfigService) {
     this.configService.loadConfigurations().subscribe(data => {
       this.assets_loc = data.assets_location;
     })

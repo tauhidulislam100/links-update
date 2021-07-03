@@ -36,9 +36,7 @@ export class FaqComponent implements OnInit {
   send() {
     if (!this.ticketForm.invalid) {
       let title = this.ticketForm.get('title').value;
-
       let detail = this.ticketForm.get('detail').value;
-
       let data = {
         subject: title,
         body: detail

@@ -17,7 +17,6 @@ import { ProfileComponent } from './profile.component';
     MaterialModule,
     MatMenuModule,
     MatIconModule,
-    // MatSlideToggleModule
   ],
   declarations: [ProfileComponent],
   exports: [ 

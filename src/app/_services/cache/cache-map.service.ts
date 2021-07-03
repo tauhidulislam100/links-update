@@ -21,11 +21,18 @@ export class CacheMapService implements Cache  {
         this.cacheMap.set(req.urlWithParams, entry);
         this.deleteExpiredCache();
     }
+
     private deleteExpiredCache() {
         this.cacheMap.forEach(entry => {
             if ((Date.now() - entry.entryTime) > MAX_CACHE_AGE) {
                 this.cacheMap.delete(entry.url);
             }
         })
+    }
+    
+    deleteCache() {
+        this.cacheMap.forEach(entry => {
+            this.cacheMap.delete(entry.url);
+        });
     }
 }

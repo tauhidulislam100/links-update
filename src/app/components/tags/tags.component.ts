@@ -5,7 +5,7 @@ import { MatDialog, MatTableDataSource, Sort } from '@angular/material';
 import { Router } from '@angular/router';
 import { Page } from 'src/app/pagination/page';
 import { compare } from 'src/app/utils/sortCompare';
-import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { slideAnimation } from 'src/app/_animations/slideAnimation';
 import { ConfigService } from 'src/app/_services/config.service';
 import { CustomPaginationService } from 'src/app/_services/custom-pagination.service';
 import { DialogService } from 'src/app/_services/dialog.service';
@@ -27,8 +27,8 @@ export interface JobData {
   selector: 'app-tags',
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.css'],
-  animations: [slideUpAnimation],
-  host: { '[@slideUpAnimation]': '' },
+  animations: [slideAnimation],
+  host: { '[@slideAnimation]': '' },
 })
 export class TagsComponent implements OnInit {
   loader = false;
@@ -84,7 +84,6 @@ export class TagsComponent implements OnInit {
     this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(data => {
       this.allTags = data.content;
       this.tagsPage = data;
-      console.log('tags data ', data);
       this.dataSource = new MatTableDataSource<JobData>(this.allTags);
     });
 
@@ -224,23 +223,23 @@ export class TagsComponent implements OnInit {
       if (result && result.event == 'AddTag') {
         this.loader = true;
         this.tagService.addTag(result.data).subscribe(data => {
-            this.loader = false;
-            if (data != null) {
-              this.tagService.getAllTagsPage(this.tagsPage.pageable, true).subscribe(
-                data => {
-                  this.allTags = data.content;
-                  this.dataSource = new MatTableDataSource<JobData>(this.allTags);
-                  this.tagsPage = data;
-                  this.isFieldDeleted = false;
-                  this.isTagAdded = true;
-                  this.isFieldAdded = false;
-                  this.isTagUpdated = false;
-                  this.tagAlreadyExists = false;
-                }
-              )
-            } else {
-              this.tagAlreadyExists = true;
-            }
+          this.loader = false;
+          if (data != null) {
+            this.tagService.getAllTagsPage(this.tagsPage.pageable, true).subscribe(
+              data => {
+                this.allTags = data.content;
+                this.dataSource = new MatTableDataSource<JobData>(this.allTags);
+                this.tagsPage = data;
+                this.isFieldDeleted = false;
+                this.isTagAdded = true;
+                this.isFieldAdded = false;
+                this.isTagUpdated = false;
+                this.tagAlreadyExists = false;
+              }
+            )
+          } else {
+            this.tagAlreadyExists = true;
+          }
         }, error => {
           this.isFieldDeleted = false;
           this.isTagAdded = false;
@@ -304,7 +303,7 @@ export class TagsComponent implements OnInit {
   }
 
   sortData(sort: Sort, source) {
-    if(source === 'tags') {
+    if (source === 'tags') {
       const data = this.allTags.slice();
       if (!sort.active || sort.direction === '') {
         this.allTags = data;
@@ -322,23 +321,23 @@ export class TagsComponent implements OnInit {
       });
 
       this.dataSource = new MatTableDataSource<JobData>(sortedData);
-    } else if (source === 'fields'){
+    } else if (source === 'fields') {
       const data = this.allFields.slice();
-      
+
       if (!sort.active || sort.direction === '') {
-          this.allFields = data;
-          return;
+        this.allFields = data;
+        return;
+      }
+
+      let sortedData = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'created_at': return compare(a.created_at, b.created_at, isAsc);
+          default: return 0;
         }
-        
-        let sortedData = data.sort((a, b) => {
-          const isAsc = sort.direction === 'asc';
-          switch (sort.active) {
-            case 'created_at': return compare(a.created_at, b.created_at, isAsc);
-            default: return 0;
-          }
-        });
-        this.fieldsDataSource = new MatTableDataSource<FieldType>(sortedData);
-    } 
+      });
+      this.fieldsDataSource = new MatTableDataSource<FieldType>(sortedData);
+    }
   }
 }
 

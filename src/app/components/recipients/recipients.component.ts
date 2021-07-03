@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { DialogOverview } from 'src/app/components/dialog-overview/dialog-overview.component';
 import { preload } from 'src/app/utils/preload';
 import { compare } from 'src/app/utils/sortCompare';
-import { slideUpAnimation } from 'src/app/_animations/slideUp';
+import { slideAnimation } from 'src/app/_animations/slideAnimation';
 import { ConfigService } from 'src/app/_services/config.service';
 import { FieldService } from 'src/app/_services/field.service';
 import { FieldType, UserType } from 'src/app/_types';
@@ -39,8 +39,8 @@ export interface UserData {
   selector: 'app-users',
   templateUrl: './recipients.component.html',
   styleUrls: ['./recipients.component.css'],
-  animations: [slideUpAnimation],
-  host: { '[@slideUpAnimation]': '' },
+  animations: [slideAnimation],
+  host: { '[@slideAnimation]': '' },
 })
 export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   loader = false;
@@ -64,7 +64,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   tagged: boolean;
   isSavedOrUpdated: boolean;
   fields: FieldType[];
-  tagName='';
+  tagName = '';
   icons = [];
   subscription: Subscription[] = [];
   showNewRecipients = true;
@@ -111,7 +111,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if(this.myInput) {
+    if (this.myInput) {
       this.myInput.nativeElement.focus();
     }
   }
@@ -127,10 +127,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       filterValue: [],
       allUsers: new FormArray([], [validateCheckBox()])
     });
-
-
     this.searchdisplayedColumns = ['id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
-
     this.subscription[0] = this.fieldService.getAllFields().subscribe(data => {
       this.fields = data;
       this.fields.forEach(data => {
@@ -156,11 +153,10 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
             All  ${this.searchResultSize} recipients exist. 
           </div>
         `;
-        if(this.message) {
+        if (this.message) {
           this.renderer.appendChild(this.message.nativeElement, div);
           this.removeMessage(div);
         }
-        // this.addCheckboxes();
       });
     } else {
       this.tagView = false;
@@ -218,14 +214,11 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   applyFilterAfterSelection(filterValue: string) {
-
     this.selection.clear();
     this.dataSource.filterPredicate =
       (data: UserData, filter: string) => data.userTags.map(data => data.tag.name.toString().trim().toLowerCase().indexOf(filter) !== -1).some(data => data)
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.tagService.setFilterTag(undefined);
-    // this.dataSource = this.dataSource.filteredData;
-
   }
 
   searchUsers1(value: string) {
@@ -262,18 +255,16 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
             </div>
           </div>
           `;
-    
+
           this.renderer.appendChild(this.message.nativeElement, div);
           const closeBtns = this.message.nativeElement.querySelectorAll('.close');
-          if(closeBtns) {
+          if (closeBtns) {
             closeBtns.forEach(element => {
               this.renderer.listen(element, 'click', (e) => {
                 element.parentNode.parentNode.parentNode.remove();
               })
             });
           }
-          // this.renderer.appendChild(this.message, div);
-
         } else {
           this.showPreview = true;
           this.showNoRecipientFound = false;
@@ -314,14 +305,11 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
           }
-
-          // this.message.nativeElement.appendChild(div);
           this.renderer.appendChild(this.message.nativeElement, div);
           this.showSearchResultMessage = true;
           this.showNewRecipients = false;
           this.removeMessage(div);
         }
-        // this.showSearchResults = true;
       });
     }
   }
@@ -334,14 +322,9 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       filterValue.split("\n").map(data =>
         emails.push(data.split(",")[0])
       );
-
-
       this.allUsers = await this.userService.getByEmails(emails);
       this.loader = false;
-      // this.addCheckboxes();
-      // this.dataSource = new MatTableDataSource<UserData>(this.allUsers);
     }
-    // this.uncheckAll();
   }
 
   isAllSelected() {
@@ -374,7 +357,9 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.uncheckAll() : this.checkAll();
   }
 
-  generateCertificate() {
+  generateCertificate(event) {
+    event.preventDefault();
+
     let listOfRecipients: any[] = [];
     if (!this.showNewRecipients) {
       if (this.searchResultSize > 0) {
@@ -387,7 +372,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         this.certificateService.setSelectedUsers(usersList);
         this.certificateService.setSelectedIds(userIds);
-        this.router.navigate(['/GenerateCertificate'])
+        this.router.navigate(['/Certificates/Generate'])
       }
     } else {
       if (this.usersForm.get('allUsers').valid) {
@@ -402,13 +387,14 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         this.certificateService.setSelectedUsers(usersList);
         this.certificateService.setSelectedIds(userIds);
-        this.router.navigate(['/GenerateCertificate'])
+        this.router.navigate(['/Certificates/Generate'])
       }
     }
   }
 
-  sendEmail() {
-
+  sendEmail(event) {
+    event.preventDefault();
+    
     let listOfRecipients: any[] = [];
     if (!this.showNewRecipients) {
       if (this.searchResultSize > 0) {
@@ -464,38 +450,38 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       users.forEach(
         data => {
           try {
-              if (data != "") {
-                let userData = data.split(splitValue);
-                let user = {
-                  "email": (userData[0]).trim(),
-                  "name": (userData[1]).trim()
-                };
-    
-                if (userData.length >= 3) {
-                  if (userData[2]) {
-                    user["gender"] = (userData[2]).trim();
-                  }
-    
-                  if (userData.length == 4) {
-                    if (userData[3]) {
-                      user["mobile_number"] = (userData[3]).trim();
-                    }
-                  }
-    
-                  if (userData.length > 4) {
-                    let fields = {};
-                    let i = 4;
-                    this.fields.forEach(field => {
-                      if (userData.length > i && userData[i]) {
-                        fields[field.name] = (userData[i]).trim();
-                      }
-                      i++
-                    });
-                    user["fields"] = fields;
+            if (data != "") {
+              let userData = data.split(splitValue);
+              let user = {
+                "email": (userData[0]).trim(),
+                "name": (userData[1]).trim()
+              };
+
+              if (userData.length >= 3) {
+                if (userData[2]) {
+                  user["gender"] = (userData[2]).trim();
+                }
+
+                if (userData.length == 4) {
+                  if (userData[3]) {
+                    user["mobile_number"] = (userData[3]).trim();
                   }
                 }
-                userArray.push(user);
+
+                if (userData.length > 4) {
+                  let fields = {};
+                  let i = 4;
+                  this.fields.forEach(field => {
+                    if (userData.length > i && userData[i]) {
+                      fields[field.name] = (userData[i]).trim();
+                    }
+                    i++
+                  });
+                  user["fields"] = fields;
+                }
               }
+              userArray.push(user);
+            }
           } catch (error) {
             console.log(error)
           }
@@ -626,8 +612,6 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           `
           this.renderer.appendChild(this.message.nativeElement, div);
           this.removeMessage(div);
-          // this.userService.getAllNewUsers().subscribe(data => {
-          // })
         }, error => {
           this.loader = false;
         });
@@ -650,8 +634,6 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
           `;
           this.renderer.appendChild(this.message.nativeElement, div);
           this.removeMessage(div);
-          // this.userService.getAllNewUsers().subscribe(data => {
-          // })
         }, error => {
           this.loader = false;
         });
@@ -767,14 +749,14 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   removeMessage(element) {
     let timer = setTimeout(() => {
       clearTimeout(timer);
-      if(element) {
+      if (element) {
         element.remove();
       }
     }, 10000);
   }
 
   sortData(sort: Sort, source) {
-    if(source === 'allUsers') {
+    if (source === 'allUsers') {
       const data = this.allUsers.slice();
       if (!sort.active || sort.direction === '') {
         this.allUsers = data;
@@ -790,7 +772,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
       this.dataSource = new MatTableDataSource<UserType>(sortedData);
-    } else if (source === 'preview'){
+    } else if (source === 'preview') {
       const data = this.allrecipientsToPreview.slice();
 
       if (!sort.active || sort.direction === '') {
@@ -806,6 +788,6 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
       this.previewDataSource = new MatTableDataSource<UserData>(sortedData);
-    } 
+    }
   }
 }
