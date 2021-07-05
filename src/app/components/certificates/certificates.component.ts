@@ -178,14 +178,24 @@ export class CertificatesComponent implements OnInit {
     });
   }
 
-  public getNextPage(): void {
+  public getNextReleasedPage(): void {
     this.releasedPage.pageable = this.paginationService.getNextPage(this.releasedPage);
     this.getAllReleasedJobs();
   }
 
-  public getPreviousPage(): void {
+  public getPreviousReleasedPage(): void {
     this.releasedPage.pageable = this.paginationService.getPreviousPage(this.releasedPage);
     this.getAllReleasedJobs();
+  }
+
+  public getNextUnReleasedPage(): void {
+    this.unReleasedPage.pageable = this.paginationService.getNextPage(this.unReleasedPage);
+    this.getAllUNReleasedJobs();
+  }
+
+  public getPreviousUnRealeasedPage(): void {
+    this.unReleasedPage.pageable = this.paginationService.getPreviousPage(this.unReleasedPage);
+    this.getAllUNReleasedJobs();
   }
 
   public getNextTemplatePage(): void {

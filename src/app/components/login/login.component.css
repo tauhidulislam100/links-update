@@ -49,3 +49,6 @@
     cursor: pointer;
     font-weight: 500;
 }
+.countDownTime {
+    width: 60px;
+}

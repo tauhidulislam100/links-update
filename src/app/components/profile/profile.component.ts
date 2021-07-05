@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit {
   }
 
   handleTabChange(e) {
+    this.selectedTab = e.index;
     this.selectedTabService.setTab(this.compName, e.index);
   }
 

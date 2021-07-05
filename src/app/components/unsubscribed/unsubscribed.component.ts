@@ -25,7 +25,6 @@ export interface EmailJobType {
 })
 export class UnsubscribedComponent implements OnInit {
   unsubscribedData: EmailJobType[] = [];
-  loading = false;
   constructor(private emailJobService: EmailJobService, private location: Location) { }
 
   ngOnInit() {
@@ -38,15 +37,12 @@ export class UnsubscribedComponent implements OnInit {
 
 
   getUNSubscribedList() {
-    this.loading = true;
     this.emailJobService.getUNSubscribedJobs().subscribe(data => {
       this.unsubscribedData = data;
-      this.loading = false
     })
   }
 
   subscribeAll() {
-    this.loading = true;
     this.emailJobService.subscribeAllJobs().subscribe(() => {
       this.getUNSubscribedList();
     });

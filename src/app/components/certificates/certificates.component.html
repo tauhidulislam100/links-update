@@ -42,9 +42,6 @@
                     <td>
                       {{element.status}}
                     </td>
-                    <!-- <td>
-                      {{element.updatedAt|dateAgo}}
-                    </td> -->
                     <td class="fields">
                       {{element.certificateTemplateName}}
                     </td>
@@ -72,6 +69,9 @@
                   </tr>
                 </table>
               </div>
+              <app-custom-pagination [page]="unReleasedPage" pageName="Certificates" (nextPageEvent)="getNextUnReleasedPage()"
+                (previousPageEvent)="getPreviousUnRealeasedPage()">
+              </app-custom-pagination>
             </mat-tab>
 
             <mat-tab label="Released Certificates ({{releasedPage.totalElements}})">
@@ -145,8 +145,8 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsJobs;"></tr>
                   </table>
                   </div>
-                  <app-custom-pagination [page]="releasedPage" (nextPageEvent)="getNextPage()"
-                    (previousPageEvent)="getPreviousPage()">
+                  <app-custom-pagination [page]="releasedPage" pageName="Certificates" (nextPageEvent)="getNextReleasedPage()"
+                    (previousPageEvent)="getPreviousReleasedPage()">
                   </app-custom-pagination>
 
                 </div>
@@ -217,7 +217,7 @@
                   </div>
                 </div>
 
-                <app-custom-pagination [page]="templatePage" (nextPageEvent)="getNextTemplatePage()"
+                <app-custom-pagination [page]="templatePage" pageName="Certificates" (nextPageEvent)="getNextTemplatePage()"
                   (previousPageEvent)="getPreviousTemplatePage()">
                 </app-custom-pagination>
 

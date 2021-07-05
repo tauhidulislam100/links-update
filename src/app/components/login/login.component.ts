@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string;
   countDownTime: number; //secs
   showLoader = true;
+  showError = false;
+  message = '';
 
   loginForm = new FormGroup({
     email: new FormControl('', [
@@ -89,19 +91,34 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   handleSubmit() {
     let email = this.loginForm.get('email').value;
-    if(!email) return;
+    if(!email) {
+      this.message = 'email is required'
+      this.showError = true;
+      return;
+    }
+
+    this.showError = false;
+    this.message = '';
+
     if(this.step === 'login' && this.loginForm.get('email').invalid) {
-      return this.errorService.setErrorVisibility(true, "invalid email address");
+      this.showError = true;
+      this.message = 'invalid email address'
     } else if(this.step === 'login' && this.loginForm.get('email').valid) {
-      this.errorService.setErrorVisibility(false, "");
+      this.showError = false;
+      this.message = '';
       return this.getOtp(email);
     }
 
-    if(this.step === 'otp' && this.loginForm.get('otp').invalid) {
-      return this.errorService.setErrorVisibility(true,"invalid otp provided");
-    }
 
-    this.errorService.setErrorVisibility(false, "");
+    if(this.step === 'otp' && this.loginForm.get('otp').invalid) {
+      this.showError = true;
+      this.message = 'invalid otp provided';
+      return;
+    }
+    
+    this.showError = false;
+    this.message = '';
+
     const otpObj = this.loginForm.get('otp').value;
     let otp = Object.keys(otpObj).map(k => otpObj[k]).join('');
 
@@ -112,14 +129,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   getOtp(email) {
     this.authenticationService.getOtp(email).subscribe(data => {
-      console.log(data);
       this.startTimer();
       this.step = 'otp';
       }, err => {
         if(err.status === 403) {
-          this.errorService.setErrorVisibility(true, hasErrorMessage(err) ? hasErrorMessage(err) : "Unautorized access forbiden, please ensure you have an active account");
+          this.showError = true;
+          this.message = 'email id is not registered'
         } else {
-          this.errorService.setErrorVisibility(true, hasErrorMessage(err) ? hasErrorMessage(err) : "something went wrong");
+          this.showError = true;
+          this.message = err.message || 'something went wrong, please try again';
         }
       }
     );

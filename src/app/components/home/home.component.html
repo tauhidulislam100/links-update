@@ -21,7 +21,7 @@
     </div>
     <div class="col-lg-4 col-md-6">
       <mat-card>
-        <h5 class="card-text"> Total number of recipients </h5>
+        <h5 class="card-text"> Total Recipients  </h5>
         <div class="justify-content-between align-items-end d-flex">
             <div class="number-text">
               {{home.totalNoOfRecipients}}
@@ -63,10 +63,10 @@
         <h5 class="card-text"> Recipients added this month </h5>
         <div class="justify-content-between align-items-end d-flex">
             <div class="number-text">
-              {{home.totalCertificatesReleasedThisMonth}}
+              {{home.totalRecipientsAddedThisMonth}}
             </div>
-            <div class="icon-area text">
-             + {{home.changeInRecipientsAddedThisMonth}}%
+            <div class="icon-area text" [ngClass]="{'red': home.changeInRecipientsAddedThisMonth < 0}">
+             {{home.changeInRecipientsAddedThisMonth}}%
             </div>
         </div>
       </mat-card>
@@ -78,8 +78,8 @@
             <div class="number-text">
               {{home.totalCertificatesReleasedThisMonth}}
             </div>
-            <div class="icon-area text red">
-             - {{home.changeInCertificatesReleasedThisMonth}}%
+            <div class="icon-area text" [ngClass]="{'red': home.changeInCertificatesReleasedThisMonth < 0}">
+             {{home.changeInCertificatesReleasedThisMonth}}%
             </div>
         </div>
       </mat-card>
@@ -92,7 +92,7 @@
               {{home.totalEmailsSentThisMonth}}
             </div>
             <div class="icon-area text">
-             + {{home.changeInEmailSentThisMonth}}%
+             {{home.changeInEmailSentThisMonth}}%
             </div>
         </div>
       </mat-card>

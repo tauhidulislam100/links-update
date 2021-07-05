@@ -339,5 +339,12 @@ export class TagsComponent implements OnInit {
       this.fieldsDataSource = new MatTableDataSource<FieldType>(sortedData);
     }
   }
+
+
+  closeAlert(e) {
+    if(e.path[4]) {
+      e.path[4].remove()
+    }
+  }
 }
 

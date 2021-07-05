@@ -8,6 +8,7 @@ import {Page} from '../../pagination/page'
 })
 export class CustomPaginationComponent implements OnInit {
   @Input() page: Page<any>;
+  @Input() pageName = '';
   @Output() nextPageEvent = new EventEmitter();
   @Output() previousPageEvent = new EventEmitter();
 
@@ -19,11 +20,13 @@ export class CustomPaginationComponent implements OnInit {
 
   }
 
-  nextPage(): void {
+  nextPage(e): void {
+    e.preventDefault();
     this.nextPageEvent.emit(null);
   }
 
-  previousPage(): void {
+  previousPage(e): void {
+    e.preventDefault();
     this.previousPageEvent.emit(null);
   }
 

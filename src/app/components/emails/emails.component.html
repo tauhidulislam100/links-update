@@ -97,7 +97,7 @@
                   </table>
                   </div>
 
-                  <app-custom-pagination [page]="sentEmailsPage" (nextPageEvent)="getJobsNextPage()"
+                  <app-custom-pagination [page]="sentEmailsPage" pageName="Sent Emails" (nextPageEvent)="getJobsNextPage()"
                     (previousPageEvent)="getJobsPreviousPage()">
                   </app-custom-pagination>
                 </div>
@@ -161,7 +161,7 @@
                         </tbody>
                       </table>
                   </div>
-                  <app-custom-pagination [page]="allTemplatesPage" (nextPageEvent)="getTemplatesNextPage()"
+                  <app-custom-pagination [page]="allTemplatesPage" pageName="Email Templates" (nextPageEvent)="getTemplatesNextPage()"
                     (previousPageEvent)="getTemplatesPreviousPage()">
                   </app-custom-pagination>
                 </div>
@@ -222,16 +222,13 @@
                         </tbody>
                       </table>
                   </div>
-                  <app-custom-pagination [page]="allMappedTemplatesPage" (nextPageEvent)="getMappedTemplatesNextPage()"
+                  <app-custom-pagination [page]="allMappedTemplatesPage" pageName="Mapped Email Templates" (nextPageEvent)="getMappedTemplatesNextPage()"
                     (previousPageEvent)="getMappedTemplatesPreviousPage()">
                   </app-custom-pagination>
                 </div>
               </mat-tab>
             </div>
           </mat-tab-group>
-        </div>
-        <div class="loading-indicator">
-          <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
         </div>
       </div>
     </div>

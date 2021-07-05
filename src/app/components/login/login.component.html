@@ -2,13 +2,6 @@
 <app-loader *ngIf="showLoader"></app-loader>
 
 <app-noauthnav></app-noauthnav>
-<div class="container">
-    <div class="row">
-        <div class="col-12 mb-4">
-            <app-errors></app-errors>
-        </div>
-    </div>
-</div>
 
 <div class="container-wrapper">
     <div class="container">
@@ -30,12 +23,14 @@
                     <form class="auth-form" [formGroup]="loginForm">
                         <div class="form-step" [ngClass]="{active: step == 'login'}">
                             <div class="form-group mb-3">
+                                <div class="text-danger mb-2" *ngIf="showError">{{message}}</div>
                                 <input type="email" name="email" formControlName="email" class="form-control"
                                     placeholder="Your registered email address" />
                             </div>
                         </div>
 
                         <div class="form-step" [ngClass]="{active: step == 'otp'}">
+                            <div class="text-danger mb-2" *ngIf="showError">{{message}}</div>
                             <div class="form-group otp-container" formGroupName="otp">
                                 <input #formRow type="text" formControlName="input1" class="form-control otp-field"
                                     placeholder="--" maxlength="1" (keyup)="keyUpEvent($event, 0)" />
@@ -69,8 +64,10 @@
                             <a [routerLink]="'/register'" class="btn btn-block btn-orange-outline-border btn-md">Register</a>
                         </div>
                         <div class="form-group" *ngIf="step === 'otp'">
-                            <p class="text-center my-5">
-                                <span class="resend" [ngClass]="{'time-up': countDownTime == 0 }" (click)="resendOTP()">Resend OTP</span> available {{format(countDownTime)}}
+                            <p class="my-5 d-flex align-items-center justify-content-center w-100">
+                                <span class="resend" [ngClass]="{'time-up': countDownTime == 0 }" (click)="resendOTP()">Resend OTP</span> 
+                                <span class="mx-2">available in</span> 
+                                <span class="countDownTime">({{format(countDownTime)}})</span>
                             </p>
                         </div>
                     </form>
