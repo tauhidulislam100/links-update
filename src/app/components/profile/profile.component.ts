@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
     private certificateService: CertificateService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router,
+    public router: Router,
     private location: Location,
     private configService: ConfigService,
     private selectedTabService: SelectedTabService,
