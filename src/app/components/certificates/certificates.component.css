@@ -23,6 +23,7 @@ a.disabled {
    -o-box-shadow: 1px 5px 20px 2px #0403034f !important;
    -moz-box-shadow: 1px 5px 20px 2px #0403034f !important;
    -webkit-box-shadow:1px 5px 20px 2px #0403034f !important;
+   min-height: 250px;
 }
 
 .certificateSingle img{

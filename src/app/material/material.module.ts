@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatCardModule,
@@ -10,17 +10,15 @@ import {
   MatInputModule,
   MatListModule,
   MatNativeDateModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
+  MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule,
   MatSelectModule,
   MatSidenavModule,
   MatSortModule,
   MatTableModule,
   MatTabsModule,
-  MatToolbarModule,
-  MatProgressBarModule,
+  MatToolbarModule, MatTooltipModule
 } from '@angular/material';
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 
 const MaterialComponents = [
@@ -44,7 +42,8 @@ const MaterialComponents = [
   MatProgressSpinnerModule,
   MatCardModule,
   MatSlideToggleModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatTooltipModule
 ];
 
 @NgModule({

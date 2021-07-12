@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MaterialModule } from 'src/app/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { TagsRoutingModule } from './tags-routing.module';
 import { TagsComponent } from './tags.component';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { MaterialModule } from 'src/app/material/material.module';
 
 
 @NgModule({

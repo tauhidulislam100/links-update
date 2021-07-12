@@ -99,7 +99,7 @@ a.view-link {
 .table-bordered tr td.fields_area:hover .view-link{
   display: flex;
   margin-left: auto;
-  padding: .3rem .5rem;
+  padding: .3rem 1rem;
     min-width: 5rem;
     color: #FF3A00 ;
 }
@@ -107,7 +107,7 @@ a.view-link {
 .table-bordered tr td.fields_area .view-link:hover{
   display: flex;
   margin-left: auto;
-  padding: .3rem .5rem;
+  padding: .3rem 1rem;
     min-width: 5rem;
     color: white !important;
 }

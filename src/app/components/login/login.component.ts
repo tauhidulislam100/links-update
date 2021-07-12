@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {first} from 'rxjs/operators';
+import { first } from 'rxjs/operators';
+import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { ErrorService } from 'src/app/_services/error.service';
-import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
 
 @Component({
   selector: 'app-login',
@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   handleSubmit() {
     let email = this.loginForm.get('email').value;
     if(!email) {
-      this.message = 'email is required'
+      this.message = 'This field is required'
       this.showError = true;
       return;
     }
@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if(this.step === 'login' && this.loginForm.get('email').invalid) {
       this.showError = true;
-      this.message = 'invalid email address'
+      this.message = 'Invalid email address'
     } else if(this.step === 'login' && this.loginForm.get('email').valid) {
       this.showError = false;
       this.message = '';
@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if(this.step === 'otp' && this.loginForm.get('otp').invalid) {
       this.showError = true;
-      this.message = 'invalid otp provided';
+      this.message = 'Invalid otp provided';
       return;
     }
     
@@ -134,10 +134,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       }, err => {
         if(err.status === 403) {
           this.showError = true;
-          this.message = 'email id is not registered'
+          this.message = 'Email ID is not registered'
         } else {
           this.showError = true;
-          this.message = err.message || 'something went wrong, please try again';
+          this.message = err.message || 'Something went wrong, please try again';
         }
       }
     );
@@ -152,9 +152,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate([this.returnUrl]);
         }, err => {
           if(err.status === 403) {
-            this.errorService.setErrorVisibility(true, hasErrorMessage(err) ? hasErrorMessage(err) : "Unautorized access forbiden, please ensure you have an active account");
+            this.errorService.setErrorVisibility(true, hasErrorMessage(err) ? hasErrorMessage(err) : "Unautorized access forbiden, Please ensure you have an active account");
           } else {
-            this.errorService.setErrorVisibility(true, hasErrorMessage(err) ? hasErrorMessage(err) : "something went wrong, please try again later");
+            this.errorService.setErrorVisibility(true, hasErrorMessage(err) ? hasErrorMessage(err) : "Something went wrong, Please try again later");
           }
         });
   }

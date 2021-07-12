@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
-import { SendEmailComponent } from './components/send-email/send-email.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { SendEmailComponent } from './components/send-email/send-email.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { RecipientsWithFilledComponent } from './recipients-with-filled/recipients-with-filled.component';
 import { AuthGuardService as AuthGuard } from './_guards/auth-guard.service';
 import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
+
 
 const routes: Routes = [
   {
@@ -74,6 +76,9 @@ const routes: Routes = [
       },
       {
         path: 'FAQ', component: FaqComponent
+      },
+      {
+        path: 'recipientsFileds', component: RecipientsWithFilledComponent
       },
       {
         path: 'FAQ/:title', component: FaqComponent

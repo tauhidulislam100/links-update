@@ -203,6 +203,7 @@ svg {
   outline: auto;
   outline-color: white;
   margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 .table-rounded thead {
@@ -823,6 +824,7 @@ th[mat-sort-header] .mat-sort-header-stem
 
 .table_overflow {
   overflow-x: auto !important;
+  border-bottom: 1px solid #CACACA;
 }
 
 .overflow-x-auto.certificate_templates_wrap {
@@ -917,6 +919,10 @@ th[mat-sort-header] .mat-sort-header-stem
   .custom-group{
      width: 100% !important;
      text-align: left;
+  }
+
+  .table-rounded {
+    margin-bottom: 1rem;
   }
 } 
 

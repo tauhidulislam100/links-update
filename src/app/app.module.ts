@@ -11,13 +11,14 @@ import { AppComponent } from './app.component';
 import { AdminProfileEditComponent } from './components/admin-profile-edit/admin-profile-edit.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
 import { ConfirmationDialogueComponent } from './components/confirmation-dialogue/confirmation-dialogue.component';
-import { SendEmailComponent } from './components/send-email/send-email.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { SendEmailComponent } from './components/send-email/send-email.component';
 import { MaterialModule } from './material/material.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SharedModule } from './shared/shared.module';
 import { AuthGuardService } from './_guards/auth-guard.service';
+import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
 import { CachingInterceptor } from './_helpers/caching.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
@@ -28,7 +29,7 @@ import { CacheMapService } from './_services/cache/cache-map.service';
 import { ConfigService } from './_services/config.service';
 import { LoaderService } from './_services/loader.service';
 import { SelectedTabService } from './_services/selected-tab.service';
-import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
+
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { LoggedInAuthGuard } from './_guards/logged-in-auth-guard.service';
     EditorModule,
     SharedModule,
     AppRoutingModule,
+    
   ],
   exports: [
     BrowserModule,

@@ -21,6 +21,12 @@ a {
   margin-left: 0 !important;
 }
 
+.index_up{
+   position: relative;
+   z-index: 100000;
+   
+}
+
 @media (max-width: 766px) {
   .add_button{
     position: relative;

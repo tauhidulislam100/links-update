@@ -1,0 +1,86 @@
+
+  
+  a.view-link {
+    color: #FF3A00 !important;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+
+  .table-bordered tr td{
+    vertical-align: middle;
+  }
+  
+  .table-bordered tr td.fields_area ul{
+    padding: 0;
+    margin: 0;
+    line-height: 12px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .table-bordered tr td.fields_area ul li{
+    list-style: none;
+    display: inline-grid;
+    font-size: 14px;
+    font-weight: 300;
+    color: #28293D;
+    border-left: 1px solid #28293D;
+    padding: 0 .5rem;
+    margin-right: 2px;
+    line-height: 16px;
+    /* border-right: 1px solid #28293D; */
+  }
+  
+
+  
+  .table-bordered tr td.fields_area:hover{
+    text-align: right;
+  }
+  
+  .table-bordered tr td.fields_area:hover .view-link{
+    display: flex;
+    margin-left: auto;
+    padding: .3rem 1rem;
+      min-width: 5rem;
+      color: #FF3A00 ;
+  }
+  
+  .table-bordered tr td.fields_area .view-link:hover{
+    display: flex;
+    margin-left: auto;
+    padding: .3rem 1rem;
+      min-width: 5rem;
+      color: white !important;
+  }
+  
+  .table-bordered tr td.fields_area:hover > ul{
+    display: none !important;
+  }
+  
+  
+  .view-link{
+    display: none;
+  }
+  
+  .tags_header{
+    width: 250px;
+  }
+
+  .tags{
+      /* display: flex; */
+  }
+
+  .tags span{
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      border: 1px solid #d7d7d7;
+      border-radius: 5px;
+      margin: 5px;
+  }
+
+  .hover_details{
+      height: 100%;
+  }

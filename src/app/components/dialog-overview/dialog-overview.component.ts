@@ -1,12 +1,12 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SelectionModel } from '@angular/cdk/collections';
-import { RecipientService } from '../../_services/recipient.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogService } from 'src/app/_services/dialog.service';
 import {
     validateTag
 } from '../../_custome-validators/certificateForm.validator';
-import { DialogService } from 'src/app/_services/dialog.service';
+import { RecipientService } from '../../_services/recipient.service';
 
 
 export interface UserData {
@@ -20,6 +20,7 @@ export interface UserData {
 @Component({
     selector: 'dialog-overview',
     templateUrl: 'dialog-overview.component.html',
+    styleUrls: ['dialog-overview.component.css']
 })
 export class DialogOverview implements OnInit {
     action: string;
