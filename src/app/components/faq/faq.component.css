@@ -1,3 +1,4 @@
+@import'../admin-profile/admin-profile.component.css';
 
 .search-area .upload-btn-container {
   text-align: center;
@@ -6,7 +7,28 @@
 }
 
 .btn-orange-rounded {
-
   border-radius: 5px;
   width: 100%;
+}
+.form-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.search-icon {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+}
+
+.custom-form-control.search {
+  padding-left: 3rem;
+}
+
+.mb-20 {
+  margin-bottom: 5rem;
+}
+
+.border-dark-gray {
+  border-color: #707070;
 }

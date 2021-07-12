@@ -159,4 +159,9 @@ export class EmailTemplateComponent implements OnInit {
     this.emailTemplateForm.get('body').setValue(container.innerHTML.toString());
   }
   
+  closeAlert(e) {
+    if(e.path[4]) {
+      e.path[4].remove()
+    }
+  }
 }

@@ -16,10 +16,11 @@ import {
   MatSortModule,
   MatTableModule,
   MatTabsModule,
-  MatToolbarModule, MatTooltipModule
+  MatToolbarModule, 
+  MatTooltipModule,
+  MatExpansionModule
 } from '@angular/material';
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-
 
 const MaterialComponents = [
   MatSelectModule,
@@ -43,7 +44,8 @@ const MaterialComponents = [
   MatCardModule,
   MatSlideToggleModule,
   MatProgressBarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatExpansionModule
 ];
 
 @NgModule({

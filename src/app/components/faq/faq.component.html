@@ -1,44 +1,161 @@
 <div class="container mt-6">
-  <div class="row">
-    <div class="col-lg-8">
-      <div class="send-mail-heading">
-        <h3>FAQs</h3>
+  <div class="profile-area">
+    <div class="profile-header row align-items-center">
+      <div class="col d-flex align-items-center">
+        <a href="#" class="back"><i class="fas fa-arrow-left"></i></a>
+        <h3>Help & Support</h3>
+      </div>
+      <div class="col-4">
+        <div class="custom-group">
+          <input class="custom-form-control search" type="text" placeholder="Search for your question">
+          <span class="search-icon">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
       </div>
     </div>
-    <div class="col-lg-4">
-      <div class="alert alert-success" role="alert" *ngIf="isSubmitted">
-        Thanks for contacting us, we will get back to you as soon as possible.
+    <div class="row">
+      <div class="col-lg-8">
+        <mat-card>
+          <h4 class="form-title">
+            Frequently Asked Questions
+          </h4>
+          <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0" expanded="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  •  How to customize an email to include names of recipients and other details in the body or subject of the email?
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="px-4 border-left border-dark-gray">
+                <p>	A list of available fields are provided on the right of the email draft section.</p>
+                <img src="/assets/send-email-faq.png" alt="send email faq png" class="img-fluid">
+                <p class="mt-4">To customize an email please use {{Name}} where ever you wish to add name of the recipient.
+                  Similarly other information can be used.</p>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel class="mat-elevation-z0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  •  How to tag recipients based on their status and future orientation?
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="px-4">
+                <p>some content</p>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel class="mat-elevation-z0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  •  What is the difference between tag and a field?
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="px-4">
+                <p>some content</p>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card>
       </div>
-      <div class="custom-group">
-        <input class="custom-form-control" type="text" placeholder="Search for your question">
-        <label>Search for your question</label>
-      </div>
-      <mat-card>
-        <div>
-          Didn't find your question ?
-          <form [formGroup]="ticketForm" class="profile-update-form">
-            <div class="custom-group">
-              <input class="custom-form-control" type="text" formControlName="title" placeholder="Title of the issue">
-              <label>Title of the issue</label>
-            </div>
-            <div class="form-group">
-              <textarea class="custom-form-control" rows="3" formControlName="detail" placeholder="Details of the issue"
-                #filterValue></textarea>
-            </div>
-            <div class="upload-btn-container">
-              <input type="file" accept=".xlsx" class="btn" id="file">
-              <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
-                File</label>
-              <span>
-                <ng-template #elseTemplate>
-                  No file chosen
-                </ng-template>
-              </span>
-            </div>
-            <button (click)="send()" class="btn-orange-rounded"> Raise a support ticket</button>
-          </form>
+      <div class="col-lg-4">
+        <div class="alert alert-success" role="alert" *ngIf="isSubmitted">
+          Thanks for contacting us, we will get back to you as soon as possible.
         </div>
-      </mat-card>
+        <mat-card>
+          <div>
+            <h4 class="form-title mb-4">Didn't find your question ?</h4>
+            <form [formGroup]="ticketForm" class="profile-update-form">
+              <div class="custom-group">
+                <input class="custom-form-control" type="text" formControlName="title" placeholder="Title of the issue">
+              </div>
+              <div class="form-group">
+                <textarea class="custom-form-control" rows="7" formControlName="detail"
+                  placeholder="Details of the issue" #filterValue></textarea>
+              </div>
+              <div class="upload-btn-container mb-20">
+                <input type="file" accept=".xlsx" class="btn" id="file">
+                <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
+                  File</label>
+                <span>
+                  <ng-template #elseTemplate>
+                    No file chosen
+                  </ng-template>
+                </span>
+              </div>
+              <button (click)="send()" class="btn-orange-rounded mb-3"> Raise a support ticket</button>
+            </form>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+
+
+    <div class="upgrade_plan mt-5">
+      <div class="row header">
+        <div class="col">
+          <div class="row px-3">
+            <div class="col-auto">
+              <img src="../../../assets/logo-h.png" alt="">
+            </div>
+            <div class="col pl-0">
+              <h2>Upgrade Your Plan</h2>
+              <p>And enjoy exclusive member benefits!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-auto">
+          <button class="btn-orange-rounded pl-5 pr-5 pt-3 pb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="21.829" height="21.829" viewBox="0 0 21.829 21.829">
+              <g id="local_police-24px" transform="translate(-0.864 -0.543)">
+                <rect id="Rectangle_109" data-name="Rectangle 109" width="21.829" height="21.829"
+                  transform="translate(0.864 0.543)" fill="none" />
+                <path id="Path_195" data-name="Path 195"
+                  d="M13.781,11.877l.591,2.559a.47.47,0,0,1-.7.506l-2.231-1.35L9.2,14.943a.47.47,0,0,1-.7-.506l.6-2.55-1.969-1.7a.469.469,0,0,1,.262-.825L9.994,9.14l1.012-2.4a.467.467,0,0,1,.862,0L12.881,9.13l2.606.225a.469.469,0,0,1,.262.825ZM4.116,4.265A1.883,1.883,0,0,0,3,5.98v4.406c0,5.2,3.6,10.068,8.437,11.25,4.837-1.181,8.437-6.047,8.437-11.25V5.98a1.883,1.883,0,0,0-1.116-1.716L12.2,1.349a1.864,1.864,0,0,0-1.519,0Z"
+                  transform="translate(-0.306 -0.099)" fill="#fff" />
+              </g>
+            </svg>
+            Upgrade Now! </button>
+        </div>
+      </div>
+      <div class="row body">
+        <div class="col-md-4">
+          <div class="row px-3">
+            <div class="col-auto icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="col pl-2">
+              <h4>Safety </h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque facere iure corrupti error
+                reprehenderit soluta incidunt quibusdam </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row px-3">
+            <div class="col-auto icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="col pl-2">
+              <h4>Security</h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque facere iure corrupti error
+                reprehenderit soluta incidunt quibusdam </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row px-3">
+            <div class="col-auto icon">
+              <i class="far fa-check-circle"></i>
+            </div>
+            <div class="col pl-2">
+              <h4>Surety</h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque facere iure corrupti error
+                reprehenderit soluta incidunt quibusdam </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
