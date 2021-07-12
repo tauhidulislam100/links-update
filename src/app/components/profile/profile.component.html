@@ -70,7 +70,7 @@
                   <div class="custom-group mb-0" *ngIf="user.userTags">
                     <label>Tags</label>
                     <ul>
-                      <li *ngFor="let tag of user.userTags">{{tag}}</li>
+                      <li *ngFor="let tag of user.userTags" (click)="router.navigate(['/Recipients/'+tag.id], { queryParams: {name: tag.name}})" style="cursor: pointer;" >{{tag.name}}</li>
                     </ul>
                   </div>
                 </div>
