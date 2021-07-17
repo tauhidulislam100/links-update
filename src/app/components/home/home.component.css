@@ -1,13 +1,13 @@
 mat-card {
   padding: 35px;
   border-radius: 5px;
-  box-shadow: 10px 10px 15px #00000020 !important;
-  -o-box-shadow: 10px 10px 15px #00000020 !important;
-  -moz-box-shadow: 10px 10px 15px #00000020 !important;
-  -webkit-box-shadow: 10px 10px 15px #00000020 !important;
+  box-shadow: 10px 10px 15px #dbd0d017 !important;
+  -o-box-shadow: 10px 10px 15px #dbd0d017 !important;
+  -moz-box-shadow: 10px 10px 15px #dbd0d017 !important;
+  -webkit-box-shadow: 10px 10px 15px #dbd0d017 !important;
   font-family: 'Signika', sans-serif !important;
   min-height: 233px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .card-text {
@@ -27,7 +27,7 @@ mat-card {
 .icon-area {
   text-align: right;
   color: #05288545;
-  font-size: 40px;
+  font-size: 50px;
 }
 
 .icon-area.text {

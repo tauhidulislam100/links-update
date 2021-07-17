@@ -217,6 +217,7 @@ svg {
   border-left: 0;
   font-size: 1rem;
   font-weight: 300;
+  font-family: Bahnschrift;
 }
 
 .table-rounded td, 
@@ -256,7 +257,7 @@ tr.mat-row {
 
 .upload-btn-container .upload-label,
 .btn-orange-outline.export {
-  background: #05288526;
+  background: #0528851f;
   display: flex;
   min-width: 9rem;
   height: auto;
@@ -269,7 +270,7 @@ tr.mat-row {
   font-size: 1rem;
   cursor: pointer;
   font-weight: 400;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 0;
   margin-right: 10px;
 }
@@ -567,7 +568,10 @@ login register page realted style
   color: #707070;
   outline: none;
   box-shadow: none;
+  font-family: Bahnschrift;
+  font-weight: 300;
 }
+
 .auth-form .form-control.ng-touched.ng-dirty.ng-invalid {
   border-color: #FF3A00;
 }
@@ -637,8 +641,8 @@ login register page realted style
   cursor: default;
   height: auto;
   font-size: 12px;
-  font-weight: 500;
-  color: #052885;
+  font-weight: 400;
+  color: #052885 !important;
   background: white !important;
   border: 1px solid #052885;
 }
@@ -913,7 +917,7 @@ th[mat-sort-header] .mat-sort-header-stem
 
   .upload-btn-container .upload-label,
   .btn-orange-outline.export {
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   .custom-group{

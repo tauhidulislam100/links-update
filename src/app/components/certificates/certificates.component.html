@@ -28,9 +28,9 @@
                     <th mat-sort-header="updatedAt">
                       <h6>Last Acted On</h6>
                     </th>
-                    <th>
+                    <!-- <th>
                       <h6>Status</h6>
-                    </th>
+                    </th> -->
                     <th>
                       <h6>Certificate Name</h6>
                     </th>
@@ -39,9 +39,9 @@
                     <td>
                       {{element.updatedAt|dateAgo}}
                     </td>
-                    <td>
+                    <!-- <td>
                       {{element.status}}
-                    </td>
+                    </td> -->
                     <td class="fields">
                       {{element.certificateTemplateName}}
                     </td>
@@ -195,7 +195,7 @@
                         </div>
                         <div class="row mb-2">
                           <div class="col-6">
-                            Lest used:
+                            Last used:
                           </div>
                           <div class="col-6">
                             {{element.last_edited_on|dateAgo}}

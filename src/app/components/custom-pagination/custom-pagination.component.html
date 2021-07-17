@@ -1,6 +1,6 @@
 <div class="pagination-area">
   <div class="row align-items-center" *ngIf="page">
-    <div class="col" style="float: right;">
+    <div class="col" style="float: right; font-weight: 600;">
       Showing {{ page.number+1   }}
     - {{ ((page.number+1) * page.size) }} of {{page.totalElements}}
     <span class="ml-1">{{pageName}}</span>
@@ -10,7 +10,7 @@
       <ul class="pagination mb-0">
 
         <li class="page-item first"  [ngClass]="{'disabled': page.first }">
-          <a class="page-link" [routerLink]=""  (click)="previousPage($event)"> <i class="fas fa-chevron-left"></i>
+          <a class="page-link"  [routerLink]=""  (click)="previousPage($event)"> <i class="fas fa-chevron-left"></i>
         </a></li>
 
         <li class="page-item last" [ngClass]="{'disabled': page.last }">
