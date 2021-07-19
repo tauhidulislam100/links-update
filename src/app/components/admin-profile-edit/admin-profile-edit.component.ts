@@ -36,11 +36,10 @@ export class AdminProfileEditComponent implements OnInit {
         organization_name: [this.admin.organization_name],
         official_email: [this.admin.official_email],
         website: [this.admin.website],
-        city: [this.admin.city]
+        city: [this.admin.city],
+        profile_photo: null,
       });
     })
-
-
   }
 
   update() {

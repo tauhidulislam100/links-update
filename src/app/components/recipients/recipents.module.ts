@@ -4,6 +4,7 @@ import { RecipentsRoutingModule } from './recipents-routing.module';
 import { RecipientsComponent } from './recipients.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/material/material.module';
+import { RecipientsWithFilledComponent } from './recipients-with-filled/recipients-with-filled.component';
 
 
 @NgModule({
@@ -13,7 +14,10 @@ import { MaterialModule } from 'src/app/material/material.module';
     SharedModule,
     MaterialModule
   ],
-  declarations: [RecipientsComponent],
+  declarations: [
+    RecipientsComponent,
+    RecipientsWithFilledComponent
+  ],
   exports: [ RecipientsComponent ],
 })
 export class RecipentsModule { }

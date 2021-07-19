@@ -39,12 +39,12 @@
               </th>
             </thead>
             <tbody>
-              <tr *ngFor="let element of unsubscribedData">
-                <td>{{element.emailJobRecipientList[0].name}} </td>
-                <td>{{element.emailJobRecipientList[0].email}}</td>
-                <td>{{element.subject}}</td>
-                <td>{{element.subject}}</td>
-                <td>{{element.created_at|dateAgo}}</td>
+              <tr *ngFor="let el of unsubscribedData">
+                <td>{{el.created_by.name}} </td>
+                <td>{{el.created_by.email}}</td>
+                <td>{{el.adminEmailTemplate ? el.adminEmailTemplate.subject : el.emailTemplate ?  el.emailTemplate.subject : null}}</td>
+                <td>{{el.adminEmailTemplate ? el.adminEmailTemplate.name : el.emailTemplate ?  el.emailTemplate.name : null}}</td>
+                <td>{{el.created_at|dateAgo}}</td>
               </tr>
             </tbody>
           </table>

@@ -6,7 +6,7 @@
     <span class="ml-1">{{pageName}}</span>
     </div>
 
-    <nav class="col-auto" aria-label="Page navigation example">
+    <nav class="col-auto" aria-label="Page navigation example" *ngIf="page.size < page.totalElements">
       <ul class="pagination mb-0">
 
         <li class="page-item first"  [ngClass]="{'disabled': page.first }">

@@ -155,4 +155,8 @@ export class CertificateService {
     return this.http.delete<any>(`${this.baseurl}certificate/jobs/${id}`);
   }
 
+  addNewCertificate(data) {
+    return this.http.post(`${this.baseurl}/template/certificate/add`, data);
+  }
+
 }

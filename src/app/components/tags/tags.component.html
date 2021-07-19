@@ -197,7 +197,7 @@
                           </h6>
                         </th>
                         <td mat-cell *matCellDef="let element let rowIndex = index">
-                          <a class="index_up" routerLink="/recipientsFileds">{{element.recipient_filled}}</a>
+                          <a class="index_up"  [routerLink]="['/Recipients/with/field']" [queryParams]="{exists: element.name}">{{element.recipient_filled}}</a>
                         </td>
                       </ng-container>
 
@@ -206,7 +206,7 @@
                           <h6>Recipients empty</h6>
                         </th>
                         <td mat-cell *matCellDef="let element let rowIndex = index">
-                          <a class="index_up" routerLink="/recipientsFileds">{{element.recipient_empty}}</a>
+                          <a class="index_up"  [routerLink]="['/Recipients/with/field']" [queryParams]="{'not-exists': element.name}">{{element.recipient_empty}}</a>
                         </td>
                       </ng-container>
 

@@ -129,6 +129,7 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.searchdisplayedColumns = ['id', 'email', 'name', 'user_tags', 'fields', 'profileLink'];
     this.subscription[0] = this.fieldService.getAllFields().subscribe(data => {
+      console.log('field ', data);
       this.fields = data;
       this.fields.forEach(data => {
         this.textAreaLegend = this.textAreaLegend + ", " + data.name;
@@ -184,16 +185,18 @@ export class RecipientsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setUsersFormArray(user) {
-    let formGroup = this.fb.group({
-      checkBox: [false],
-      id: [user.id],
-      userTags: new FormArray([])
-    });
-    user.userTags.forEach(element => {
-      let Tags: FormControl = new FormControl(element.name);
-      (formGroup.controls.userTags as FormArray).push(Tags);
-    }
-    );
+      let formGroup = this.fb.group({
+        checkBox: [false],
+        id: [user.id],
+        userTags: new FormArray([])
+      });
+      
+      if(user.userTags) {
+        user.userTags.forEach(element => {
+          let Tags: FormControl = new FormControl(element.name);
+          (formGroup.controls.userTags as FormArray).push(Tags);
+        });
+      }
     return formGroup;
   }
 

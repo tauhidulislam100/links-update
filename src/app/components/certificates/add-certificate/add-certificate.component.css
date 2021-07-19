@@ -17,3 +17,10 @@
         text-align: left;
     }
 }
+.form-invalid {
+    border: 1px solid;
+}
+.custom-form-control.ng-touched.ng-dirty.ng-invalid,
+.form-invalid {
+    border-color: red;
+}

@@ -76,4 +76,9 @@ export class RecipientService {
     return this.http.get<any>(`${this.baseurl}user/getNewUsers`);
   }
 
+  getUsersWithField(fieldName='', exists=false) {
+    let url = `${this.baseurl}/${exists ? 'user/field/exists/' : 'user/field/not-exists/' }${fieldName}`;
+    return this.http.get(url);
+  }
+
 }

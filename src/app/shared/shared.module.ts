@@ -12,7 +12,6 @@ import { NoAuthComponent } from '../components/noauth-nav/noauth-nav.component';
 import { UnsubscribedComponent } from '../components/unsubscribed/unsubscribed.component';
 import { MaterialModule } from '../material/material.module';
 import { DateAgoPipe } from '../pipes/date-ago.pipe';
-import { RecipientsWithFilledComponent } from '../recipients-with-filled/recipients-with-filled.component';
 
 
 @NgModule({
@@ -35,7 +34,6 @@ import { RecipientsWithFilledComponent } from '../recipients-with-filled/recipie
         LoaderComponent,
         DateAgoPipe, 
         UnsubscribedComponent,
-        RecipientsWithFilledComponent
     ],
     exports:[ 
         ReactiveFormsModule,

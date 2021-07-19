@@ -81,6 +81,18 @@
           <label>City</label>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="upload-btn-container align-items-center">
+          <input type="file" accept="image/*" class="btn" #file>
+          <label for="file" class="upload-label" (click)="file.click()">
+              <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
+                  <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
+                  <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
+                </svg>
+              Upload File
+            </label>
+      </div>
+      </div>
     </div>
     <div class="form-group ml-4 mt-5 text-center text-md-left text-lg-left">
       <button class="btn-orange-rounded" (click)="update()">Send Request</button>

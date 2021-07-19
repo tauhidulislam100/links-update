@@ -1,0 +1,76 @@
+<div class="container mt-5">
+    <div class="box-area">
+      <div class="row">
+        <div class="col-md-12">
+          <app-errors></app-errors>
+          <div class="row mb-5">
+            <div class="col">
+              <h3 class="d-flex align-items-center">
+                <a style="position: relative;" href="javascript:void(0)" (click)="goBack()"
+                  class="back p-2 px-3 d-inline-block border rounder mr-3 btn btn-default"><i
+                    class="fas fa-arrow-left"></i></a>
+                    Recipients with '{{fieldName}}'  value filled
+              </h3>
+            </div>
+
+          </div>
+          <div class="table-overflow">
+            <table  class="table table-header hoverEffect table-bordered table-rounded">
+                <tr>
+                    <th>
+                        <h6>Email</h6>
+                    </th>
+                    <th>
+                        <h6>Name</h6>
+                    </th>
+                    <th>
+                        <h6>Tags</h6>
+                    </th>
+                    <th>
+                        <h6>Fields</h6>
+                    </th>
+                </tr>
+                
+                <tr *ngFor="let element of recipents">
+                    <td>
+                        {{element.email}}
+                    </td>
+                    <td>
+                       {{element.name}}
+                    </td>
+                    <td class="tags"> 
+                        <span *ngFor="let tag of (element.userTags || [])">{{tag.name}}</span>
+                    </td>
+                    <td class="fields_area">
+                        <ul *ngIf="element.fields">
+                            <li *ngFor="let field of fields">
+                                {{field.name}} :
+                                <div *ngIf="element.fields != null">
+                                  <strong style="font-weight: 600;">{{element.fields[field.name] ? element.fields[field.name]
+                                    : 'NA'}}</strong>
+                                </div>
+                              </li>
+                        </ul>                        
+                    </td>
+                    <td class="hover_details">
+                        <ul class="actiion_list">
+                            <li>
+                                <a class="btn-orange-outline-border">Edit Field value</a>
+                            </li>
+                            <li>
+                                <a [routerLink]="'/Profile/'+element.id" class="view-link btn-orange-outline-border">View Details</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+

@@ -347,5 +347,6 @@ export class TagsComponent implements OnInit {
       e.path[4].remove()
     }
   }
+
 }
 

@@ -5,15 +5,16 @@ import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {ErrorService} from '../_services/error.service';
 import { hasErrorMessage } from 'src/app/utils/hasErrorMessage';
-
+import { AuthenticationService } from '../_services/authentication.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(public router: Router, public errorService: ErrorService) {
+  constructor(public router: Router, public errorService: ErrorService, private authService: AuthenticationService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
       if (err.status === 403) {
+        this.authService.logout();
         this.errorService.setErrorVisibility(true, "Unauthorized access forbidden, please login");
         this.router.navigate(['/AdminLogin']);
         return throwError(err);
