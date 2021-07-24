@@ -11,13 +11,11 @@ a {
   cursor: pointer;
 }
 
-
 .email_inwrap .mat-group-content .mat-tab-label-container{
   padding-left: 50px !important;
   background: red;
   padding: 100px;
 }
-
 
 .add_new_email_template{
   position: absolute;
@@ -96,6 +94,24 @@ a {
   .mat-group-content table {
     width: 1300px;
   }
+}
 
+.active{
+  opacity: .5;
+}
 
+.active td:first-child{
+  padding-left: 25px !important;
+}
+
+.archive_active{
+  background: #ccc2c21c;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 10;
+  padding-top: 12px;
+  padding-left: 5px;
 }

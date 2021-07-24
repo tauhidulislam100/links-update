@@ -103,7 +103,18 @@
                         <th mat-header-cell *matHeaderCellDef>
                           <h6>Tags</h6>
                         </th>
-                        <td mat-cell *matCellDef="let element let rowIndex = index">{{element.name}}</td>
+                        <td mat-cell *matCellDef="let element let rowIndex = index">
+                          <button
+                          style="padding: 0; position: relative; z-index: 1000000; border-radius: 50%; box-shadow: none; line-height: normal; min-width: 0;"
+                          mat-raised-button
+                          matTooltip="Number of recipients with this field value filled. Click on the recipient no to view those recipients."
+                          mat-tooltip-panel-bellow >
+
+                          {{element.name}}
+                        </button>  
+                          
+                        
+                        </td>
                       </ng-container>
                       <ng-container matColumnDef="no_of_recipients">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header="no_of_recipients">
@@ -175,25 +186,23 @@
                       <ng-container matColumnDef="fields">
                         <th mat-header-cell *matHeaderCellDef>
                           <h6>Fields  
-                            <button mat-raised-button
-                            matTooltip="Info about the action"
-                            matTooltipPosition="left"
-                            class="example-button">
-                      Red-tooltip Action
-                    </button>
-
                           </h6>
                         </th>
                         <td  mat-cell *matCellDef="let element let rowIndex = index">
-                        
                            <span matTooltip="Info about the action" >{{element.name}}</span>  
                         </td>
                       </ng-container>
 
                       <ng-container matColumnDef="recipients_filled">
                         <th mat-header-cell *matHeaderCellDef>
-                          <h6>Recipients filled
-
+                          <h6>Recipients filled 
+                            <button
+                            style="padding: 0; border-radius: 50%; box-shadow: none; line-height: normal; min-width: 0;"
+                            mat-raised-button
+                            matTooltip="Number of recipients with this field value filled. Click on the recipient no to view those recipients."
+                            mat-tooltip-panel-below>
+                            <i class="fas fa-info-circle"></i>
+                          </button>
                           </h6>
                         </th>
                         <td mat-cell *matCellDef="let element let rowIndex = index">
@@ -203,7 +212,15 @@
 
                       <ng-container matColumnDef="recipients_empty">
                         <th mat-header-cell *matHeaderCellDef>
-                          <h6>Recipients empty</h6>
+                          <h6>Recipients empty
+                            <button
+                            style="padding: 0; border-radius: 50%; box-shadow: none; line-height: normal; min-width: 0;"
+                            mat-raised-button
+                            matTooltip="Number of recipients with this field value filled. Click on the recipient no to view those recipients."
+                            mat-tooltip-panel-below >
+                            <i class="fas fa-info-circle"></i>
+                          </button>
+                          </h6>
                         </th>
                         <td mat-cell *matCellDef="let element let rowIndex = index">
                           <a class="index_up"  [routerLink]="['/Recipients/with/field']" [queryParams]="{'not-exists': element.name}">{{element.recipient_empty}}</a>

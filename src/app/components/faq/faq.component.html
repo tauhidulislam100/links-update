@@ -16,7 +16,7 @@
     </div>
     <div class="row">
       <div class="col-lg-8">
-        <mat-card>
+        <div class="border p-3">
           <h4 class="form-title">
             Frequently Asked Questions
           </h4>
@@ -55,13 +55,13 @@
               </div>
             </mat-expansion-panel>
           </mat-accordion>
-        </mat-card>
+        </div>
       </div>
       <div class="col-lg-4">
         <div class="alert alert-success" role="alert" *ngIf="isSubmitted">
           Thanks for contacting us, we will get back to you as soon as possible.
         </div>
-        <mat-card>
+        <div class="border p-3">
           <div>
             <h4 class="form-title mb-4">Didn't find your question ?</h4>
             <form [formGroup]="ticketForm" class="profile-update-form">
@@ -74,8 +74,10 @@
               </div>
               <div class="upload-btn-container mb-20">
                 <input type="file" accept=".xlsx" class="btn" id="file">
-                <label for="file" class="upload-label"><img src="{{assets_loc}}assets/upload.svg" /> Upload
-                  File</label>
+                <label for="file" class="upload-label">
+                  <!-- <img src="{{assets_loc}}assets/upload.svg" />  -->
+                  <svg _ngcontent-hwt-c19="" _ngcontent-oko-c3="" class="ng-tns-c3-0" data-name="Group 105" height="17.33" id="Group_105" viewBox="0 0 14 17.33" width="14" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-hwt-c19="" _ngcontent-oko-c3="" class="ng-tns-c3-0" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" data-name="Path 60" fill="#052885" id="Path_60" transform="translate(0 -4.407)"></path><path _ngcontent-hwt-c19="" _ngcontent-oko-c3="" class="ng-tns-c3-0" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" data-name="Path 62" fill="#052885" id="Path_62" transform="translate(14 17.33) rotate(180)"></path></svg>
+                  Upload File</label>
                 <span>
                   <ng-template #elseTemplate>
                     No file chosen
@@ -85,7 +87,7 @@
               <button (click)="send()" class="btn-orange-rounded mb-3"> Raise a support ticket</button>
             </form>
           </div>
-        </mat-card>
+        </div>
       </div>
     </div>
 

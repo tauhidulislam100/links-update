@@ -6,7 +6,6 @@
     text-decoration: none;
   }
   
-
   .table-bordered tr td{
     vertical-align: middle;
   }
@@ -32,8 +31,6 @@
     line-height: 16px;
     /* border-right: 1px solid #28293D; */
   }
-  
-
   
   .table-bordered tr td.fields_area:hover{
     text-align: right;
@@ -83,4 +80,8 @@
 
   .hover_details{
       height: 100%;
+  }
+
+  .table-bordered tr td.hover_details ul.actiion_list{
+     margin-top: 10px;
   }

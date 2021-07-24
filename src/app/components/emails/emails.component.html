@@ -41,7 +41,7 @@
                     class="table hoverEffect table-header table-bordered table-rounded">
                     <thead>
                       <th mat-sort-header="created_at">
-                        <h6>Sent</h6>
+                        <h6>Sent </h6>
                       </th>
                       <th>
                         <h6> Subject</h6>
@@ -53,16 +53,35 @@
                         <h6>Recipients</h6>
                       </th>
                       <th mat-sort-header="seen">
-                        <h6>Seen</h6>
+                        <h6>Seen
+                          <button
+                          style="padding: 0; border-radius: 50%; box-shadow: none; line-height: normal; min-width: 0;"
+                          mat-raised-button
+                          matTooltip="Number of recipients who have opened the sent emails"
+                          mat-tooltip-panel-below >
+                          <i class="fas fa-info-circle"></i>
+                        </button>
+                        </h6>
                       </th>
                       <th mat-sort-header="unsubscribed">
-                        <h6>Unsubscribed </h6>
+                        <h6>Unsubscribed 
+                          <button
+                          style="padding: 0; border-radius: 50%; box-shadow: none; line-height: normal; min-width: 0;"
+                          mat-raised-button
+                          matTooltip="Number of recipients who have unsubscribed from the mailing list"
+                          mat-tooltip-panel-below >
+                          <i class="fas fa-info-circle"></i>
+                        </button>
+                        </h6>
                       </th>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let element of sentEmailsData">
+                      <tr class="active" *ngFor="let element of sentEmailsData">
                         <td>
                           {{element.created_at|dateAgo}}
+                          <div class="archive_active">
+                            <i class="fas fa-file-download"></i>
+                          </div>
                         </td>
                         <td>
                           {{element.emailTemplate ? element.emailTemplate.subject : element.adminEmailTemplate ? element.adminEmailTemplate.subject : null}}
@@ -124,7 +143,15 @@
                             <h6>Recipients</h6>
                           </th>
                           <th mat-sort-header="no_of_times_used">
-                            <h6>Times Used</h6>
+                            <h6>Times Used
+                              <button
+                              style="padding: 0; border-radius: 50%; box-shadow: none; line-height: normal; min-width: 0;"
+                              mat-raised-button
+                              matTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
+                              mat-tooltip-panel-below >
+                              <i class="fas fa-info-circle"></i>
+                            </button>
+                            </h6>
                           </th>
                         </thead>
                         <tbody>
@@ -186,7 +213,15 @@
                             <h6>Recipients</h6>
                           </th>
                           <th mat-sort-header="no_of_times_used">
-                            <h6>Times Used</h6>
+                            <h6>Times Used
+                              <button
+                              style="padding: 0; border-radius: 50%; box-shadow: none; line-height: normal; min-width: 0;"
+                              mat-raised-button
+                              matTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
+                              mat-tooltip-panel-below >
+                              <i class="fas fa-info-circle"></i>
+                              </button>
+                            </h6>
                           </th>
                         </thead>
                         <tbody>

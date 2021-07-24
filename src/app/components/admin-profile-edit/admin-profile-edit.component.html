@@ -1,104 +1,94 @@
-<div class="container mt-6">
-  <div class="row">
-    <div class="col-md-12">
-      <app-errors></app-errors>
-      <div class="alert alert-success" role="alert" *ngIf="updated">
-        Updated Request Successfully Submitted.
+<div class="container">
+  <div class="box-area">
+      <div class="row">
+        <div class="col-md-12">
+          <app-errors></app-errors>
+          <div class="alert alert-success" role="alert" *ngIf="updated">
+            Updated Request Successfully Submitted.
+          </div>
+          <div class="send-mail-heading">
+            <h3>Edit Profile</h3>
+          </div>
+        </div>
       </div>
-      <div class="send-mail-heading">
-        <h3>Edit Profile</h3>
-      </div>
-    </div>
+
+      <form *ngIf="updateForm" [formGroup]="updateForm" class="profile-update-form">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="custom-group">
+              <label>Name</label>
+              <input class="custom-form-control" formControlName="name" type="text" placeholder="Name">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="custom-group">
+              <label>Designation</label>
+              <input class="custom-form-control" formControlName="designation" type="text" placeholder="Designation">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="custom-group">
+              <label>Email</label>
+              <input class="custom-form-control" formControlName="email" type="text" placeholder="Email">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="custom-group">
+              <label>Organization Name</label>
+              <input class="custom-form-control" formControlName="organization_name" type="text"
+                placeholder="Organization Name">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="custom-group">
+              <label>Official Email</label>
+              <input class="custom-form-control" formControlName="official_email" type="text"
+                placeholder="Organization Email">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="custom-group">
+              <label>Mobile</label>
+              <input class="custom-form-control" formControlName="phone" type="text" placeholder="Mobile">
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="custom-group">
+              <label>Website</label>
+              <input class="custom-form-control" formControlName="website" type="text" placeholder="Website">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="custom-group">
+              <label>City</label>
+              <input class="custom-form-control" formControlName="city" type="text" placeholder="City">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="upload-btn-container align-items-center">
+              <input type="file" accept="image/*" class="btn" #file>
+              <label for="file" class="upload-label" (click)="file.click()">
+                  <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
+                      <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
+                      <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
+                    </svg>
+                  Upload File
+                </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group mt-5 d-flex text-center text-md-left text-lg-left">
+          <button class="btn-orange-rounded mr-2" (click)="update()">Send Request</button>
+          <button [routerLink]="'/AdminProfile'"
+            class="btn-orange-outline export ">Cancel
+          </button>
+        </div>
+      </form>
   </div>
-
-  <form *ngIf="updateForm" [formGroup]="updateForm" class="profile-update-form">
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="name" type="text" placeholder="Name">
-          <label>Name</label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="designation" type="text" placeholder="Designation">
-          <label>Designation</label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="email" type="text" placeholder="Email">
-          <label>Email</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="organization_name" type="text"
-            placeholder="Organization Name">
-          <label>Organization Name</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="official_email" type="text"
-            placeholder="Organization Email">
-          <label>Official Email</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="phone" type="text" placeholder="Mobile">
-          <label>Mobile</label>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-md-3">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="website" type="text" placeholder="Website">
-          <label>Website</label>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="custom-group">
-          <input class="custom-form-control" formControlName="city" type="text" placeholder="City">
-          <label>City</label>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <div class="upload-btn-container align-items-center">
-          <input type="file" accept="image/*" class="btn" #file>
-          <label for="file" class="upload-label" (click)="file.click()">
-              <svg id="Group_105" data-name="Group 105" xmlns="http://www.w3.org/2000/svg" width="14" height="17.33" viewBox="0 0 14 17.33">
-                  <path id="Path_60" data-name="Path 60" d="M2.41,11H4v5a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V11h1.59a1,1,0,0,0,.71-1.71L7.71,4.7a1,1,0,0,0-1.41,0L1.71,9.29A1,1,0,0,0,2.41,11Z" transform="translate(0 -4.407)" fill="#052885"/>
-                  <path id="Path_62" data-name="Path 62" d="M0,1A1,1,0,0,0,1,2H13a1,1,0,0,0,0-2H1A1,1,0,0,0,0,1Z" transform="translate(14 17.33) rotate(180)" fill="#052885"/>
-                </svg>
-              Upload File
-            </label>
-      </div>
-      </div>
-    </div>
-    <div class="form-group ml-4 mt-5 text-center text-md-left text-lg-left">
-      <button class="btn-orange-rounded" (click)="update()">Send Request</button>
-      <button [routerLink]="'/AdminProfile'"
-        class="btn-orange-rounded-outline ml-md-4 ml-lg-4 ml-0 mt-4 mt-lg-0 mt-md-0 ">Cancel
-      </button>
-    </div>
-  </form>
 </div>

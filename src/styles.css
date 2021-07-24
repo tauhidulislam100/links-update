@@ -232,6 +232,11 @@ svg {
   border: 0;
 }
 
+.table thead th h6 {
+  font-weight: 600;
+  color: #4a4a4a;
+}
+
 .table tbody tr,
 .table thead tr
 {
@@ -942,3 +947,8 @@ th[mat-sort-header] .mat-sort-header-stem
   }
 
 } 
+
+.table tbody tr {
+  position: relative;
+}
+
