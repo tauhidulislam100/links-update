@@ -127,19 +127,19 @@ export class CertificatesComponent implements OnInit {
     this.isSubmitted = false;
     this.certificateService.showArchived = this.showArchive;
 
-    this.certificateService.getAllReleasedJobsPage(this.releasedPage.pageable).subscribe(data => {
-      this.releasedJobsDataSource = data.content;
-      this.releasedPage = data;
+    this.certificateService.getAllReleasedJobsPage(this.releasedPage.pageable).subscribe(page => {
+      this.releasedJobsDataSource = page.content;
+      this.releasedPage = {...this.releasedPage, ...page};
     });
 
-    this.certificateService.getAllUnrealsedJobsPage(this.unReleasedPage.pageable).subscribe(data => {
-      this.unReleasedJobsDataSource = data.content;
-      this.unReleasedPage = data;
+    this.certificateService.getAllUnrealsedJobsPage(this.unReleasedPage.pageable).subscribe(page => {
+      this.unReleasedJobsDataSource = page.content;
+      this.unReleasedPage = {...this.unReleasedPage, ...page};
     });
 
-    this.certificateService.getCertificateTemplatesPage(this.templatePage.pageable).subscribe(data => {
-      this.templatePage = data;
-      this.templatesData = data.content;
+    this.certificateService.getCertificateTemplatesPage(this.templatePage.pageable).subscribe(page => {
+      this.templatePage = {...this.templatePage, ...page};
+      this.templatesData = page.content;
     })
 
     this.displayedColumnsCertificates = ['id', 'certificate_templates', 'no_of_recipients', 'update'];
@@ -158,22 +158,22 @@ export class CertificatesComponent implements OnInit {
   }
 
   private getAllUNReleasedJobs(): void {
-    this.certificateService.getAllUnrealsedJobsPage(this.unReleasedPage.pageable).subscribe(data => {
-      this.unReleasedJobsDataSource = data.content;
-      this.unReleasedPage = data;
+    this.certificateService.getAllUnrealsedJobsPage(this.unReleasedPage.pageable).subscribe(page => {
+      this.unReleasedJobsDataSource = page.content;
+      this.unReleasedPage = {...this.unReleasedPage, ...page};
     });
   }
 
   private getAllReleasedJobs(): void {
-    this.certificateService.getAllReleasedJobsPage(this.releasedPage.pageable).subscribe(data => {
-      this.releasedJobsDataSource = data.content;
-      this.releasedPage = data;
+    this.certificateService.getAllReleasedJobsPage(this.releasedPage.pageable).subscribe(page => {
+      this.releasedJobsDataSource = page.content;
+      this.releasedPage = {...this.releasedPage, ...page};
     });
   }
 
   private getAllTemplates(): void {
     this.certificateService.getCertificateTemplatesPage(this.templatePage.pageable).subscribe(page => {
-      this.templatePage = page;
+      this.templatePage = {...this.templatePage, ...page};;
       this.templatesData = page.content;
     });
   }

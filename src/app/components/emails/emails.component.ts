@@ -74,17 +74,17 @@ export class EmailsComponent implements OnInit {
     this.isArchived = false;
     this.emailJobService.showArchived = this.showArchive;
     this.emailJobService.getAllJobsPage(this.sentEmailsPage.pageable).subscribe(page => {
-      this.sentEmailsPage = page;
+      this.sentEmailsPage = {...this.sentEmailsPage, ...page};
       this.sentEmailsData = page.content;
     });
 
     this.emailJobService.getTemplatesCreatedByAdminPage(this.allTemplatesPage.pageable).subscribe(page => {
-      this.allTemplatesPage = page;
+      this.allTemplatesPage = {...this.allTemplatesPage, ...page};
       this.emailTemplatesData = page.content;
     });
 
     this.emailJobService.getEmailTemplatesPage(this.allMappedTemplatesPage.pageable).subscribe(page => {
-      this.allMappedTemplatesPage = page;
+      this.allMappedTemplatesPage =  {...this.allMappedTemplatesPage, ...page};
       this.allMapedTemplatesData = page.content;
     });
   }
@@ -102,22 +102,22 @@ export class EmailsComponent implements OnInit {
 
   private getSentEmails(): void {
     this.emailJobService.getAllJobsPage(this.sentEmailsPage.pageable).subscribe(page => {
-      this.sentEmailsPage = page;
+      this.sentEmailsPage = {...this.sentEmailsPage, ...page};
       this.sentEmailsData = page.content;
+      console.log('page.content ', page.content)
     });
   }
 
   private getAllTemplates(): void {
     this.emailJobService.getTemplatesCreatedByAdminPage(this.allTemplatesPage.pageable).subscribe(page => {
-      this.allTemplatesPage = page;
-
+      this.allTemplatesPage = {...this.allTemplatesPage, ...page};
       this.emailTemplatesData = page.content;
     });
   }
 
   private getAllMappedTemplates(): void {
     this.emailJobService.getEmailTemplatesPage(this.allMappedTemplatesPage.pageable).subscribe(page => {
-      this.allMappedTemplatesPage = page;
+      this.allMappedTemplatesPage =  {...this.allMappedTemplatesPage, ...page};
       this.allMapedTemplatesData = page.content;
     });
   }

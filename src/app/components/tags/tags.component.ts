@@ -82,15 +82,15 @@ export class TagsComponent implements OnInit {
     this.tagsForm = this.fb.group({});
     this.fieldsForm = this.fb.group({});
 
-    this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(data => {
-      this.allTags = data.content;
-      this.tagsPage = data;
+    this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(page => {
+      this.allTags = page.content;
+      this.tagsPage = {...this.tagsPage,...page};
       this.dataSource = new MatTableDataSource<JobData>(this.allTags);
     });
 
-    this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(data => {
-      this.allFields = data.content;
-      this.fieldsPage = data;
+    this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(page => {
+      this.allFields = page.content;
+      this.fieldsPage = {...this.fieldsPage,...page};
       this.fieldsDataSource = new MatTableDataSource<FieldType>(this.allFields);
     });
 
@@ -147,7 +147,7 @@ export class TagsComponent implements OnInit {
   }
   private getAllTags(): void {
     this.tagService.getAllTagsPage(this.tagsPage.pageable).subscribe(page => {
-      this.tagsPage = page;
+      this.tagsPage = {...this.tagsPage,...page};
       this.dataSource = new MatTableDataSource<JobData>(this.tagsPage.content);
     });
   }
@@ -165,7 +165,7 @@ export class TagsComponent implements OnInit {
 
   private getAllFields(): void {
     this.fieldService.getAllFieldsPage(this.fieldsPage.pageable).subscribe(page => {
-      this.fieldsPage = page;
+      this.fieldsPage = {...this.fieldsPage,...page};
       this.fieldsDataSource = new MatTableDataSource<JobData>(page.content);
     });
   }
