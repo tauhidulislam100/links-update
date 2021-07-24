@@ -96,11 +96,11 @@ a {
   }
 }
 
-.active{
+.archived{
   opacity: .5;
 }
 
-.active td:first-child{
+.archived td:first-child{
   padding-left: 25px !important;
 }
 
@@ -114,4 +114,8 @@ a {
   z-index: 10;
   padding-top: 12px;
   padding-left: 5px;
+  display: none;
+}
+.archived .archive_active {
+  display: block;
 }
