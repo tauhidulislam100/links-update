@@ -16,3 +16,11 @@ body {
 .btn-orange-rounded {
   margin-right: 1rem;
 }
+
+.help-area .table{
+   width: 100%;
+}
+
+.help-area .table-rounded td {
+  font-size: 12px;
+}

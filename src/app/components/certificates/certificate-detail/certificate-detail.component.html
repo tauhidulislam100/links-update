@@ -1,10 +1,10 @@
-<div class="container mt-4">
-  <app-errors></app-errors>
-  <div class="alert alert-success" role="alert" *ngIf="isSubmitted">
-    Job is submitted successfully, email will be sent after the completion of job.
-  </div>
-  <div class="row">
-    <div class="email-subject col-md-12" *ngIf="details">
+<div class="container">
+    <app-errors></app-errors>
+    <div class="alert alert-success" role="alert" *ngIf="isSubmitted">
+      Job is submitted successfully, email will be sent after the completion of job.
+    </div>
+
+    <div class="email-subject box-area col-md-12" *ngIf="details">
       <h4>Name of Certificate :
         {{details.certificateTemplateName}}</h4>
         <div class="row">
@@ -25,6 +25,7 @@
                 <div class="email-content">{{details.sent_to}}</div>
               </div>
               <div class="sent-to">
+                <div class="table_overflow">
                 <table class="table table-bordered table-rounded">
                   <thead>
                   <tr>
@@ -49,14 +50,14 @@
                   </tr>
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
     </div>
 
-  </div>
-
   <div class="loading-indicator">
     <mat-spinner *ngIf="loader" mode="indeterminate"></mat-spinner>
   </div>
+</div>

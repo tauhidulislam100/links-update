@@ -7,7 +7,7 @@
         <a href="#" class="back"><i class="fas fa-arrow-left"></i></a>
         <h3>My Profile</h3>
       </div>
-      <div class="col-auto d-flex ">
+      <div class="col-auto mobile_design d-flex ">
         <a class="btn-orange-outline d-inline-block export mr-3" [routerLink]="'/AdminLogin'">
           <svg xmlns="http://www.w3.org/2000/svg" width="16.598" height="16.598" viewBox="0 0 16.598 16.598">
             <g id="Icon_feather-log-out" data-name="Icon feather-log-out"
@@ -77,7 +77,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 pr-0">
+        <div class="col-md-4 pr-0 email_limit">
           <div class="w-100 border rounded p-3">
             <p> Email Limit: <strong>{{admin.emails_limit}}</strong></p>
             <p>Certificate Publish Limit: <strong>{{admin.certificate_push_limit}}</strong></p>
@@ -88,8 +88,8 @@
     <!-- End user details -->
 
     <div class="upgrade_plan">
-      <div class="row header">
-        <div class="col">
+      <div class="row header mb-5">
+        <div class="col mb-3">
           <div class="row px-3">
             <div class="col-auto">
               <img src="../../../assets/logo-h.png" alt="">
@@ -100,8 +100,8 @@
             </div>
           </div>
         </div>
-        <div class="col-auto">
-          <button class="btn-orange-rounded pl-5 pr-5 pt-3 pb-3">
+        <div class="col-md-auto">
+          <button class="btn-orange-rounded w-100 pl-5 pr-5 pt-3 pb-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="21.829" height="21.829" viewBox="0 0 21.829 21.829">
               <g id="local_police-24px" transform="translate(-0.864 -0.543)">
                 <rect id="Rectangle_109" data-name="Rectangle 109" width="21.829" height="21.829"
@@ -115,7 +115,7 @@
         </div>
       </div>
       <div class="row body">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
           <div class="row px-3">
             <div class="col-auto icon">
               <i class="fas fa-shield-alt"></i>
@@ -127,7 +127,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
           <div class="row px-3">
             <div class="col-auto icon">
               <i class="fas fa-lock"></i>
